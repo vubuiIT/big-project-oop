@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.HelloController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-158.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="857.0" />
+      <Button layoutY="-4.0" mnemonicParsing="false" style="-fx-background-color: transparent;" />
+      <GridPane alignment="BOTTOM_RIGHT" layoutX="36.0" layoutY="53.0" prefHeight="144.0" prefWidth="561.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text fill="#e80000" strokeType="OUTSIDE" strokeWidth="0.0" text="VUBUIIT" wrappingWidth="155.193359375">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Text>
+            <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home/ My course/ Thi cuối kì" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Text>
+            <Button contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" style="-fx-background-color: #2999ff;" text="TURN EDTING ON" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+            <Button fx:id="Menu" mnemonicParsing="false" style="-fx-background-color: transparent;" styleClass="iconButton" GridPane.columnIndex="1">
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/gear.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="MenuBack" layoutX="489.0" layoutY="12.0" mnemonicParsing="false" style="-fx-background-color: transparent;" styleClass="iconButton" GridPane.columnIndex="1">
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="iconButton">
+                     <image>
+                        <Image url="@../../../icons/gear.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </GridPane>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="432.0" layoutX="8.0" layoutY="242.0" stroke="#bfbfbf" strokeType="INSIDE" styleClass="iconButton" width="609.0" />
+      <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="21.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" styleClass="iconButton">
+         <image>
+            <Image url="@../../../icons/menu.png" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="slider" layoutX="-6.0" layoutY="17.0" prefHeight="136.0" prefWidth="544.0" style="-fx-background-color: #eeeeee; -fx-border-color: #000000; -fx-border-image-width: 100;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text fill="#2999ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Question bank" translateX="15.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Hyperlink style="-fx-border-color: #000000;" text="Questions" GridPane.columnIndex="1" />
+            <Hyperlink style="-fx-border-color: #000000;" text="Categories" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Hyperlink style="-fx-border-color: #000000;" text="Import" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Hyperlink style="-fx-border-color: #000000;" text="Export" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
