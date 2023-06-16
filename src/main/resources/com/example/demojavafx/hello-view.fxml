@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.HelloController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-158.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="797.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="126.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="29.0" layoutX="-7.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="639.0" />
       <MenuButton layoutX="516.0" layoutY="3.0" mnemonicParsing="false" text="Users">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -47,7 +33,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <GridPane alignment="BOTTOM_RIGHT" layoutX="36.0" layoutY="53.0" prefHeight="144.0" prefWidth="561.0">
+      <GridPane alignment="BOTTOM_RIGHT" layoutX="36.0" layoutY="32.0" prefHeight="116.0" prefWidth="561.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -91,8 +77,8 @@
             </Button>
          </children>
       </GridPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="425.0" layoutX="7.0" layoutY="234.0" stroke="#bfbfbf" strokeType="INSIDE" styleClass="iconButton" width="609.0" />
-      <ListView fx:id="list1" layoutX="14.0" layoutY="243.0" prefHeight="408.0" prefWidth="306.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="502.0" layoutX="7.0" layoutY="157.0" stroke="#bfbfbf" strokeType="INSIDE" styleClass="iconButton" width="609.0" />
+      <ListView fx:id="list1" layoutX="14.0" layoutY="161.0" prefHeight="490.0" prefWidth="275.0" />
       <GridPane id="popup1.2" fx:id="slider" layoutX="70.0" layoutY="251.0" prefHeight="191.0" prefWidth="493.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="419.0" minWidth="10.0" prefWidth="419.0" />
@@ -116,23 +102,23 @@
             <Hyperlink text="Export" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <TabPane id="hoipopup" fx:id="hoiPopup" layoutX="7.0" layoutY="234.0" prefHeight="425.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-color: white;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane id="hoipopup" fx:id="hoiPopup" layoutX="7.0" layoutY="157.0" prefHeight="502.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-color: white;" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Questions">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="431.0">
                      <children>
-                        <GridPane layoutX="19.0" layoutY="19.0" prefHeight="249.0" prefWidth="583.0">
+                        <GridPane layoutX="19.0" layoutY="19.0" prefHeight="201.0" prefWidth="583.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
                               <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Question Bank">
@@ -142,16 +128,16 @@
                               </Text>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                  <children>
-                                    <Spinner fx:id="default1" layoutX="132.0" layoutY="8.0" nodeOrientation="LEFT_TO_RIGHT" />
+                                    <Spinner fx:id="default1" layoutX="103.0" layoutY="8.0" nodeOrientation="LEFT_TO_RIGHT" />
                                     <Text fx:id="default2" fill="#555454" layoutX="159.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Default">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#555454" layoutX="3.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a category" />
+                                    <Text layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a category" />
                                  </children>
                               </Pane>
-                              <Text fill="#2f2f2f" strokeType="OUTSIDE" strokeWidth="0.0" text="The default category for questions shared in context" wrappingWidth="336.9140930175781" GridPane.rowIndex="2" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The default category for questions shared in context" wrappingWidth="336.9140930175781" GridPane.rowIndex="2" />
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                                  <children>
                                     <CheckBox fx:id="tick1" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" text="Also show questions from subcategories">
@@ -177,7 +163,144 @@
                               </Button>
                            </children>
                         </GridPane>
-                        <TreeView id="defaultpopup" fx:id="defaultPopup1" layoutX="151.0" layoutY="93.0" prefHeight="272.0" prefWidth="267.0" />
+                        <TreeView id="defaultpopup" fx:id="defaultPopup1" layoutX="122.0" layoutY="81.0" prefHeight="301.0" prefWidth="242.0" showRoot="false" />
+                        <GridPane layoutX="21.0" layoutY="202.0" prefHeight="272.0" prefWidth="571.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.0" minWidth="10.0" prefWidth="476.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="85.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="68.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="58.0" minHeight="3.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question" wrappingWidth="124.21630859375">
+                                 <GridPane.margin>
+                                    <Insets bottom="25.0" left="30.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Actions" textAlignment="CENTER" wrappingWidth="86.115234375" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="25.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#00b3ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Question name / ID Number" wrappingWidth="235.21630859375">
+                                 <GridPane.margin>
+                                    <Insets left="30.0" top="20.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#00b3ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" textAlignment="CENTER" wrappingWidth="86.21630859375" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#00b3ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" textAlignment="CENTER" wrappingWidth="85.21630859375" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#00b3ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" textAlignment="CENTER" wrappingWidth="85.8125" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#00b3ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" textAlignment="CENTER" wrappingWidth="86.21630859375" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#00b3ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" textAlignment="CENTER" wrappingWidth="85.8046875" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question 1" wrappingWidth="446.21630859375" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets left="30.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question 2" wrappingWidth="446.21630859375" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets left="30.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question 3" wrappingWidth="446.21630859375" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets left="30.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question 4" wrappingWidth="446.21630859375" GridPane.rowIndex="4">
+                                 <GridPane.margin>
+                                    <Insets left="30.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question 5" wrappingWidth="446.21630859375" GridPane.rowIndex="5">
+                                 <GridPane.margin>
+                                    <Insets left="30.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/Menu_icon_icon-icons.com_71858.png" />
+                                 </image>
+                                 <GridPane.margin>
+                                    <Insets top="20.0" />
+                                 </GridPane.margin>
+                              </ImageView>
+                              <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                                 <image>
+                                    <Image url="@../../../icons/Menu_icon_icon-icons.com_71858.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                                 <image>
+                                    <Image url="@../../../icons/Menu_icon_icon-icons.com_71858.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                                 <image>
+                                    <Image url="@../../../icons/Menu_icon_icon-icons.com_71858.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                                 <image>
+                                    <Image url="@../../../icons/Menu_icon_icon-icons.com_71858.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+                                 <image>
+                                    <Image url="@../../../icons/Menu_icon_icon-icons.com_71858.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+
+                        </GridPane>
                      </children>
                   </AnchorPane>
                </content>
