@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui1_2_3Controller">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-158.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="797.0" />
@@ -170,7 +170,7 @@
                                     </CheckBox>
                                  </children>
                               </Pane>
-                              <Button fx:id="create1" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" style="-fx-background-color: #2999ff;" text="CREATE A NEW QUESTION..." textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="5">
+                              <Button contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onMouseClicked="#createQues" style="-fx-background-color: #2999ff;" text="CREATE A NEW QUESTION..." textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
