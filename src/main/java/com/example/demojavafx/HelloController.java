@@ -1,18 +1,19 @@
 package com.example.demojavafx;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.TreeView;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,6 +51,33 @@ public class HelloController implements Initializable {
 
     @FXML
     private CheckBox tick1;
+
+    @FXML
+    private Tab tab2; 
+    
+    @FXML
+    private Spinner<?> tab2click;
+
+    @FXML
+    private TreeView <?> tab2Popup;
+
+    final boolean[] istab2Popup = {false};
+
+    //@Override
+    public void start(Stage primaryStage) {
+        primaryStage.show();
+    }
+    @FXML
+
+    public void showCategory(javafx.scene.input.MouseEvent mouseEvent) {
+        if (!istab2Popup[0]) {
+            tab2Popup.setVisible(true);
+            istab2Popup[0] = true;
+        } else {
+            tab2Popup.setVisible(false);
+            istab2Popup[0] = false;
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,5 +124,11 @@ public class HelloController implements Initializable {
             Menu.setVisible(true);
             MenuBack.setVisible(false);
         });
+
+        // Tab add category
+        tab2Popup.setVisible(false);
+
+
     }
+
 }
