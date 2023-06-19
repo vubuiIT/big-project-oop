@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui32CreateQuestionViewController">
+   <children>
+      <AnchorPane layoutX="2.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="104.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="7.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="609.0" />
+            <Button layoutX="8.0" layoutY="2.0" mnemonicParsing="false" style="-fx-background-color: transparent;" />
+            <GridPane alignment="BOTTOM_RIGHT" layoutX="36.0" layoutY="53.0" prefHeight="104.0" prefWidth="561.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Text fill="#e80000" strokeType="OUTSIDE" strokeWidth="0.0" text="IT" wrappingWidth="155.193359375">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home/ My course/ Thi cuối kì" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </GridPane>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="518.0" layoutX="7.0" layoutY="135.0" stroke="#bfbfbf" strokeType="INSIDE" styleClass="iconButton" width="609.0" />
+            <Text fill="#e80000" layoutX="24.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adding a Multiple choice question" wrappingWidth="412.693359375">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <Text fill="#e80000" layoutX="39.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Text>
+            <ScrollPane fx:id="scrollPane" layoutX="19.0" layoutY="221.0" prefHeight="421.0" prefWidth="591.0">
+               <content>
+                  <GridPane fx:id="gridPane" prefHeight="948.0" prefWidth="550.0">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="226.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="148.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="323.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="136.5" minHeight="0.0" prefHeight="62.5" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="281.0" minHeight="1.0" prefHeight="69.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="10.0" prefHeight="154.83334350585938" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="10.0" prefHeight="61.166656494140625" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="38.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="10.0" prefHeight="20.5" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="2.66668701171875" prefHeight="58.5" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="365.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category" textAlignment="CENTER" wrappingWidth="61.453125">
+                           <font>
+                              <Font name="Poppins ExtraBold" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question name" textAlignment="CENTER" wrappingWidth="92.46159362792969" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Poppins ExtraBold" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Question text" textAlignment="CENTER" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Poppins ExtraBold" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Default mark" textAlignment="CENTER" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Poppins ExtraBold" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choice 1" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                           <children>
+                              <TextField fx:id="choice1entry" alignment="CENTER" layoutY="7.0" prefHeight="25.0" prefWidth="264.0" />
+                           </children>
+                        </Pane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choice 2" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="55.0" prefWidth="270.0" GridPane.columnIndex="2" GridPane.rowIndex="15">
+                           <children>
+                              <Button fx:id="addchoicebtn" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#addchoice" prefHeight="28.0" prefWidth="186.0" style="-fx-background-color: #003399;" text="Blanks for more 3 choices" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </Pane>
+                        <ChoiceBox fx:id="grade1" prefHeight="25.0" prefWidth="96.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <ChoiceBox fx:id="grade2" prefHeight="25.0" prefWidth="98.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <Button fx:id="saveContinueEditBtn" mnemonicParsing="false" onMouseClicked="#saveContinueEdit" style="-fx-background-color: #003399;" text="Save changes and continue editing" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="17">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="18">
+                           <children>
+                              <Button fx:id="saveChangeBtn" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#saveChange" style="-fx-background-color: #cc0033;" text="Save changes" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="cancelbtn" layoutX="129.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#cancel" style="-fx-background-color: #003399;" text="Cancel" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                           <children>
+                              <TextField fx:id="choice2entry" alignment="CENTER" layoutY="8.0" prefHeight="25.0" prefWidth="264.0" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <children>
+                              <TextField fx:id="questionText" layoutY="9.0" prefHeight="139.0" prefWidth="264.0" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <TextField fx:id="questioNameField" layoutY="22.0" prefHeight="27.0" prefWidth="264.0" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                           <children>
+                              <TextField fx:id="markField" layoutX="1.0" layoutY="18.0" prefHeight="25.0" prefWidth="84.0" />
+                           </children>
+                        </Pane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choice 3" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choice 4" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choice 5" GridPane.columnIndex="1" GridPane.rowIndex="12">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade" GridPane.columnIndex="1" GridPane.rowIndex="11">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade" GridPane.columnIndex="1" GridPane.rowIndex="13">
+                           <font>
+                              <Font name="Poppins Light" size="12.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="41.0" prefWidth="315.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                           <children>
+                              <TextField fx:id="choice3entry" layoutY="8.0" prefHeight="25.0" prefWidth="264.0" />
+                           </children>
+                        </Pane>
+                        <ChoiceBox fx:id="grade3" prefHeight="25.0" prefWidth="98.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                        <ChoiceBox fx:id="grade4" prefHeight="25.0" prefWidth="98.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+                        <ChoiceBox fx:id="grade5" prefHeight="25.0" prefWidth="98.0" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+                        <Pane prefHeight="41.0" prefWidth="315.0" GridPane.columnIndex="2" GridPane.rowIndex="10">
+                           <children>
+                              <TextField fx:id="choice4entry" layoutY="8.0" prefHeight="25.0" prefWidth="264.0" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="41.0" prefWidth="315.0" GridPane.columnIndex="2" GridPane.rowIndex="12">
+                           <children>
+                              <TextField fx:id="choice5entry" layoutY="9.0" prefHeight="25.0" prefWidth="264.0" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="missingCategories" GridPane.columnIndex="1">
+                           <children>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="54.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/error.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="missingName" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="54.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/error.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="missingText" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="54.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/error.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="missingMark" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="54.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/error.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="missingChoices" GridPane.columnIndex="1" GridPane.rowIndex="16">
+                           <children>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="57.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/error.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane GridPane.columnIndex="2" GridPane.rowIndex="16">
+                           <children>
+                              <Text fx:id="warningText" fill="RED" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Need at least 2 options for the question" wrappingWidth="244.46630859375">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <TreeView fx:id="categoryTreeView" layoutX="-6.0" layoutY="42.0" prefHeight="238.0" prefWidth="239.0" />
+                              <ChoiceBox fx:id="categoryChoiceBox" layoutX="-5.0" layoutY="18.0" onMouseClicked="#handleCategoryTreeview" prefHeight="25.0" prefWidth="238.0" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <TreeView layoutX="-280.0" layoutY="120.0" prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>
