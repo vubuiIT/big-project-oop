@@ -264,7 +264,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
     }
     @FXML
     void cancel(MouseEvent event) {
-
+        closeStage();
     }
     @FXML
     void handleCategoryTreeview(MouseEvent event) {
