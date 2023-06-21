@@ -116,14 +116,14 @@
                </font>
             </Text>
             <Hyperlink id="questions" fx:id="questions" text="Questions" GridPane.columnIndex="1" />
-            <Hyperlink text="Categories" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Hyperlink text="Import" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Hyperlink text="Export" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Hyperlink fx:id="categories" text="Categories" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Hyperlink fx:id="importt" text="Import" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Hyperlink fx:id="export" text="Export" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <TabPane id="hoipopup" fx:id="hoiPopup" layoutX="7.0" layoutY="234.0" prefHeight="425.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-color: white;" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab text="Questions">
+            <Tab fx:id="tab1" text="Questions">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -206,7 +206,17 @@
                            <children>
                               <Pane GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                    <Spinner id="tab2click" fx:id="tab2click" layoutX="20.0" layoutY="11.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#showCategory" prefHeight="25.0" prefWidth="155.0" />
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/question%20mark.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Spinner id="tab2Click" fx:id="tab2Click" layoutX="20.0" layoutY="11.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#showCategory" prefHeight="25.0" prefWidth="155.0" />
+                                    <Text fx:id="default21" fill="#555454" layoutX="50.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Default">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
                                  </children>
                               </Pane>
                               <Pane layoutX="15.0">
@@ -301,16 +311,16 @@
                            </children>
                         </Pane>
                         <Line endX="508.0" layoutX="86.0" layoutY="321.0" smooth="false" startX="-58.0" strokeWidth="0.1" AnchorPane.topAnchor="320.5" />
-                        <TreeView id="tab2Popup" fx:id="tab2Popup" layoutX="286.0" layoutY="95.0" prefHeight="224.0" prefWidth="241.0" />
+                        <TreeView id="tab2Popup" fx:id="tab2Popup" layoutX="286.0" layoutY="104.0" prefHeight="224.0" prefWidth="241.0" />
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Import">
+            <Tab fx:id="tab3" text="Import">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </Tab>
-            <Tab text="Export">
+            <Tab fx:id="tab4" text="Export">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
