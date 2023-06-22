@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
@@ -69,10 +70,10 @@ public class Gui1_2_3Controller implements Initializable {
     private Tab tab4;
 
     @FXML
-    private Spinner<?> tab2Click;
+    private Spinner tab2Click;
 
     @FXML
-    private TreeView <?> tab2Popup;
+    private TreeView tab2Popup;
 
     @FXML
     /// Khi bấm Create a New Question - 3.2
@@ -100,6 +101,7 @@ public class Gui1_2_3Controller implements Initializable {
         }
     }
     public void showCategory(MouseEvent mouseEvent) {
+        tab2Popup.setVisible(true);
     }
     @Override
     // 1.1 + 1.2 + 3.3
@@ -161,7 +163,7 @@ public class Gui1_2_3Controller implements Initializable {
         });
 
         // Hiện popup tree
-        tab2Click.setOnMouseClicked(event -> {
+        tab2Click.setOnMousePressed(event -> {
             if (!isTab2Popup[0]) {
                 tab2Popup.setVisible(true);
                 isTab2Popup[0] = true;
@@ -185,7 +187,7 @@ public class Gui1_2_3Controller implements Initializable {
             slider.setVisible(false);
         });
 
-        // Hiện popup categories từ question bank
+        // Hiện popup export từ question bank
         export.setOnMouseClicked(event -> {
             hoiPopup.getSelectionModel().select(tab4);
             hoiPopup.setVisible(true);
