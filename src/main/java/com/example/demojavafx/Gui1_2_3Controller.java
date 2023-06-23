@@ -14,8 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-
-
+import javafx.scene.image.ImageView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,10 +28,10 @@ public class Gui1_2_3Controller implements Initializable {
     private Button MenuBack;
 
     @FXML
-    private Spinner<?> default1;
+    private ChoiceBox default1;
 
     @FXML
-    private TreeView <?> defaultPopup1;
+    private TreeView defaultPopup1;
 
     @FXML
     private TabPane hoiPopup;
@@ -45,8 +44,6 @@ public class Gui1_2_3Controller implements Initializable {
 
     @FXML
     private GridPane slider;
-
-    final boolean[] isTab2Popup = {false};
 
     @FXML
     private Hyperlink categories;
@@ -70,10 +67,24 @@ public class Gui1_2_3Controller implements Initializable {
     private Tab tab4;
 
     @FXML
-    private Spinner tab2Click;
+    private ChoiceBox tab2Click;
 
     @FXML
     private TreeView tab2Popup;
+
+    @FXML
+    private TreeViewCategory treeView;
+
+    @FXML
+    private TextField tab2Textfield;
+
+    @FXML
+    private Button tab2Button;
+
+    @FXML
+    private ImageView tab2Imageview;
+
+    final boolean[] isTab2Popup = {false};
 
     @FXML
     /// Khi bấm Create a New Question - 3.2
@@ -118,6 +129,7 @@ public class Gui1_2_3Controller implements Initializable {
             MenuBack.setVisible(true);
         });
 
+        // Tab questions
         // Hiện popup questions từ question bank
         questions.setOnMouseClicked(event -> {
             hoiPopup.getSelectionModel().select(tab1);
@@ -130,6 +142,8 @@ public class Gui1_2_3Controller implements Initializable {
             if (!isPopupVisible[0]) {
                 defaultPopup1.setVisible(true);
                 isPopupVisible[0] = true;
+                treeView = new TreeViewCategory(defaultPopup1, default1);
+                treeView.start();
             } else {
                 defaultPopup1.setVisible(false);
                 isPopupVisible[0] = false;
@@ -167,6 +181,8 @@ public class Gui1_2_3Controller implements Initializable {
             if (!isTab2Popup[0]) {
                 tab2Popup.setVisible(true);
                 isTab2Popup[0] = true;
+                treeView = new TreeViewCategory(tab2Popup, tab2Click);
+                treeView.start();
             } else {
                 tab2Popup.setVisible(false);
                 isTab2Popup[0] = false;
@@ -180,6 +196,13 @@ public class Gui1_2_3Controller implements Initializable {
             }
         });
 
+        // Kiểm tra textfield đã có nội dung chưa khi bấm nút Add category
+        tab2Button.setOnMousePressed(event -> {
+            if (!tab2Textfield.getText().isEmpty())
+                tab2Imageview.setVisible(false);
+        });
+
+        // Tab import
         // Hiện popup importt từ question bank
         importt.setOnMouseClicked(event -> {
             hoiPopup.getSelectionModel().select(tab3);
@@ -187,6 +210,7 @@ public class Gui1_2_3Controller implements Initializable {
             slider.setVisible(false);
         });
 
+        // Tab export
         // Hiện popup export từ question bank
         export.setOnMouseClicked(event -> {
             hoiPopup.getSelectionModel().select(tab4);
