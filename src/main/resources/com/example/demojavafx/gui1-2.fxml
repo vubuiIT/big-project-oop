@@ -2,13 +2,15 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,14 +19,15 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui1_2_3Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui1_2_3Controller">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-158.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="797.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-253.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="781.0" />
       <MenuButton layoutX="516.0" layoutY="3.0" mnemonicParsing="false" text="Users">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -56,14 +59,15 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fill="#e80000" strokeType="OUTSIDE" strokeWidth="0.0" text="VUBUIIT" wrappingWidth="155.193359375">
+            <Text fill="#e80000" strokeType="OUTSIDE" strokeWidth="0.0" text="ae IT depzai" wrappingWidth="155.193359375">
                <font>
                   <Font name="System Bold" size="23.0" />
                </font>
             </Text>
-            <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home/ My course/ Thi cuối kì" GridPane.rowIndex="1">
+            <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home/ My courses/ THI CUỐI KỲ" wrappingWidth="224.041015625" GridPane.rowIndex="1">
                <font>
                   <Font size="14.0" />
                </font></Text>
@@ -111,14 +115,14 @@
                </font>
             </Text>
             <Hyperlink id="questions" fx:id="questions" text="Questions" GridPane.columnIndex="1" />
-            <Hyperlink text="Categories" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Hyperlink text="Import" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Hyperlink text="Export" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Hyperlink fx:id="categories" text="Categories" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Hyperlink fx:id="importt" text="Import" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Hyperlink fx:id="export" text="Export" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <TabPane id="hoipopup" fx:id="hoiPopup" layoutX="7.0" layoutY="234.0" prefHeight="425.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-color: white;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane id="hoipopup" fx:id="hoiPopup" layoutX="7.0" layoutY="234.0" prefHeight="448.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-color: white;" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab text="Questions">
+            <Tab fx:id="tab1" text="Questions">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -142,16 +146,11 @@
                               </Text>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                  <children>
-                                    <Spinner fx:id="default1" layoutX="132.0" layoutY="8.0" nodeOrientation="LEFT_TO_RIGHT" />
-                                    <Text fx:id="default2" fill="#555454" layoutX="159.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Default">
-                                       <font>
-                                          <Font size="11.0" />
-                                       </font>
-                                    </Text>
-                                    <Text fill="#555454" layoutX="3.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a category" />
+                                    <Text layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a category" wrappingWidth="93.99999999999989" />
+                                    <ChoiceBox fx:id="default1" layoutX="132.0" layoutY="8.0" prefHeight="25.0" prefWidth="203.0" />
                                  </children>
                               </Pane>
-                              <Text fill="#2f2f2f" strokeType="OUTSIDE" strokeWidth="0.0" text="The default category for questions shared in context" wrappingWidth="336.9140930175781" GridPane.rowIndex="2" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The default category for questions shared in context" wrappingWidth="336.9140930175781" GridPane.rowIndex="2" />
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                                  <children>
                                     <CheckBox fx:id="tick1" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" text="Also show questions from subcategories">
@@ -178,21 +177,110 @@
                            </children>
                         </GridPane>
                         <TreeView id="defaultpopup" fx:id="defaultPopup1" layoutX="151.0" layoutY="93.0" prefHeight="272.0" prefWidth="267.0" />
+                        <Pane layoutX="453.0" layoutY="303.0" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Categories">
+            <Tab fx:id="tab2" text="Categories">
+               <content>
+                  <AnchorPane fx:id="tab2Content" minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="607.0">
+                     <children>
+                        <Pane layoutX="266.0" layoutY="52.0" prefHeight="36.0" prefWidth="223.0">
+                           <children>
+                              <ChoiceBox fx:id="tab2Click" layoutX="20.0" layoutY="15.0" prefHeight="25.0" prefWidth="203.0" />
+                              <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/question%20mark.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="28.0">
+                           <children>
+                              <Text fill="RED" layoutX="21.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Category">
+                                 <font>
+                                    <Font name="Times New Roman" size="24.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/triangle.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="28.0" layoutY="60.0">
+                           <children>
+                              <Text layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parent category" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="28.0" layoutY="100.0">
+                           <children>
+                              <Text layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="28.0" layoutY="140.0">
+                           <children>
+                              <Text layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category info" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="266.0" layoutY="100.0">
+                           <children>
+                              <ImageView fx:id="tab2Imageview" fitHeight="13.0" fitWidth="13.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/error.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="tab2Textfield" layoutX="20.0" layoutY="8.0" prefHeight="25.0" prefWidth="200.0" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="266.0" layoutY="140.0">
+                           <children>
+                              <TextArea fx:id="infoCategoryTextfield" layoutX="20.0" layoutY="8.0" prefHeight="125.0" prefWidth="306.0" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="28.0" layoutY="279.0">
+                           <children>
+                              <Text layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number ID" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="266.0" layoutY="279.0">
+                           <children>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/question%20mark.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="idCategoryTextfield" layoutX="20.0" layoutY="6.0" prefHeight="25.0" prefWidth="86.0" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="181.0" layoutY="366.0" prefHeight="25.0" prefWidth="260.0">
+                           <children>
+                              <ImageView fitHeight="13.0" fitWidth="13.0" layoutX="236.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/error.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fx:id="showErrorText" layoutX="-5.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="There are required fields in this form marked" textAlignment="CENTER" wrappingWidth="240.857421875" />
+                           </children>
+                        </Pane>
+                        <Line endX="508.0" layoutX="86.0" layoutY="321.0" smooth="false" startX="-58.0" strokeWidth="0.1" AnchorPane.topAnchor="320.5" />
+                        <TreeView id="tab2Popup" fx:id="tab2Popup" layoutX="286.0" layoutY="91.0" prefHeight="234.0" prefWidth="241.0" />
+                        <Button fx:id="tab2Button" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="243.0" layoutY="331.0" mnemonicParsing="false" style="-fx-background-color: #E80000;" text="ADD CATEGORY" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tab3" text="Import">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </Tab>
-            <Tab text="Import">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-            <Tab text="Export">
+            <Tab fx:id="tab4" text="Export">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>

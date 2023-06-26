@@ -13,17 +13,17 @@ import java.util.Objects;
 public class TreeViewCategory {
 
     private static final String DB_URL = "jdbc:sqlite:database.db";
-    private final TreeView<String> treeView;
+    private final TreeView<Category> treeView;
     private final ChoiceBox<String> choiceBoxCategory;
 
     public int idTreeViewChoice = -1;
-    public TreeViewCategory(TreeView <String> inputTreeView, ChoiceBox<String> choiceBoxCategory) {
+    public TreeViewCategory(TreeView <Category> inputTreeView, ChoiceBox<String> choiceBoxCategory) {
         this.treeView = inputTreeView;
         this.choiceBoxCategory = choiceBoxCategory;
     }
     public void start() {
         // Create the root TreeItem
-        TreeItem<String> rootItem = new TreeItem<>("_Categories_");
+        TreeItem<Category> rootItem = new TreeItem<>(new Category(-2,-2,"","--Select--"));
         rootItem.setExpanded(true);
 
         // Get the categories from the database
@@ -38,17 +38,12 @@ public class TreeViewCategory {
         expandAll(treeView);
 
         // Set the event handler for mouse click
-        treeView.setOnMouseClicked(event -> {
-            TreeItem<String> selectedItem = treeView.getSelectionModel().getSelectedItem();
-            if (selectedItem != null) {
-                String selectedCategoryName = selectedItem.getValue();
-                if (!Objects.equals(selectedCategoryName, "_Categories_")) {
-                    choiceBoxCategory.setValue(selectedCategoryName);
-                    int selectedCategoryId = getCategoryByName(categories, selectedCategoryName).getId();
-                    treeView.setVisible(false);
-                    idTreeViewChoice = selectedCategoryId;
-                }
-
+        treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                Category categorySelected = newValue.getValue();
+                choiceBoxCategory.setValue(categorySelected.getName());
+                treeView.setVisible(false);
+                idTreeViewChoice = categorySelected.getId();
             }
         });
     }
@@ -68,7 +63,7 @@ public class TreeViewCategory {
                 String name = resultSet.getString("name");
                 String info = resultSet.getString("info");
 
-                Category category = new Category(id, parentId, name, info);
+                Category category = new Category(id, parentId, info, name);
                 categories.add(category);
             }
         } catch (SQLException e) {
@@ -78,23 +73,14 @@ public class TreeViewCategory {
         return categories;
     }
 
-    private void buildCategoryTree(TreeItem<String> parentItem, List<Category> categories, int parentId) {
+    private void buildCategoryTree(TreeItem<Category> parentItem, List<Category> categories, int parentId) {
         for (Category category : categories) {
             if (category.getParentId() == parentId) {
-                TreeItem<String> categoryItem = new TreeItem<>(category.getName());
+                TreeItem<Category> categoryItem = new TreeItem<>(category);
                 parentItem.getChildren().add(categoryItem);
                 buildCategoryTree(categoryItem, categories, category.getId());
             }
         }
-    }
-
-    private Category getCategoryByName(List<Category> categories, String categoryName) {
-        for (Category category : categories) {
-            if (category.getName().equals(categoryName)) {
-                return category;
-            }
-        }
-        return null;
     }
 
     private void expandAll(TreeView<?> treeView) {

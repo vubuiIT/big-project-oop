@@ -105,7 +105,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
     @FXML
     private ChoiceBox<String> grade5;
     @FXML
-    private TreeView<String> categoryTreeView;
+    private TreeView<Category> categoryTreeView;
     @FXML
     private ChoiceBox<String> categoryChoiceBox;
     @FXML
