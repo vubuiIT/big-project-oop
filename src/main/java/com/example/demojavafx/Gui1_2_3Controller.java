@@ -1,6 +1,9 @@
 package com.example.demojavafx;
 
 import com.almasb.fxgl.entity.Entity;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.css.converter.StringConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +19,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.scene.control.TextFormatter;
+import javafx.util.Duration;
+import javafx.util.converter.IntegerStringConverter;
 
 public class Gui1_2_3Controller implements Initializable {
     final boolean[] isPopupVisible = {false};
@@ -83,7 +90,8 @@ public class Gui1_2_3Controller implements Initializable {
 
     @FXML
     private ImageView tab2Imageview;
-
+    @FXML
+    private TextArea infoCategoryTextfield;
     final boolean[] isTab2Popup = {false};
 
     @FXML
@@ -114,9 +122,39 @@ public class Gui1_2_3Controller implements Initializable {
     public void showCategory(MouseEvent mouseEvent) {
         tab2Popup.setVisible(true);
     }
+    @FXML
+    private TextField idCategoryTextfield;
+    @FXML
+    public Text showErrorText;
+    private boolean addCategory(Integer parentID, String nameCategory,String infoCategory,String idCategory) throws InterruptedException {
+        // Create an instance of DatabaseConnector
+        DatabaseConnector connector = new DatabaseConnector();
+
+        // Connect to the database
+        connector.connect();
+        String statusMess;
+        //System.out.print(parentID + "-" + nameCategory + "-" + infoCategory + "-" + idCategory + ".");
+        if (Objects.equals(idCategory, "")) {
+            statusMess = connector.addCategory(parentID, infoCategory, nameCategory);
+        } else {
+            int idNum = Integer.parseInt(idCategory);
+            statusMess = connector.addNewCategoryWithId(idNum,parentID,infoCategory,nameCategory);
+        }
+        showErrorText.setText(statusMess);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            tab2Textfield.setText("");
+            showErrorText.setText("There are required fields in this form marked");
+        }));
+        timeline.play();
+
+        connector.disconnect();
+        return false;
+    }
     @Override
     // 1.1 + 1.2 + 3.3
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        TextFormatter<Integer> textFormatter = new TextFormatter<>(new IntegerStringConverter());
+        idCategoryTextfield.setTextFormatter(textFormatter);
         slider.setVisible(false);
         hoiPopup.setVisible(false);
         defaultPopup1.setVisible(false);
@@ -198,8 +236,27 @@ public class Gui1_2_3Controller implements Initializable {
 
         // Kiểm tra textfield đã có nội dung chưa khi bấm nút Add category
         tab2Button.setOnMousePressed(event -> {
-            if (!tab2Textfield.getText().isEmpty())
+            if (!tab2Textfield.getText().isEmpty()) {
                 tab2Imageview.setVisible(false);
+                int parentID = treeView.getIdChoice();
+                if (parentID < 0) {
+                    this.showErrorText.setText("Please choose a category");
+                    return;
+                }
+                String nameCategory = tab2Textfield.getText();
+                String infoCategory = infoCategoryTextfield.getText();
+                String idCategory = idCategoryTextfield.getText();
+                try {
+                    addCategory(parentID,nameCategory,infoCategory,idCategory);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else {
+                tab2Imageview.setVisible(true);
+            }
+
+
         });
 
         // Tab import

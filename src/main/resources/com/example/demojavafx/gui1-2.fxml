@@ -24,10 +24,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui1_2_3Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui1_2_3Controller">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-158.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="781.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-253.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="781.0" />
       <MenuButton layoutX="516.0" layoutY="3.0" mnemonicParsing="false" text="Users">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -120,7 +120,7 @@
             <Hyperlink fx:id="export" text="Export" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <TabPane id="hoipopup" fx:id="hoiPopup" layoutX="7.0" layoutY="234.0" prefHeight="425.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-color: white;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane id="hoipopup" fx:id="hoiPopup" layoutX="7.0" layoutY="234.0" prefHeight="448.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-color: white;" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="tab1" text="Questions">
                <content>
@@ -184,7 +184,7 @@
             </Tab>
             <Tab fx:id="tab2" text="Categories">
                <content>
-                  <AnchorPane fx:id="tab2Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <AnchorPane fx:id="tab2Content" minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="607.0">
                      <children>
                         <Pane layoutX="266.0" layoutY="52.0" prefHeight="36.0" prefWidth="223.0">
                            <children>
@@ -237,12 +237,12 @@
                         </Pane>
                         <Pane layoutX="266.0" layoutY="140.0">
                            <children>
-                              <TextArea layoutX="20.0" layoutY="8.0" prefHeight="125.0" prefWidth="306.0" />
+                              <TextArea fx:id="infoCategoryTextfield" layoutX="20.0" layoutY="8.0" prefHeight="125.0" prefWidth="306.0" />
                            </children>
                         </Pane>
                         <Pane layoutX="28.0" layoutY="279.0">
                            <children>
-                              <Text layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category info" />
+                              <Text layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number ID" />
                            </children>
                         </Pane>
                         <Pane layoutX="266.0" layoutY="279.0">
@@ -252,7 +252,7 @@
                                     <Image url="@../../../icons/question%20mark.png" />
                                  </image>
                               </ImageView>
-                              <TextField layoutX="20.0" layoutY="6.0" prefHeight="25.0" prefWidth="86.0" />
+                              <TextField fx:id="idCategoryTextfield" layoutX="20.0" layoutY="6.0" prefHeight="25.0" prefWidth="86.0" />
                            </children>
                         </Pane>
                         <Pane layoutX="181.0" layoutY="366.0" prefHeight="25.0" prefWidth="260.0">
@@ -262,7 +262,7 @@
                                     <Image url="@../../../icons/error.png" />
                                  </image>
                               </ImageView>
-                              <Text layoutX="-5.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="There are required fields in this form marked" wrappingWidth="240.857421875" />
+                              <Text fx:id="showErrorText" layoutX="-5.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="There are required fields in this form marked" textAlignment="CENTER" wrappingWidth="240.857421875" />
                            </children>
                         </Pane>
                         <Line endX="508.0" layoutX="86.0" layoutY="321.0" smooth="false" startX="-58.0" strokeWidth="0.1" AnchorPane.topAnchor="320.5" />

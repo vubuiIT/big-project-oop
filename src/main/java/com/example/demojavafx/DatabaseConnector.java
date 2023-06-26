@@ -58,7 +58,7 @@ public class DatabaseConnector {
 
         return questions;
     }
-    public void addCategory(int parentId, String info, String name) {
+    public String addCategory(int parentId, String info, String name) {
         try {
             // Prepare SQL statement
             String sql = "INSERT INTO Category (parent_id, info, name) VALUES (?, ?, ?)";
@@ -72,13 +72,38 @@ public class DatabaseConnector {
             // Execute the SQL statement
             statement.executeUpdate();
 
-            System.out.println("Category added successfully!");
+            return "Category added successfully!";
 
         } catch (SQLException e) {
-            System.err.println("Failed to add category: " + e.getMessage());
+           return ("Failed to add category: " + e.getMessage());
         }
     }
+    public String addNewCategoryWithId(int id, int parentId, String info, String name) {
+        try {
+            // Kiểm tra xem id đã tồn tại trong bảng Category chưa
+            String checkQuery = "SELECT id FROM Category WHERE id = ?";
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setInt(1, id);
+            ResultSet resultSet = checkStatement.executeQuery();
+            if (resultSet.next()) {
+                return ("Category ID already exists");
+            }
+            else {
 
+                // Thực hiện thêm bản ghi mới vào bảng Category
+                String insertQuery = "INSERT INTO Category (id, parent_id, info, name) VALUES (?, ?, ?, ?)";
+                PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+                insertStatement.setInt(1, id);
+                insertStatement.setInt(2, parentId);
+                insertStatement.setString(3, info);
+                insertStatement.setString(4, name);
+                insertStatement.executeUpdate();
+                return ("Category added successfully.");
+            }
+        } catch (SQLException e) {
+            return ("Failed to add category: " + e.getMessage());
+        }
+    }
     public List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
 
@@ -201,7 +226,7 @@ public class DatabaseConnector {
         return connection;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         // Create an instance of DatabaseConnector
         DatabaseConnector connector = new DatabaseConnector();
 
@@ -213,7 +238,7 @@ public class DatabaseConnector {
 //        int idQuestion = connector.addQuestion(3,"Lá cây có màu xanh","Vì sao lá cây có màu xanh","", 1.25F);
 //        System.out.print("ID question vua tao " + idQuestion);
         /*Demo add category*/
-//        connector.addCategory(4,"Subsubdefault","Subsubdefault");
+        connector.addCategory(4,"Vippro","Vippro");
         /*Demo get all category*/
 //        List<Category> categories = connector.getCategories();
 //        connector.addChoice(1, 3.5f, "pic2.png", "Choice 4 Text");;
