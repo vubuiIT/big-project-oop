@@ -9,21 +9,30 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.scene.control.TextFormatter;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
+
+import javax.swing.*;
 
 public class Gui1_2_3Controller implements Initializable {
     final boolean[] isPopupVisible = {false};
@@ -149,6 +158,244 @@ public class Gui1_2_3Controller implements Initializable {
 
         connector.disconnect();
         return false;
+    }
+
+    @FXML
+    private Button choosefileButton;
+    @FXML
+    private Label chosenfilepath;
+    public static File chosenFile; // file đã chọn
+    @FXML
+    void choosefileButtonActionPerformed(MouseEvent event) {
+        FileChooser filechooser = new FileChooser();
+        filechooser.setTitle("Choose a file");
+        chosenFile = filechooser.showOpenDialog(null);
+        chosenfilepath.setText((chosenFile.getName())) ;
+    }
+    // Xử lí kéo thả file
+    @FXML
+    private Pane dragfilePane;
+    @FXML
+    void handleDragOver(DragEvent event) {
+        if(event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(TransferMode.ANY);
+        }
+
+    }
+    @FXML
+    void handleDrop(DragEvent event) throws FileNotFoundException {
+        List<File> files = event.getDragboard().getFiles();
+        for(File f : files) chosenFile = f;
+        chosenfilepath.setText(chosenFile.getName());
+
+    }
+    // Xử lí khi import file
+    @FXML
+    private Button importButton;
+    public static boolean CheckChoices(String s) {
+        if(s.length() >= 4) {
+            if(s.charAt(0) >= 'A' && s.charAt(0) <= 'Z'){
+                if (s.charAt(1) =='.') {
+                    if(s.charAt(2) == ' ') {
+                        if(s.charAt(3) != ' ') return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean CheckAnswers(String s) {
+        if(s.length() >= 9) {
+            if(s.substring(0,8).equals("ANSWER: ")) {
+                if(s.charAt(8) >= 'A' && s.charAt(8) <= 'Z') return true;
+            }
+        }
+        return false;
+    }
+    @FXML
+    void importButtonActionPerformed(MouseEvent event) {
+        String path = chosenfilepath.getText();
+        String extension = "";
+        if (path.contains("."))
+            extension = path.substring(path.lastIndexOf(".")+1);
+
+        if(extension.equals("txt")) {
+            List<Quiz> quizList = new ArrayList<Quiz>(); // Create list for quizzes
+            try {
+                Scanner fileScanner = new Scanner(chosenFile);
+                int currentline = 0; // Used to know whick line is being read
+                boolean fileOpenFlag = true; // Flag to check if file being read
+                boolean errorFlag = false; // Flag to check if error found in file
+                // Loop for each quiz
+                while(fileOpenFlag) {
+                    Quiz quiz = new Quiz();
+                    List<Choice> choicesList = new ArrayList<Choice>();
+                    // Read first line (expecting question)
+                    // If there's a line
+                    if(fileScanner.hasNextLine()) {
+                        currentline++;
+                        String s = fileScanner.nextLine();
+                        // If the line is empty
+                        if(s.isEmpty()) {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        else {
+                            quiz.setQuestion(s);
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                        fileScanner.close();
+                        errorFlag = true;
+                        fileOpenFlag = false;
+                        break;
+                    }
+
+                    // Read 2nd line (expecting choices)
+                    // If there's a line
+                    if(fileScanner.hasNextLine()) {
+                        currentline++;
+                        String s = fileScanner.nextLine();
+                        // If the line is empty
+                        if(s.isEmpty()) {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        // If the line has choices format
+                        else if(CheckChoices(s)) {
+                            choicesList.add(new Choice(s));
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                        fileScanner.close();
+                        errorFlag = true;
+                        fileOpenFlag = false;
+                        break;
+                    }
+
+                    // Read 3rd line (expecting choices)
+                    // If there's a line
+                    if(fileScanner.hasNextLine()) {
+                        currentline++;
+                        String s = fileScanner.nextLine();
+                        // If the line is empty
+                        if(s.isEmpty()) {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        // If the line has choices format
+                        else if(CheckChoices(s)) {
+                            choicesList.add(new Choice(s));
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                        fileScanner.close();
+                        errorFlag = true;
+                        fileOpenFlag = false;
+                        break;
+                    }
+
+                    // Read remaining lines
+                    // Loop till there's no line left to read
+                    while(fileScanner.hasNextLine()) {
+                        currentline++;
+                        String s = fileScanner.nextLine();
+                        // If line is empty
+                        if(s.isEmpty()) {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        // If choice
+                        else if(CheckChoices(s)) {
+                            choicesList.add(new Choice(s));
+                            continue;
+                        }
+                        // If answer
+                        else if(CheckAnswers(s)){
+                            char ans = s.charAt(8);
+                            for(Choice ch:choicesList) {
+                                if(ans == ch.getChoiceText().charAt(0)) {
+                                    quiz.setAnswers(ch.getChoiceText().substring(3));
+                                    quiz.setChoices(new Choice(ch.getChoiceText().substring(3),1));
+                                }
+                                else quiz.setChoices(new Choice(ch.getChoiceText().substring(3),0));
+                            }
+                            // If next line is empty, continue the loop to check new quiz
+                            // If there's still line to read
+                            if(fileScanner.hasNextLine()) {
+                                currentline++;
+                                String s1 = fileScanner.nextLine();
+                                // If next line is empty
+                                if(s1.isEmpty()) {
+                                    break;
+                                }
+                                else {
+                                    JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                                    fileScanner.close();
+                                    errorFlag = true;
+                                    fileOpenFlag = false;
+                                    break;
+                                }
+                            }
+                            else {
+                                fileScanner.close();
+                                fileOpenFlag = false;
+                                break;
+                            }
+
+                        }
+                        // If not choices or answers
+                        else {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            fileOpenFlag = false;
+                            errorFlag = true;
+                            break;
+                        }
+                    }
+                    if(errorFlag == false) quizList.add(quiz);
+                }
+                if(errorFlag == false) {
+                    /* Add quizList to database */
+                    JOptionPane.showMessageDialog(null,"Successfully import " + quizList.size() + " quiz!");
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"Wrong Format");
+        }
     }
     @Override
     // 1.1 + 1.2 + 3.3
