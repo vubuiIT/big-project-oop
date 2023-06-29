@@ -332,5 +332,33 @@ public class Gui32CreateQuestionViewController implements Initializable {
         DatabaseConnector connector = new DatabaseConnector();
         connector.connect();
         categoryChoiceBox.setValue(connector.getCategory(question.getCategoryId()).getName());
+        List<Choices> choices = connector.getChoicesFromQuestion(question.getId());
+        int numChoices=0;
+        for(Choices choice: choices){
+            numChoices++;
+            if(numChoices==1) {
+                choice1entry.setText(choice.getText());
+                grade1.setValue(Float.toString(choice.getGrade()));
+            }
+            if(numChoices==2) {
+                choice2entry.setText(choice.getText());
+                grade2.setValue(Float.toString(choice.getGrade()));
+            }
+            if(numChoices==3) {
+                choice3entry.setText(choice.getText());
+                grade3.setValue(Float.toString(choice.getGrade()));
+            }
+            if(numChoices==4) {
+                choice4entry.setText(choice.getText());
+                grade4.setValue(Float.toString(choice.getGrade()));
+            }
+            if(numChoices==5) {
+                choice5entry.setText(choice.getText());
+                grade5.setValue(Float.toString(choice.getGrade()));
+            }
+            if(numChoices>2) {
+                expand_more_choices();
+            }
+        }
     }
 }

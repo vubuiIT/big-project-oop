@@ -220,7 +220,7 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
     }
-    private List<Choices> getChoicesFromQuestion(int questionId) {
+    public List<Choices> getChoicesFromQuestion(int questionId) {
         List<com.example.demojavafx.Choices> choices = new ArrayList<>();
         String sql = "SELECT * FROM Choice WHERE question_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
