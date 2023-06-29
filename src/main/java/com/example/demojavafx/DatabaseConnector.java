@@ -104,29 +104,29 @@ public class DatabaseConnector {
             return ("Failed to add category: " + e.getMessage());
         }
     }
-    public List<Category> getCategories() {
+    public Category getCategory(int CategoryId) {
         List<Category> categories = new ArrayList<>();
 
         try {
             // Prepare SQL statement
-            String sql = "SELECT * FROM Category";
+            String sql = "SELECT * FROM Category WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-
+            statement.setInt(1, CategoryId);
             // Execute the SQL statement
             ResultSet resultSet = statement.executeQuery();
 
             // Process the result set
             while (resultSet.next()) {
-                int categoryId = resultSet.getInt("id");
                 int parentId = resultSet.getInt("parent_id");
                 String info = resultSet.getString("info");
                 String name = resultSet.getString("name");
-
                 // Create a new Category object
-                Category category = new Category(categoryId, parentId, info, name);
+                //if(parentId!=CategoryId)
+                return new Category(CategoryId, parentId, info, name);
+                   // Category category = new Category(CategoryId, parentId, info, name);
 
                 // Add the category to the list
-                categories.add(category);
+                //categories.add(category);
             }
 
             // Close the result set
@@ -135,9 +135,43 @@ public class DatabaseConnector {
             System.err.println("Failed to retrieve categories: " + e.getMessage());
         }
 
-        return categories;
+        //return categories;
+        return new Category(CategoryId,-1,"","");
     }
 
+    public List<Category> getCategories(int CategoryId) {
+        List<Category> categories = new ArrayList<>();
+
+        try {
+            // Prepare SQL statement
+            String sql = "SELECT * FROM Category";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            // Execute the SQL statement
+            ResultSet resultSet = statement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                int Id = resultSet.getInt("id");
+                int parentId = resultSet.getInt("parent_id");
+                String info = resultSet.getString("info");
+                String name = resultSet.getString("name");
+                // Create a new Category object
+                    Category category = new Category(Id, parentId, info, name);
+                // Add the category to the list
+
+                if(parentId==CategoryId) {
+                    categories.add(category);
+                    categories.addAll(getCategories(Id));
+                }
+            }
+
+            // Close the result set
+            resultSet.close();
+        } catch (SQLException e) {
+            System.err.println("Failed to retrieve categories: " + e.getMessage());
+        }
+        return categories;
+    }
     public int addQuestion(int categoryId, String questionText, String questionName, String questionMedia, float questionMark) {
         int questionId = -1; // Default value in case of failure
 

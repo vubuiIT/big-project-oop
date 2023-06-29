@@ -80,6 +80,9 @@ public class Gui32CreateQuestionViewController implements Initializable {
     private TextField questioNameField;
 
     @FXML
+    private Text addedit;
+
+    @FXML
     private TextField questionText;
 
     @FXML
@@ -320,5 +323,14 @@ public class Gui32CreateQuestionViewController implements Initializable {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         expand_more_choices();
     }
-
+    @FXML
+    public void run(Question question){
+        questionText.setText(question.getText());
+        questioNameField.setText(question.getName());
+        markField.setText(Float.toString(question.getMark()));
+        addedit.setText("Editting Multiple choice question");
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+        categoryChoiceBox.setValue(connector.getCategory(question.getCategoryId()).getName());
+    }
 }
