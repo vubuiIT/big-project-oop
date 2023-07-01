@@ -237,7 +237,7 @@ public class Gui1_2_3Controller implements Initializable {
                 connector.connect();
                 List<Question> questions = connector.getQuestionsFromCategory(CategoryId);
                 for (Question question : questions) {
-                    FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("63boxfind.fxml"));
+                    FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
                     Parent itemNode = itemLoader.load();
                     Label label = (Label) itemNode.lookup("#text");
                     label.setText(question.getName()+" : "+ question.getText());
@@ -254,7 +254,7 @@ public class Gui1_2_3Controller implements Initializable {
                         {
                             List<Question> questionss = connector.getQuestionsFromCategory(category.getId());
                             for (Question question : questionss) {
-                                FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("63boxfind.fxml"));
+                                FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
                                 Parent itemNode = itemLoader.load();
                                 Label label = (Label) itemNode.lookup("#text");
                                 label.setText(question.getName()+" : "+ question.getText());
