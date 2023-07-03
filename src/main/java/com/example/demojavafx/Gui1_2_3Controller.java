@@ -6,7 +6,6 @@ import javafx.animation.Timeline;
 import javafx.css.converter.StringConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,15 +13,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextFormatter;
@@ -94,46 +90,14 @@ public class Gui1_2_3Controller implements Initializable {
 
     @FXML
     private ImageView tab2Imageview;
-
     @FXML
     private TextArea infoCategoryTextfield;
-
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private CheckBox tick1;
-
-    @FXML
-    private HBox hbox;
     final boolean[] isTab2Popup = {false};
-    // Tạo cửa sổ mới
-    @FXML
-    public void Create(Question question){
-        try {
-            // Tạo một Stage mới
-            Stage stage = new Stage();
 
-            // Tải file FXML mới
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("gui3.2-create-question-view.fxml"));
-            Parent root = loader.load();
-            Gui32CreateQuestionViewController controller = loader.getController();
-            controller.run(question);
-            controller.setStage(stage);
-
-            // Tạo một Scene từ Parent và đặt nó cho Stage
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-
-            // Hiển thị cửa sổ mới
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     @FXML
     /// Khi bấm Create a New Question - 3.2
     public void createQues(javafx.scene.input.MouseEvent mouseEvent) {
+        System.out.print("Test createQues");
         try {
             // Tạo một Stage mới
             Stage stage = new Stage();
@@ -224,8 +188,6 @@ public class Gui1_2_3Controller implements Initializable {
             slider.setVisible(true);
             Menu.setVisible(false);
             MenuBack.setVisible(true);
-            scrollPane.setVisible(false);
-            hbox.setVisible(false);
         });
 
         // Tab questions
@@ -234,7 +196,6 @@ public class Gui1_2_3Controller implements Initializable {
             hoiPopup.getSelectionModel().select(tab1);
             hoiPopup.setVisible(true);
             slider.setVisible(false);
-            scrollPane.setVisible(false);
         });
 
         // Hiện popup default
@@ -247,58 +208,7 @@ public class Gui1_2_3Controller implements Initializable {
             } else {
                 defaultPopup1.setVisible(false);
                 isPopupVisible[0] = false;
-                hbox.setVisible(false);
-                scrollPane.setVisible(false);
             }
-        });
-        // Hiện questions từ category
-        defaultPopup1.setOnMousePressed(event -> {
-            int CategoryId=treeView.getIdChoice();
-            try {
-                VBox container = new VBox();
-                DatabaseConnector connector = new DatabaseConnector();
-                connector.connect();
-                List<Question> questions = connector.getQuestionsFromCategory(CategoryId);
-                for (Question question : questions) {
-                    FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
-                    Parent itemNode = itemLoader.load();
-                    Label label = (Label) itemNode.lookup("#text");
-                    label.setText(question.getName()+" : "+ question.getText());
-                    Label edit= (Label) itemNode.lookup("#edit");
-                    edit.setOnMouseClicked(event1 -> {
-                        Create(question);
-                    });
-                    container.getChildren().add(itemNode);
-                }
-                if(tick1.isSelected()){
-                    try{
-                        List<Category> allCategory= connector.getCategories(CategoryId);
-                        for(Category category: allCategory)
-                        {
-                            List<Question> questionss = connector.getQuestionsFromCategory(category.getId());
-                            for (Question question : questionss) {
-                                FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
-                                Parent itemNode = itemLoader.load();
-                                Label label = (Label) itemNode.lookup("#text");
-                                label.setText(question.getName()+" : "+ question.getText());
-                                Label edit= (Label) itemNode.lookup("#edit");
-                                edit.setOnMouseClicked(event1 -> {
-                                    Create(question);
-                                });
-                                container.getChildren().add(itemNode);
-                            }
-                        }
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                };
-                scrollPane.setContent(container);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //Hiện all question trong category
-            hbox.setVisible(true);
-            scrollPane.setVisible(true);
         });
 
         // Ẩn popup default khi click bên ngoài
