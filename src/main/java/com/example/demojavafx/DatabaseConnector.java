@@ -58,6 +58,38 @@ public class DatabaseConnector {
 
         return questions;
     }
+    public int amountQuestionsFromCategory(int categoryId) {
+        List<Question> questions = new ArrayList<>();
+
+        try {
+            // Prepare SQL statement
+            String sql = "SELECT * FROM Question WHERE category_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            // Set the parameter value
+            statement.setInt(1, categoryId);
+
+            // Execute the SQL statement
+            ResultSet resultSet = statement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                int questionId = resultSet.getInt("id");
+                String text = resultSet.getString("text");
+                String name = resultSet.getString("name");
+                String media = resultSet.getString("media");
+                float mark = resultSet.getFloat("mark");
+
+                Question question = new Question(questionId, categoryId, text, name, media, mark);
+                questions.add(question);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Failed to get questions from category: " + e.getMessage());
+        }
+
+        return questions.size();
+    }
     public String addCategory(int parentId, String info, String name) {
         try {
             // Prepare SQL statement
@@ -245,6 +277,34 @@ public class DatabaseConnector {
 
         return choices;
     }
+    public void getQuiz() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Quiz");
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                int displayDescription = resultSet.getInt("display_description");
+                int enableTimeLimit = resultSet.getInt("enable_time_limit");
+                int timeLimit = resultSet.getInt("time_limit");
+
+                System.out.println("Quiz ID: " + id);
+                System.out.println("Name: " + name);
+                System.out.println("Description: " + description);
+                System.out.println("Display Description: " + displayDescription);
+                System.out.println("Enable Time Limit: " + enableTimeLimit);
+                System.out.println("Time Limit: " + timeLimit);
+                System.out.println();
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void disconnect() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -266,13 +326,13 @@ public class DatabaseConnector {
 
         // Connect to the database
         connector.connect();
-
+        connector.getQuiz();
 //         Perform database operations
 //         Demo add question
 //        int idQuestion = connector.addQuestion(3,"Lá cây có màu xanh","Vì sao lá cây có màu xanh","", 1.25F);
 //        System.out.print("ID question vua tao " + idQuestion);
         /*Demo add category*/
-        connector.addCategory(4,"Vippro","Vippro");
+        //connector.addCategory(4,"Vippro","Vippro");
         /*Demo get all category*/
 //        List<Category> categories = connector.getCategories();
 //        connector.addChoice(1, 3.5f, "pic2.png", "Choice 4 Text");;

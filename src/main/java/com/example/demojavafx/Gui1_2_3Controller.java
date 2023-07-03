@@ -155,6 +155,29 @@ public class Gui1_2_3Controller implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void turnEdit(MouseEvent event) {
+        try {
+            // Tạo một Stage mới
+            Stage stage = new Stage();
+
+            // Tải file FXML mới
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI5.fxml"));
+            Parent root = loader.load();
+
+            GUI5Controller controller = loader.getController();
+            controller.setStage(stage);
+
+            // Tạo một Scene từ Parent và đặt nó cho Stage
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Hiển thị cửa sổ mới
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void showCategory(MouseEvent mouseEvent) {
         tab2Popup.setVisible(true);
     }

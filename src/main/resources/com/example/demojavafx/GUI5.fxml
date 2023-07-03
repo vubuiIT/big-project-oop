@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<VBox fillWidth="false" maxHeight="-Infinity" prefHeight="667.0" prefWidth="623.0" spacing="15.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.GUI5Controller">
+    <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="707.0">
+        <VBox alignment="CENTER" layoutX="448.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="32.0">
+            <children>
+                <ImageView fitHeight="33.0" fitWidth="34.0">
+                    <image>
+                        <Image url="@../../../icons/pngwing.com.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </VBox>
+        <Label fx:id="switch_lbl" prefHeight="35.0" prefWidth="202.0" style="-fx-font-size: 2em;" text="Adding a new Quiz" textFill="#c23616" />
+        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="26.0">
+            <children>
+                <ImageView fitHeight="20.0" fitWidth="20.0">
+                    <image>
+                        <Image url="@../../../icons/hoicham1.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </VBox>
+    </HBox>
+    <VBox prefHeight="252.0" prefWidth="900.0" spacing="15.0">
+        <VBox.margin>
+            <Insets left="20.0" />
+        </VBox.margin>
+        <HBox fx:id="Checkbox_Ds" alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="800.0">
+            <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="22.0">
+                <children>
+                    <ImageView fitHeight="18.0" fitWidth="25.0">
+                        <image>
+                            <Image url="@../../../icons/tamgiac.png" />
+                        </image>
+                    </ImageView>
+                </children>
+            </VBox>
+            <Label style="-fx-font-size: 1.4em;" text="General" textFill="#c23616">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="5.0" prefWidth="800.0">
+            <Label prefHeight="22.0" prefWidth="120.0" text="Name">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Label>
+            <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+                <HBox.margin>
+                    <Insets left="100.0" />
+                </HBox.margin>
+                <SVGPath content="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" fill="#c23616" scaleX="0.03" scaleY="0.03">
+               <VBox.margin>
+                  <Insets left="-200.0" />
+               </VBox.margin></SVGPath>
+            </VBox>
+            <TextField fx:id="name_fld" prefHeight="32.0" prefWidth="414.0">
+                <HBox.margin>
+                    <Insets left="-85.0" />
+                </HBox.margin>
+            </TextField>
+        </HBox>
+        <HBox prefWidth="780.0">
+            <VBox prefHeight="126.0" prefWidth="250.0">
+                <VBox prefHeight="31.0" prefWidth="192.0">
+                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="174.0">
+                        <Label prefHeight="22.0" prefWidth="120.0" text="Description">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                </VBox>
+            </VBox>
+            <TextArea fx:id="description_fld" prefHeight="116.0" prefWidth="414.0">
+            <HBox.margin>
+               <Insets left="-95.0" />
+            </HBox.margin>
+         </TextArea>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="784.0">
+            <ImageView fitHeight="22.0" fitWidth="22.0">
+                <image>
+                    <Image url="@../../../icons/hoicham1.png" />
+                </image>
+            <HBox.margin>
+               <Insets left="120.0" />
+            </HBox.margin>
+            </ImageView>
+            <CheckBox fx:id="Checkbox_Description" mnemonicParsing="false" prefHeight="18.0" prefWidth="210.0" text="Display description on course page">
+                <HBox.margin>
+                    <Insets left="10.0" />
+                </HBox.margin>
+            </CheckBox>
+        </HBox>
+    </VBox>
+    <Separator prefHeight="6.0" prefWidth="900.0">
+        <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+        </VBox.margin>
+    </Separator>
+    <VBox layoutX="30.0" layoutY="68.0" prefWidth="862.0" spacing="15.0">
+        <VBox.margin>
+            <Insets left="20.0" />
+        </VBox.margin>
+        <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="800.0">
+            <VBox prefHeight="0.0" prefWidth="1.0" />
+            <ImageView fitHeight="18.0" fitWidth="25.0">
+                <image>
+                    <Image url="@../../../icons/tamgiac.png" />
+                </image>
+            </ImageView>
+            <Label style="-fx-font-size: 1.4em;" text="Timing" textFill="#c23616">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="5.0" prefWidth="800.0">
+            <Label prefHeight="22.0" prefWidth="140.0" text="Open the quiz">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Label>
+              <ImageView fitHeight="20.0" fitWidth="20.0">
+                  <image>
+                      <Image url="@../../../icons/hoicham1.png" />
+                  </image>
+            <HBox.margin>
+               <Insets left="-20.0" />
+            </HBox.margin>
+              </ImageView>
+            <ComboBox fx:id="opnDay_comb" disable="true" prefHeight="30.0" prefWidth="69.0" promptText="day" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+            </ComboBox>
+            <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+                <HBox.margin>
+                    <Insets left="80.0" />
+                </HBox.margin>
+            <children>
+                  <ComboBox fx:id="opnMonth_comb" disable="true" prefHeight="30.0" prefWidth="83.0" promptText="month" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                  <VBox.margin>
+                     <Insets left="-100.0" />
+                  </VBox.margin>
+                  </ComboBox>
+            </children>
+            </VBox>
+            <ComboBox fx:id="opnYear_comb" disable="true" layoutX="340.0" layoutY="11.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="71.0" promptText="year" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets left="-20.0" />
+                </HBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="opnHour_comb" disable="true" layoutX="260.0" layoutY="11.0" prefHeight="30.0" prefWidth="70.0" promptText="hh" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="opnMin_comb" disable="true" layoutX="532.0" layoutY="11.0" prefHeight="30.0" prefWidth="66.0" promptText="mm" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </ComboBox>
+            <VBox alignment="CENTER" layoutX="230.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="22.0">
+                <SVGPath content="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H336zM64 400v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H208zm112 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H336c-8.8 0-16 7.2-16 16z" fill="#273c75" scaleX="0.03" scaleY="0.03" />
+            </VBox>
+            <CheckBox fx:id="Checkbox_open" mnemonicParsing="false" onAction="#handleCheckBoxOpen" text="Enable">
+            <HBox.margin>
+               <Insets left="-2.0" />
+            </HBox.margin></CheckBox>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="55.0" prefHeight="5.0" prefWidth="800.0" styleClass="check-box">
+            <Label prefHeight="22.0" prefWidth="140.0" text="Close the quiz">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Label>
+            <ComboBox fx:id="clsDay_comb" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="69.0" promptText="day" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets left="10.0" />
+                </HBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="clsMonth_comb" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="83.0" promptText="month" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="clsYear_comb" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="71.0" promptText="year" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="clsHour_comb" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="68.0" promptText="hh" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="clsMin_comb" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="65.0" promptText="mm" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </ComboBox>
+            <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="22.0">
+                <SVGPath content="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H336zM64 400v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H208zm112 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H336c-8.8 0-16 7.2-16 16z" fill="#273c75" scaleX="0.03" scaleY="0.03">
+               <VBox.margin>
+                  <Insets left="-5.0" />
+               </VBox.margin></SVGPath>
+            </VBox>
+            <CheckBox fx:id="Checkbox_close" mnemonicParsing="false" onAction="#handleCheckBoxClose" prefHeight="18.0" prefWidth="70.0" text="Enable">
+            <HBox.margin>
+               <Insets left="-3.0" />
+            </HBox.margin></CheckBox>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="780.0">
+            <Label prefHeight="22.0" prefWidth="120.0" text="Time limit">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Label>
+            <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+                <HBox.margin>
+                    <Insets left="100.0" />
+                </HBox.margin>
+                <children>
+                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                        <image>
+                            <Image url="@../../../icons/hoicham1.png" />
+                        </image>
+                  <VBox.margin>
+                     <Insets left="-200.0" />
+                  </VBox.margin>
+                    </ImageView>
+                </children>
+            </VBox>
+            <TextField fx:id="timeLimit_fld" disable="true" prefHeight="32.0" prefWidth="66.0">
+                <HBox.margin>
+                    <Insets left="-90.0" />
+                </HBox.margin>
+            </TextField>
+            <ComboBox fx:id="Timelimit_comb" disable="true" prefHeight="34.0" prefWidth="120.0" promptText="minutes" style="-fx-background-color: #FFFFFF; -fx-border-color: #dcdde1;">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </ComboBox>
+            <CheckBox fx:id="Checkbox_Timelimit" mnemonicParsing="false" onAction="#handleTimelimit" text="Enable">
+                <HBox.margin>
+                    <Insets left="10.0" />
+                </HBox.margin>
+            </CheckBox>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="142.0" prefHeight="12.0" prefWidth="900.0">
+            <Label prefHeight="22.0" prefWidth="170.0" text="When time expires">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Label>
+              <ImageView fitHeight="20.0" fitWidth="20.0">
+                  <image>
+                      <Image url="@../../../icons/hoicham1.png" />
+                  </image>
+            <HBox.margin>
+               <Insets left="-30.0" />
+            </HBox.margin>
+              </ImageView>
+            <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+                <HBox.margin>
+                    <Insets left="50.0" />
+                </HBox.margin>
+            </VBox>
+            <ComboBox prefHeight="32.0" prefWidth="420.0" promptText="Open attempts are submitted automatically" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;">
+                <HBox.margin>
+                    <Insets left="-60.0" />
+                </HBox.margin>
+            </ComboBox>
+        </HBox>
+    </VBox>
+    <HBox alignment="CENTER" prefWidth="860.0">
+        <VBox.margin>
+            <Insets left="20.0" />
+        </VBox.margin>
+        <Button fx:id="create_btn" mnemonicParsing="false" style="-fx-background-color: #273c75; -fx-cursor: hand; -fx-font-size: 1.1em;" text="CREATE" textFill="WHITE">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Button>
+        <Button fx:id="cancel_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Close_page" style="-fx-background-color: #c23616; -fx-cursor: hand; -fx-font-size: 1.1em;" text="CANCEL" textFill="WHITE">
+            <HBox.margin>
+                <Insets left="20.0" />
+            </HBox.margin>
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Button>
+    </HBox>
+</VBox>
