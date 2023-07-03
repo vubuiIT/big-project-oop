@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui6_12Controller">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="115.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-253.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="877.0" />
+      <MenuButton layoutX="516.0" layoutY="3.0" mnemonicParsing="false" text="Users">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/users.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </MenuButton>
+      <Button layoutX="8.0" layoutY="2.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="29.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" styleClass="iconButton">
+               <image>
+                  <Image url="@../../../icons/menu.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <GridPane alignment="BOTTOM_RIGHT" layoutX="36.0" layoutY="53.0" prefHeight="144.0" prefWidth="561.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text fill="#e80000" strokeType="OUTSIDE" strokeWidth="0.0" text="ae IT depzai" wrappingWidth="155.193359375">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+            </Text>
+            <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home/ My courses/ THI CUỐI KỲ" wrappingWidth="224.041015625" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Text>
+         </children>
+      </GridPane>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="535.0" layoutX="7.0" layoutY="149.0" stroke="#bfbfbf" strokeType="INSIDE" styleClass="iconButton" width="609.0" />
+      <VBox fx:id="vbox61" layoutX="10.0" layoutY="149.0" prefHeight="535.0" prefWidth="609.0">
+         <children>
+            <HBox prefHeight="23.0" prefWidth="609.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="403.0" text="Name of quiz editting" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button fx:id="editquiz" alignment="CENTER" mnemonicParsing="false" prefHeight="33.0" prefWidth="0.0" style="-fx-background-color: #FFFFFF; -fx-cursor: hand;">
+                     <graphic>
+                        <VBox accessibleRole="BUTTON" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="5.0" prefWidth="14.0">
+                           <children>
+                              <SVGPath content="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z" fill="#2999ff" scaleX="0.05" scaleY="0.05" />
+                           </children>
+                        </VBox>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="140.0" top="7.0" />
+                     </HBox.margin>
+                  </Button>
+                  <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="20.0">
+                     <children>
+                        <SVGPath content="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z" fill="#e23d18" scaleX="0.034" scaleY="0.034">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </SVGPath>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="-2.0" top="7.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="838.0">
+               <children>
+                  <Region prefHeight="39.0" prefWidth="331.0" HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" spacing="5.0">
+                     <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time limit:" />
+                              <Label fx:id="timeLimit_lbl" text="Label">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Text layoutX="158.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" />
+                           </children>
+                        </HBox>
+                        <Text layoutX="10.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grading method: Last attemp" />
+                     </children>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Summary of your previous attemps">
+               <VBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Times New Roman" size="16.0" />
+               </font>
+            </Text>
+            <VBox>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="778.0" style="-fx-background-color: #1E90FFFF;">
+                     <padding>
+                        <Insets left="200.0" />
+                     </padding>
+                     <children>
+                        <Label prefHeight="22.0" prefWidth="100.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Attempt">
+                           <HBox.margin>
+                              <Insets left="-40.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="State">
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="778.0" style="-fx-background-color: #ecf0f1;">
+                     <padding>
+                        <Insets left="200.0" />
+                     </padding>
+                     <children>
+                        <Label prefHeight="22.0" prefWidth="100.0" style="-fx-text-fill: black;" text="Preview">
+                           <HBox.margin>
+                              <Insets left="-40.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label style="-fx-text-fill: black;" text="Never submitted">
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </VBox>
+            <HBox prefHeight="66.0" prefWidth="607.0">
+               <children>
+                  <Button fx:id="preview_btn" mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #1E90FFFF; -fx-text-fill: WHITE; -fx-cursor: hand; -fx-border-radius: 5;" text="PREVIEW QUIZ NOW">
+                     <HBox.margin>
+                        <Insets left="430.0" top="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <ComboBox prefHeight="35.0" prefWidth="120.0" promptText="Jump to..." style="-fx-background-color: white; -fx-border-color: grey;">
+                     <HBox.margin>
+                        <Insets left="300.0" top="50.0" />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="-2.0" right="4.0" />
+         </padding>
+      </VBox>
+      <VBox fx:id="vbox62" layoutX="7.0" layoutY="151.0" prefHeight="535.0" prefWidth="609.0" visible="false">
+         <children>
+            <HBox prefHeight="23.0" prefWidth="609.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="403.0" text="Editing quiz: Name of quiz" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="20.0">
+                     <HBox.margin>
+                        <Insets left="-2.0" top="7.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="598.0" spacing="5.0">
+               <children>
+                  <Label text="Question:" />
+                  <Label fx:id="numOfQues_lbl" layoutX="10.0" layoutY="16.0" text="0" />
+                  <Label layoutX="10.0" layoutY="16.0" text="| This quiz is open" />
+                  <Region prefHeight="32.0" prefWidth="126.0" HBox.hgrow="ALWAYS" />
+                  <Label layoutX="10.0" layoutY="22.0" text="Maximum grade" />
+                  <TextField alignment="CENTER" prefHeight="35.0" prefWidth="63.0" promptText="10.00" />
+                  <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="68.0" style="-fx-background-color: #1E90FFFF;" styleClass="Button" text="SAVE" textFill="WHITE" />
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="34.0" style="-fx-background-color: #1E90FF;" styleClass="Button" text="REPAGINATE" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" style="-fx-background-color: #1E90FF;" styleClass="Button" text="SELECT MULTIPLE ITEMS" textFill="WHITE" />
+                  <Label layoutX="10.0" layoutY="22.0" text="Total of marks:">
+                     <HBox.margin>
+                        <Insets left="250.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="totalMark_lbl" layoutX="693.0" layoutY="16.0" text="0.00" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="679.0" spacing="5.0" style="-fx-background-color: #ecf0f1;">
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+               <children>
+                  <VBox alignment="CENTER" layoutX="280.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+                     <children>
+                        <SVGPath content="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z&#10;" fill="#273c75" scaleX="0.03" scaleY="0.03" />
+                     </children>
+                  </VBox>
+                  <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="79.0" text="Shuffle">
+                     <HBox.margin>
+                        <Insets left="440.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+                     <children>
+                        <SVGPath content="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" fill="DODGERBLUE" scaleX="0.03" scaleY="0.03">
+                           <VBox.margin>
+                              <Insets left="-20.0" />
+                           </VBox.margin>
+                        </SVGPath>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="3.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <MenuButton mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #ecf0f1; -fx-text-fill: blue; -fx-cursor: hand;" text="Add">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="+ a new question" />
+                  <MenuItem fx:id="add62a" mnemonicParsing="false" text="+ from question bank" />
+                  <MenuItem fx:id="add62b" mnemonicParsing="false" text="+ a random question" />
+               </items>
+               <VBox.margin>
+                  <Insets left="530.0" top="-1.0" />
+               </VBox.margin>
+            </MenuButton>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="339.0" prefWidth="632.0" style="-fx-border-color: white;" vbarPolicy="NEVER">
+               <content>
+                  <VBox fx:id="listQues" prefHeight="77.0" prefWidth="604.0" spacing="5.0" />
+               </content>
+               <VBox.margin>
+                  <Insets left="4.0" />
+               </VBox.margin>
+            </ScrollPane>
+         </children>
+         <padding>
+            <Insets left="-2.0" right="4.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
