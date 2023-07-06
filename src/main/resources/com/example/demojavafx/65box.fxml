@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="580.0" style="-fx-border-color: #eeeee4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0">
+         <children>
+            <SVGPath content="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" fill="DODGERBLUE" scaleX="0.04" scaleY="0.04" />
+         </children>
+      </VBox>
+      <Label fx:id="name_lb" maxHeight="-Infinity" maxWidth="485.0" minHeight="-Infinity" prefHeight="22.0" text="question name">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+         <HBox.margin>
+            <Insets right="10.0" />
+         </HBox.margin>
+      </Label>
+      <Label fx:id="text_lbl" maxHeight="-Infinity" maxWidth="220.0" minHeight="-Infinity" prefHeight="22.0" text="question text">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+         <font>
+            <Font size="9.5" />
+         </font>
+      </Label>
+      <Label fx:id="id_lbl" prefWidth="0.0" visible="false">
+         <opaqueInsets>
+            <Insets right="10.0" />
+         </opaqueInsets></Label>
+   </children>
+</HBox>

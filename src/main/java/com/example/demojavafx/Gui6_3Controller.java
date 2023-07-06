@@ -97,7 +97,6 @@ public class Gui6_3Controller implements Initializable {
                     e.printStackTrace();
                 }
             }
-
             connector.disconnect();
         });
         // thêm các ques được chọn khi nhấn add ques

@@ -2,9 +2,11 @@ package com.example.demojavafx;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -12,16 +14,20 @@ import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 
+import java.util.*;
+
+import javafx.scene.input.MouseEvent;
+
 import java.beans.EventHandler;
-import java.util.List;
 
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
 
 public class Gui6_12Controller implements Initializable {
     Integer number=1;
+    @FXML
+    private Button multiDelete;
     @FXML
     private MenuItem add62a;
 
@@ -51,7 +57,8 @@ public class Gui6_12Controller implements Initializable {
 
     @FXML
     private VBox vbox62;
-
+    Set<Integer> check = new HashSet<>();
+    boolean isDelete=false;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         editquiz.setOnMouseClicked(event -> {
@@ -104,43 +111,116 @@ public class Gui6_12Controller implements Initializable {
                 stage.setTitle("Add a random question to page 1");
                 stage.setScene(scene);
                 stage.show();
-//                controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
-//                    if (newValue) {
-//                        List<HBox> selectedBoxes = controller.getSelectedBoxes();
-//                        try {
-//                            updateQuestionList(selectedBoxes);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
+              controller.isCloseProperty().addListener((observable1, oldValue1, newValue1) -> {
+                    if (newValue1) {
+                        List<HBox> selectedBoxes1 = controller.getSelectedBoxes();
+                        try {
+                            updateQuestionList(selectedBoxes1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
+
+    //thao tác delete
+    @FXML
+    void handleMultidel(MouseEvent event) {
+        try {
+            if (!isDelete) {
+                List<HBox> boxChoice1 = new ArrayList<>();
+                for (Node node : listQues.getChildren()) {
+                    if (node instanceof HBox) {
+                        HBox hboxx = (HBox) node;
+                        boxChoice1.add(hboxx);
+                    }
+                }
+                listQues.getChildren().clear();
+                for (HBox hbox : boxChoice1) {
+                        Label nameLabel = (Label) hbox.lookup("#name_lb");
+                        Label textLabel = (Label) hbox.lookup("#text_lbl");
+                        Label quesId = (Label) hbox.lookup("#quesID_lbl");
+                        String name = nameLabel.getText();
+                        String text = textLabel.getText();
+                        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("63boxfind.fxml"));
+                        HBox boxtick = loader1.load();
+                        Label nameLabel1 = (Label) boxtick.lookup("#name_lb");
+                        Label textLabel1 = (Label) boxtick.lookup("#text_lbl");
+                        Label quesId1 = (Label) boxtick.lookup("#id_lbl");
+                        nameLabel1.setText(name);
+                        textLabel1.setText(text);
+                        quesId1.setUserData(quesId.getUserData());
+                        listQues.getChildren().add(boxtick);
+                }
+                multiDelete.setText("DELETE");
+                isDelete=true;
+            } else {
+                List<HBox> boxChoice = new ArrayList<>();
+                for (Node node : listQues.getChildren()) {
+                    if (node instanceof HBox) {
+                        HBox hbox = (HBox) node;
+                        CheckBox checkBox2 = (CheckBox) hbox.lookup("#question_cbx");
+                        if (!checkBox2.isSelected()) {
+                            boxChoice.add(hbox);
+                        }
+                    }
+                }
+                listQues.getChildren().clear();
+                check.clear();
+                number=1;
+                updateQuestionList(boxChoice);
+                multiDelete.setText("SELECT MULTIPLE ITEMS");
+                isDelete=false;
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // reset thứ tự câu hỏi
+    public void resetRank() throws IOException {
+        Integer rank=0;
+        for (Node node : listQues.getChildren()) {
+            if (node instanceof HBox) {
+                rank++;
+                HBox hbox = (HBox) node;
+                Label rank1 = (Label) hbox.lookup("#rank_lbl");
+                rank1.setText(""+rank);
+            }
+        }
+    }
+    //update list câu hỏi
     public void updateQuestionList(List<HBox> selectedBoxes) throws IOException {
         for (HBox selectedBox : selectedBoxes) {
             // Lấy các thông tin từ ô được chọn
             Label nameLabel1 = (Label) selectedBox.lookup("#name_lb");
             Label textLabel1 = (Label) selectedBox.lookup("#text_lbl");
             Label quesId = (Label) selectedBox.lookup("#id_lbl");
-            String name = nameLabel1.getText();
-            String text = textLabel1.getText();
-            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("64boxtick.fxml"));
-            HBox boxtick = loader1.load();
-            // Truy cập vào label theo ID và thay đổi nội dung
-            Label nameLabel = (Label) boxtick.lookup("#name_lb");
-            Label textLabel = (Label) boxtick.lookup("#text_lbl");
-            Label quesNumber = (Label) boxtick.lookup("#rank_lbl");
-            Label quesId1 = (Label) boxtick.lookup("#quesID_lbl");
-            nameLabel.setText(name);
-            quesNumber.setText(""+number);
-            totalMark_lbl.setText(""+number+".00");
-            number++;
-            textLabel.setText(text);
-            quesId1.setUserData(quesId.getUserData());
-            listQues.getChildren().add(boxtick);
+            Integer Id= (int) quesId.getUserData();
+            if(check.contains(Id)) {int t;}
+            else {
+                check.add(Id);
+                String name = nameLabel1.getText();
+                String text = textLabel1.getText();
+                FXMLLoader loader1 = new FXMLLoader(getClass().getResource("64boxtick.fxml"));
+                HBox boxtick = loader1.load();
+                // Truy cập vào label theo ID và thay đổi nội dung
+                Label nameLabel = (Label) boxtick.lookup("#name_lb");
+                Label textLabel = (Label) boxtick.lookup("#text_lbl");
+                Label quesNumber = (Label) boxtick.lookup("#rank_lbl");
+                Label quesId1 = (Label) boxtick.lookup("#quesID_lbl");
+                nameLabel.setText(name);
+                quesNumber.setText("" + number);
+                totalMark_lbl.setText("" + number + ".00");
+                number++;
+                textLabel.setText(text);
+                quesId1.setUserData(quesId.getUserData());
+                listQues.getChildren().add(boxtick);
+            }
         }
     }
 }
