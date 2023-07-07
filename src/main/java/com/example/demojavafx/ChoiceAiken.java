@@ -1,13 +1,13 @@
 package com.example.demojavafx;
 //
-public class Choice {
+public class ChoiceAiken {
     String choiceText;
     double Grade;
-    public Choice (String s, double x) {
+    public ChoiceAiken(String s, double x) {
         this.choiceText = s;
         this.Grade = x;
     }
-    public Choice (String s) {
+    public ChoiceAiken(String s) {
         this.choiceText = s;
     }
     public void setChoiceText(String s){

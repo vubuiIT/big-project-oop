@@ -2,12 +2,13 @@ package com.example.demojavafx;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFPicture;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -34,7 +35,7 @@ public class CheckAikenFormat {
         return false;
     }
     public static void CheckTxt(File f) {
-        List<Quiz> quizList = new ArrayList<Quiz>(); // Create list for quizzes
+        List<QuizAiken> quizList = new ArrayList<QuizAiken>(); // Create list for quizzes
         try {
             Scanner fileScanner = new Scanner(f);
             int currentline = 0; // Used to know whick line is being read
@@ -42,8 +43,8 @@ public class CheckAikenFormat {
             boolean errorFlag = false; // Flag to check if error found in file
             // Loop for each quiz
             while(fileOpenFlag) {
-                Quiz quiz = new Quiz();
-                List<Choice> choicesList = new ArrayList<Choice>();
+                QuizAiken quiz = new QuizAiken();
+                List<ChoiceAiken> choicesList = new ArrayList<ChoiceAiken>();
                 // Read first line (expecting question)
                 // If there's a line
                 if(fileScanner.hasNextLine()) {
@@ -84,7 +85,7 @@ public class CheckAikenFormat {
                     }
                     // If the line has choices format
                     else if(CheckChoicesTxt(s)) {
-                        choicesList.add(new Choice(s));
+                        choicesList.add(new ChoiceAiken(s));
                     }
                     else {
                         JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
@@ -117,7 +118,7 @@ public class CheckAikenFormat {
                     }
                     // If the line has choices format
                     else if(CheckChoicesTxt(s)) {
-                        choicesList.add(new Choice(s));
+                        choicesList.add(new ChoiceAiken(s));
                     }
                     else {
                         JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
@@ -150,18 +151,18 @@ public class CheckAikenFormat {
                     }
                     // If choice
                     else if(CheckChoicesTxt(s)) {
-                        choicesList.add(new Choice(s));
+                        choicesList.add(new ChoiceAiken(s));
                         continue;
                     }
                     // If answer
                     else if(CheckAnswersTxt(s)){
                         char ans = s.charAt(8);
-                        for(Choice ch:choicesList) {
+                        for(ChoiceAiken ch:choicesList) {
                             if(ans == ch.getChoiceText().charAt(0)) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
-                                quiz.setChoices(new Choice(ch.getChoiceText().substring(3),1));
+                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),1));
                             }
-                            else quiz.setChoices(new Choice(ch.getChoiceText().substring(3),0));
+                            else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),0));
                         }
                         // If next line is empty, continue the loop to check new quiz
                         // If there's still line to read
@@ -228,35 +229,48 @@ public class CheckAikenFormat {
         return false;
     }
     public static void CheckDocx(File f) throws FileNotFoundException, IOException {
-        List<Quiz> quizList = new ArrayList<Quiz>(); // Create list for quizzes
+        List<QuizAiken> quizList = new ArrayList<QuizAiken>(); // Create list for quizzes
         try {
             XWPFDocument doc = new XWPFDocument(new FileInputStream(f));
             List<XWPFParagraph>paras = doc.getParagraphs();
-            int currentpara = 0; // Used to know whick line is being read
+            int paraIterator = 0; // Used to know which para is being read
             boolean fileOpenFlag = true; // Flag to check if file being read
             boolean errorFlag = false; // Flag to check if error found in file
             // Loop for each quiz
             while(fileOpenFlag) {
-                Quiz quiz = new Quiz();
-                List<Choice> choicesList = new ArrayList<Choice>();
-                // Read first line (expecting question)
-                // If there's a line
-                if(currentpara < paras.size()) {
-                    String s = paras.get(currentpara).getText();
-                    // If the line is empty
-                    if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                QuizAiken quiz = new QuizAiken();
+                List<ChoiceAiken> choicesList = new ArrayList<ChoiceAiken>();
+                // Read first para (expecting question)
+                // If there's still para to read
+                if(paraIterator < paras.size()) {
+                    String s = paras.get(paraIterator).getText();
+                    List<XWPFRun> runs = paras.get(paraIterator).getRuns();
+                    List<XWPFPicture> pics = new ArrayList<>();
+                    // Set image for quiz
+                    for(XWPFRun run : runs) {
+                        pics.addAll(run.getEmbeddedPictures());
+                    }
+                    for(XWPFPicture pic : pics) {
+                        byte[] data = pic.getPictureData().getData();
+                        BufferedImage img = ImageIO.read(new ByteArrayInputStream(data));
+                        quiz.setIllustrator(img);
+                    }
+                    // If the paragraph is empty -> error
+                    if(s.isEmpty() && quiz.Illustrators.size() == 0) {
+                        JOptionPane.showMessageDialog(null, "Error found at line" + (paraIterator + 1));
+                        doc.close();
                         errorFlag = true;
                         fileOpenFlag = false;
                         break;
                     }
                     else {
                         quiz.setQuestion(s);
-                        currentpara++;
+                        paraIterator++;
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                    JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                    doc.close();
                     errorFlag = true;
                     fileOpenFlag = false;
                     break;
@@ -264,29 +278,32 @@ public class CheckAikenFormat {
 
                 // Read 2nd line (expecting choices)
                 // If there's a line
-                if(currentpara < paras.size()) {
-                    String s = paras.get(currentpara).getText();
+                if(paraIterator < paras.size()) {
+                    String s = paras.get(paraIterator).getText();
                     // If the line is empty
                     if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
                         errorFlag = true;
                         fileOpenFlag = false;
                         break;
                     }
                     // If the line has choices format
                     else if(CheckChoicesDocx(s)) {
-                        choicesList.add(new Choice(s));
-                        currentpara++;
+                        choicesList.add(new ChoiceAiken(s));
+                        paraIterator++;
                     }
                     else {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
                         errorFlag = true;
                         fileOpenFlag = false;
                         break;
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                    JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                    doc.close();
                     errorFlag = true;
                     fileOpenFlag = false;
                     break;
@@ -294,29 +311,32 @@ public class CheckAikenFormat {
 
                 // Read 3rd line (expecting choices)
                 // If there's a line
-                if(currentpara < paras.size()) {
-                    String s = paras.get(currentpara).getText();
+                if(paraIterator < paras.size()) {
+                    String s = paras.get(paraIterator).getText();
                     // If the line is empty
                     if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
                         errorFlag = true;
                         fileOpenFlag = false;
                         break;
                     }
                     // If the line has choices format
                     else if(CheckChoicesDocx(s)) {
-                        choicesList.add(new Choice(s));
-                        currentpara++;
+                        choicesList.add(new ChoiceAiken(s));
+                        paraIterator++;
                     }
                     else {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
                         errorFlag = true;
                         fileOpenFlag = false;
                         break;
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                    JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                    doc.close();
                     errorFlag = true;
                     fileOpenFlag = false;
                     break;
@@ -324,48 +344,52 @@ public class CheckAikenFormat {
 
                 // Read remaining lines
                 // Loop till there's no line left to read
-                while(currentpara < paras.size()) {
-                    String s = paras.get(currentpara).getText();
+                while(paraIterator < paras.size()) {
+                    String s = paras.get(paraIterator).getText();
                     // If line is empty
                     if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
                         errorFlag = true;
                         fileOpenFlag = false;
                         break;
                     }
                     // If choice
                     else if(CheckChoicesDocx(s)) {
-                        choicesList.add(new Choice(s));
-                        currentpara++;
+                        choicesList.add(new ChoiceAiken(s));
+                        paraIterator++;
                         continue;
                     }
                     // If answer
                     else if(CheckAnswersDocx(s)){
                         char ans = s.charAt(8);
-                        for(Choice ch:choicesList) {
+                        for(ChoiceAiken ch:choicesList) {
                             if(ans == ch.getChoiceText().charAt(0)) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
-                                quiz.setChoices(new Choice(ch.getChoiceText().substring(3),1));
+                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),1));
                             }
-                            else quiz.setChoices(new Choice(ch.getChoiceText().substring(3),0));
+                            else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),0));
                         }
-                        currentpara++;
+                        paraIterator++;
                         // If next line is empty, continue the loop to check new quiz
                         // If there's still line to read
-                        if(currentpara < paras.size()) {
-                            String s1 = paras.get(currentpara).getText();
+                        if(paraIterator < paras.size()) {
+                            String s1 = paras.get(paraIterator).getText();
                             // If next line is empty
                             if(s1.isEmpty()) {
-                                currentpara++;
+                                paraIterator++;
                                 break;
                             }
                             else {
-                                JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));                              errorFlag = true;
+                                JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));                              errorFlag = true;
+                                doc.close();
+                                errorFlag = true;
                                 fileOpenFlag = false;
                                 break;
                             }
                         }
                         else {
+                            doc.close();
                             fileOpenFlag = false;
                             break;
                         }
@@ -373,7 +397,8 @@ public class CheckAikenFormat {
                     }
                     // If not choices or answers
                     else {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (currentpara+1));
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
                         fileOpenFlag = false;
                         errorFlag = true;
                         break;
@@ -385,6 +410,7 @@ public class CheckAikenFormat {
                 /* Add quizList to database */
                 JOptionPane.showMessageDialog(null,"Successfully import " + quizList.size() + " quiz!");
             }
+            else quizList.clear();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
