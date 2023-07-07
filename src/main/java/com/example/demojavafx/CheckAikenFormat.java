@@ -228,7 +228,7 @@ public class CheckAikenFormat {
         }
         return false;
     }
-    public static void CheckDocx(File f) throws FileNotFoundException, IOException {
+    public static void CheckDocx(File f) throws IOException {
         List<QuizAiken> quizList = new ArrayList<QuizAiken>(); // Create list for quizzes
         try {
             XWPFDocument doc = new XWPFDocument(new FileInputStream(f));
