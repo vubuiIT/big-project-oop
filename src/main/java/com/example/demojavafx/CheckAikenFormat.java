@@ -157,6 +157,7 @@ public class CheckAikenFormat {
                     // If answer
                     else if(CheckAnswersTxt(s)){
                         char ans = s.charAt(8);
+                        // Modify each choice in the choicesList: remove the header and set grade
                         for(ChoiceAiken ch:choicesList) {
                             if(ans == ch.getChoiceText().charAt(0)) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
@@ -246,7 +247,7 @@ public class CheckAikenFormat {
                     String s = paras.get(paraIterator).getText();
                     List<XWPFRun> runs = paras.get(paraIterator).getRuns();
                     List<XWPFPicture> pics = new ArrayList<>();
-                    // Set image for quiz
+                    // Set image for Quiz
                     for(XWPFRun run : runs) {
                         pics.addAll(run.getEmbeddedPictures());
                     }
@@ -276,11 +277,11 @@ public class CheckAikenFormat {
                     break;
                 }
 
-                // Read 2nd line (expecting choices)
-                // If there's a line
+                // Read 2nd para (expecting choices)
+                // If there's a para
                 if(paraIterator < paras.size()) {
                     String s = paras.get(paraIterator).getText();
-                    // If the line is empty
+                    // If the para is empty
                     if(s.isEmpty()) {
                         JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
                         doc.close();
@@ -288,7 +289,7 @@ public class CheckAikenFormat {
                         fileOpenFlag = false;
                         break;
                     }
-                    // If the line has choices format
+                    // If the para has choices format
                     else if(CheckChoicesDocx(s)) {
                         choicesList.add(new ChoiceAiken(s));
                         paraIterator++;
@@ -309,11 +310,11 @@ public class CheckAikenFormat {
                     break;
                 }
 
-                // Read 3rd line (expecting choices)
-                // If there's a line
+                // Read 3rd para (expecting choices)
+                // If there's still para to read
                 if(paraIterator < paras.size()) {
                     String s = paras.get(paraIterator).getText();
-                    // If the line is empty
+                    // If the para is empty
                     if(s.isEmpty()) {
                         JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
                         doc.close();
@@ -321,7 +322,7 @@ public class CheckAikenFormat {
                         fileOpenFlag = false;
                         break;
                     }
-                    // If the line has choices format
+                    // If the para has choices format
                     else if(CheckChoicesDocx(s)) {
                         choicesList.add(new ChoiceAiken(s));
                         paraIterator++;
@@ -342,11 +343,11 @@ public class CheckAikenFormat {
                     break;
                 }
 
-                // Read remaining lines
-                // Loop till there's no line left to read
+                // Read remaining paras
+                // Loop till there's no para left to read
                 while(paraIterator < paras.size()) {
                     String s = paras.get(paraIterator).getText();
-                    // If line is empty
+                    // If para is empty
                     if(s.isEmpty()) {
                         JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
                         doc.close();
@@ -363,6 +364,7 @@ public class CheckAikenFormat {
                     // If answer
                     else if(CheckAnswersDocx(s)){
                         char ans = s.charAt(8);
+                        // Modify each choice in the choicesList: remove the header and set grade
                         for(ChoiceAiken ch:choicesList) {
                             if(ans == ch.getChoiceText().charAt(0)) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
@@ -371,11 +373,11 @@ public class CheckAikenFormat {
                             else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),0));
                         }
                         paraIterator++;
-                        // If next line is empty, continue the loop to check new quiz
-                        // If there's still line to read
+                        // If next para is empty, continue the loop to check new quiz
+                        // If there's still para to read
                         if(paraIterator < paras.size()) {
                             String s1 = paras.get(paraIterator).getText();
-                            // If next line is empty
+                            // If next para is empty
                             if(s1.isEmpty()) {
                                 paraIterator++;
                                 break;
