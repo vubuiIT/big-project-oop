@@ -193,26 +193,6 @@ public class Gui1_2_3Controller implements Initializable {
     // Xử lí khi import file
     @FXML
     private Button importButton;
-    public static boolean CheckChoices(String s) {
-        if(s.length() >= 4) {
-            if(s.charAt(0) >= 'A' && s.charAt(0) <= 'Z'){
-                if (s.charAt(1) =='.') {
-                    if(s.charAt(2) == ' ') {
-                        if(s.charAt(3) != ' ') return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-    public static boolean CheckAnswers(String s) {
-        if(s.length() >= 9) {
-            if(s.substring(0,8).equals("ANSWER: ")) {
-                if(s.charAt(8) >= 'A' && s.charAt(8) <= 'Z') return true;
-            }
-        }
-        return false;
-    }
     @FXML
     void importButtonActionPerformed(MouseEvent event) throws FileNotFoundException, IOException {
         String path = chosenfilepath.getText();

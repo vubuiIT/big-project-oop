@@ -1,5 +1,5 @@
 package com.example.demojavafx;
-//
+
 public class ChoiceAiken {
     String choiceText;
     double Grade;
