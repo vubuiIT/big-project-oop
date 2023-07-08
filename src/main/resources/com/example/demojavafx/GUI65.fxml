@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="623.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.GUI65Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="623.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.GUI65Controller">
    <children>
        <VBox layoutY="-4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="623.0" spacing="5.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.0">
            <padding>
@@ -27,7 +28,7 @@
                  <tabs>
                      <Tab text="Existing Category">
                         <content>
-                            <VBox prefHeight="516.0" prefWidth="561.0" spacing="5.0">
+                            <VBox prefHeight="557.0" prefWidth="603.0" spacing="5.0">
                                <children>
                                    <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="604.0">
                                       <children>
@@ -35,7 +36,7 @@
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin></Label>
-                                    <ChoiceBox fx:id="choicebox" onMouseClicked="#handleCategoryTreeview" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #595959FF;">
+                                    <ChoiceBox fx:id="choicebox" onMouseClicked="#handleCategoryTreeview" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #999993;">
                                        <HBox.margin>
                                           <Insets left="100.0" />
                                        </HBox.margin>
@@ -57,21 +58,32 @@
                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="604.0">
                                       <children>
                                           <Label style="-fx-font-size: 1.2em;" text="Number of random questions" />
-                                          <ComboBox fx:id="comboBox1" prefHeight="34.0" prefWidth="80.0" promptText="0" style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
+                                          <ComboBox fx:id="comboBox1" prefHeight="34.0" prefWidth="80.0" promptText="0" style="-fx-background-color: #FFFFFF; -fx-border-color: #999993;">
                                               <HBox.margin>
                                                   <Insets left="10.0" />
                                               </HBox.margin>
                                           </ComboBox>
                                       </children>
                                    </HBox>
-                              <VBox prefHeight="465.0" prefWidth="603.0">
+                              <VBox prefHeight="445.0" prefWidth="603.0">
                                  <children>
                                          <Label prefHeight="10.0" prefWidth="182.0" text="Questions matching this filter">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Pagination fx:id="showQues" nodeOrientation="LEFT_TO_RIGHT" prefHeight="461.0" prefWidth="603.0" />
+                                    <Pagination fx:id="showQues" maxPageIndicatorCount="1" nodeOrientation="LEFT_TO_RIGHT" pageCount="1" prefHeight="373.0" prefWidth="593.0" style="-fx-border-color: #999993;">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Pagination>
+                                    <Button fx:id="addQues" mnemonicParsing="false" prefHeight="37.0" prefWidth="67.0" style="-fx-background-color: #0088ff;" styleClass="Button" text="ADD " textFill="WHITE">
+                                       <VBox.margin>
+                                          <Insets left="480.0" top="2.0" />
+                                       </VBox.margin>
+                                    </Button>
                                  </children>
                               </VBox>
                                </children>
@@ -94,6 +106,6 @@
               </TabPane>
           </children>
        </VBox>
-      <TreeView fx:id="treeViewCategory" layoutX="198.0" layoutY="91.0" prefHeight="200.0" prefWidth="191.0" />
+      <TreeView fx:id="treeViewCategory" layoutX="198.0" layoutY="91.0" prefHeight="151.0" prefWidth="191.0" />
    </children>
 </AnchorPane>

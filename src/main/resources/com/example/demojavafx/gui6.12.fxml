@@ -256,7 +256,7 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" style="-fx-background-color: #1E90FF;" styleClass="Button" text="SELECT MULTIPLE ITEMS" textFill="WHITE" />
+                  <Button fx:id="multiDelete" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#handleMultidel" prefHeight="34.0" style="-fx-background-color: #1E90FF;" styleClass="Button" text="SELECT MULTIPLE ITEMS" textFill="WHITE" />
                   <Label layoutX="10.0" layoutY="22.0" text="Total of marks:">
                      <HBox.margin>
                         <Insets left="250.0" />
