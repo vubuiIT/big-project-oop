@@ -196,6 +196,8 @@ public class Gui1_2_3Controller implements Initializable {
             try {
                 AnchorPane quizBar = loader.load();
                 Hyperlink quizName = (Hyperlink) quizBar.lookup("#quizName");
+                // Add event listener to the Hyperlink
+                quizName.setOnAction(e -> openPreviewQuiz(quiz)); // Call openPreviewQuiz function with the current quiz
                 quizName.setText(quiz.getName());
                 quizVbox.getChildren().add(quizBar);
             } catch (IOException e) {
@@ -208,6 +210,27 @@ public class Gui1_2_3Controller implements Initializable {
 
 
 
+    }
+    private void openPreviewQuiz(Quiz quiz) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("gui6.12.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage
+            Stage previewStage = new Stage();
+            previewStage.setTitle("Quiz Preview");
+
+            Gui6_12Controller controller = loader.getController(); // Get the controller instance
+            controller.setVariable(quiz); // Pass the variable to the controller
+            // Set the loaded scene as the content for the new stage
+            previewStage.setScene(new Scene(root));
+
+            // Show the new stage
+            previewStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle any exceptions that occur during loading or showing the stage
+        }
     }
     @Override
     // 1.1 + 1.2 + 3.3

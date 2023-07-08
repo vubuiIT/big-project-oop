@@ -36,7 +36,8 @@ public class Gui6_12Controller implements Initializable {
 
     @FXML
     private Label numOfQues_lbl;
-
+    @FXML
+    private Label nameQuiz;
     @FXML
     private Button preview_btn;
 
@@ -51,9 +52,27 @@ public class Gui6_12Controller implements Initializable {
 
     @FXML
     private VBox vbox62;
+    public Quiz quiz; // Declare a variable to hold the passed value
+
+    // ...
+
+    public void setVariable(Quiz quiz) {
+        this.quiz = quiz; // Set the passed value to the variable
+        nameQuiz.setText(this.quiz.getName());
+        if (quiz.getEnableTimeLimit() == 1) {
+            String getTimeLimit = String.valueOf(quiz.getTimeLimit());
+            timeLimit_lbl.setText(getTimeLimit);
+        }
+        else {
+            timeLimit_lbl.setText("Unlimited");
+        }
+
+        // You can use this variable to initialize or update the GUI elements in your controller
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         editquiz.setOnMouseClicked(event -> {
             vbox61.setVisible(false);
             vbox62.setVisible(true);
