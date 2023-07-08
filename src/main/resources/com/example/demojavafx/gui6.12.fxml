@@ -77,7 +77,7 @@
          <children>
             <HBox prefHeight="23.0" prefWidth="609.0">
                <children>
-                  <Label prefHeight="28.0" prefWidth="403.0" text="Name of quiz editting" textFill="RED">
+                  <Label fx:id="nameQuiz" prefHeight="28.0" prefWidth="403.0" text="Name of quiz editting" textFill="RED">
                      <font>
                         <Font name="Times New Roman" size="24.0" />
                      </font>
