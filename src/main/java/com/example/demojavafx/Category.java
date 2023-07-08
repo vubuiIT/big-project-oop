@@ -30,9 +30,18 @@ public class Category {
     public String getName() {
         return name;
     }
-
+    private int amountQuesInCategory() {
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+        int amountQuestions = connector.amountQuestionsFromCategory(id);
+        connector.disconnect();
+        return amountQuestions;
+    }
     @Override
     public String toString() {
-        return name;
+        if (id != -2)
+            return name + " (" + amountQuesInCategory() + ")";
+        else
+            return name;
     }
 }
