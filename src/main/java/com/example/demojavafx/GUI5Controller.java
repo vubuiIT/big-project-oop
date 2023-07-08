@@ -1,14 +1,19 @@
 package com.example.demojavafx;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GUI5Controller implements Initializable {
@@ -75,6 +80,17 @@ public class GUI5Controller implements Initializable {
 
     @FXML
     private CheckBox Checkbox_Description;
+    @FXML
+    private Text warningText;
+    private BooleanProperty isCloseProperty = new SimpleBooleanProperty(false);
+    public BooleanProperty isCloseProperty() {
+        return isCloseProperty;
+    }
+
+    public void setIsClose(boolean value) {
+        isCloseProperty.set(value);
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -125,7 +141,9 @@ public class GUI5Controller implements Initializable {
         // Add hours to the ComboBox
         opnMin_comb.getItems().addAll(minList);
         clsMin_comb.getItems().addAll(minList);
+        warningText.setVisible(false);
     }
+
     private Stage stage;
 
     public void setStage(Stage stage) {
@@ -142,6 +160,46 @@ public class GUI5Controller implements Initializable {
         opnYear_comb.setDisable(!disableCombos);
     }
 
+
+    @FXML
+    void createQuiz(MouseEvent event) {
+        String name = name_fld.getText();
+        String desc = description_fld.getText();
+        int isShowDesc = Checkbox_Description.isSelected() ? 1 : 0;
+        int isHasTimeLimit = Checkbox_Timelimit.isSelected() ? 1 : 0;
+        if (Objects.equals(name, "")) {
+            warningText.setVisible(true);
+            warningText.setText("Name can not empty!");
+            return;
+        }
+        if (isHasTimeLimit == 1) {
+            int numTimLimit;
+            String timeLimit = timeLimit_fld.getText();
+            try {
+                numTimLimit = Integer.parseInt(timeLimit);
+
+            } catch (NumberFormatException e) {
+                warningText.setVisible(true);
+                warningText.setText("Time limit must be a integer!");
+                return;
+            }
+            DatabaseConnector connector = new DatabaseConnector();
+            connector.connect();
+            connector.addQuiz(name, desc, isShowDesc, isHasTimeLimit, numTimLimit);
+            Stage stage = (Stage) cancel_btn.getScene().getWindow();
+            stage.close();
+            setIsClose(true);
+        }
+        else {
+            DatabaseConnector connector = new DatabaseConnector();
+            connector.connect();
+            connector.addQuiz(name, desc, isShowDesc, isHasTimeLimit, 0);
+            Stage stage = (Stage) cancel_btn.getScene().getWindow();
+            stage.close();
+            setIsClose(true);
+        }
+
+    }
     @FXML
     private void handleCheckBoxClose(ActionEvent event) {
         boolean enableCombos = Checkbox_close.isSelected();

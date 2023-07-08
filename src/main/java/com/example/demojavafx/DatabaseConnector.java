@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseConnector {
+    private List<DatabaseChangeListener> listeners = new ArrayList<>();
     private Connection connection;
     private final String databaseName;
 
@@ -12,7 +13,19 @@ public class DatabaseConnector {
     public DatabaseConnector() {
         this.databaseName = "database.db";
     }
+    public void addDatabaseChangeListener(DatabaseChangeListener listener) {
+        listeners.add(listener);
+    }
 
+    public void removeDatabaseChangeListener(DatabaseChangeListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void notifyListeners() {
+        for (DatabaseChangeListener listener : listeners) {
+            listener.onDatabaseChange();
+        }
+    }
     public void connect() {
         try {
             // Load SQLite JDBC driver
@@ -277,7 +290,9 @@ public class DatabaseConnector {
 
         return choices;
     }
-    public void getQuiz() {
+    public List<Quiz> getQuiz() {
+        List<Quiz> quizzes = new ArrayList<>();
+
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Quiz");
@@ -290,13 +305,8 @@ public class DatabaseConnector {
                 int enableTimeLimit = resultSet.getInt("enable_time_limit");
                 int timeLimit = resultSet.getInt("time_limit");
 
-                System.out.println("Quiz ID: " + id);
-                System.out.println("Name: " + name);
-                System.out.println("Description: " + description);
-                System.out.println("Display Description: " + displayDescription);
-                System.out.println("Enable Time Limit: " + enableTimeLimit);
-                System.out.println("Time Limit: " + timeLimit);
-                System.out.println();
+                Quiz quiz = new Quiz(id, name, description, displayDescription, enableTimeLimit, timeLimit);
+                quizzes.add(quiz);
             }
 
             resultSet.close();
@@ -304,7 +314,34 @@ public class DatabaseConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return quizzes;
     }
+    public void addQuiz(String name, String description, Integer displayDes, Integer enableTimeLimit, Integer timeLimit) {
+        try {
+            // Tạo prepared statement với câu lệnh INSERT INTO
+            String sql = "INSERT INTO Quiz (name, description, display_description, enable_time_limit, time_limit) " +
+                    "VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            // Thiết lập giá trị cho các tham số của prepared statement
+            statement.setString(1, name);
+            statement.setString(2, description);
+            statement.setInt(3, displayDes);
+            statement.setInt(4, enableTimeLimit);
+            statement.setInt(5, timeLimit);
+
+            // Thực thi câu lệnh INSERT INTO
+            statement.executeUpdate();
+
+            System.out.println("Quiz added successfully.");
+
+            statement.close();
+        } catch (SQLException e) {
+            System.err.println("Failed to add quiz: " + e.getMessage());
+        }
+    }
+
     public void disconnect() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -327,6 +364,18 @@ public class DatabaseConnector {
         // Connect to the database
         connector.connect();
         connector.getQuiz();
+        List<Quiz> quizzes = connector.getQuiz();
+        // Print information of each quiz
+        for (Quiz quiz : quizzes) {
+            System.out.println("Quiz ID: " + quiz.getId());
+            System.out.println("Name: " + quiz.getName());
+            System.out.println("Description: " + quiz.getDescription());
+            System.out.println("Display Description: " + quiz.getDisplayDescription());
+            System.out.println("Enable Time Limit: " + quiz.getEnableTimeLimit());
+            System.out.println("Time Limit: " + quiz.getTimeLimit());
+            System.out.println();
+        }
+
 //         Perform database operations
 //         Demo add question
 //        int idQuestion = connector.addQuestion(3,"Lá cây có màu xanh","Vì sao lá cây có màu xanh","", 1.25F);

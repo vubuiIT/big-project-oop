@@ -13,12 +13,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextFormatter;
@@ -93,7 +98,8 @@ public class Gui1_2_3Controller implements Initializable {
     @FXML
     private TextArea infoCategoryTextfield;
     final boolean[] isTab2Popup = {false};
-
+    @FXML
+    private VBox quizVbox;
     @FXML
     /// Khi bấm Create a New Question - 3.2
     public void createQues(javafx.scene.input.MouseEvent mouseEvent) {
@@ -138,6 +144,11 @@ public class Gui1_2_3Controller implements Initializable {
 
             // Hiển thị cửa sổ mới
             stage.show();
+            controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    updateQuizShow();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -147,6 +158,8 @@ public class Gui1_2_3Controller implements Initializable {
     }
     @FXML
     private TextField idCategoryTextfield;
+    @FXML
+    private ScrollPane paneListQuiz;
     @FXML
     public Text showErrorText;
     private boolean addCategory(Integer parentID, String nameCategory,String infoCategory,String idCategory) throws InterruptedException {
@@ -173,6 +186,29 @@ public class Gui1_2_3Controller implements Initializable {
         connector.disconnect();
         return false;
     }
+    void updateQuizShow() {
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+        List<Quiz> quizs = connector.getQuiz();
+        quizVbox.getChildren().clear();
+        for (Quiz quiz: quizs) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("quizBar.fxml"));
+            try {
+                AnchorPane quizBar = loader.load();
+                Hyperlink quizName = (Hyperlink) quizBar.lookup("#quizName");
+                quizName.setText(quiz.getName());
+                quizVbox.getChildren().add(quizBar);
+            } catch (IOException e) {
+                System.out.print(e);
+                throw new RuntimeException(e);
+            }
+
+        }
+        connector.disconnect();
+
+
+
+    }
     @Override
     // 1.1 + 1.2 + 3.3
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -181,10 +217,10 @@ public class Gui1_2_3Controller implements Initializable {
         slider.setVisible(false);
         hoiPopup.setVisible(false);
         defaultPopup1.setVisible(false);
-
+        updateQuizShow();
         // Hiện question bank từ nút gear
         Menu.setOnMouseClicked(event -> {
-            list1.setVisible(false);
+            paneListQuiz.setVisible(false);
             slider.setVisible(true);
             Menu.setVisible(false);
             MenuBack.setVisible(true);
@@ -219,7 +255,7 @@ public class Gui1_2_3Controller implements Initializable {
         });
         // Quay về ban đầu
         MenuBack.setOnMouseClicked(event -> {
-            list1.setVisible(true);
+            paneListQuiz.setVisible(true);
             slider.setVisible(false);
             hoiPopup.setVisible(false);
             Menu.setVisible(true);
