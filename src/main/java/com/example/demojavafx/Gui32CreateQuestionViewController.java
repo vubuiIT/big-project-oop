@@ -338,27 +338,28 @@ public class Gui32CreateQuestionViewController implements Initializable {
             numChoices++;
             if(numChoices==1) {
                 choice1entry.setText(choice.getText());
-                grade1.setValue(Float.toString(choice.getGrade()));
+                grade1.setValue("100%");
             }
             if(numChoices==2) {
                 choice2entry.setText(choice.getText());
-                grade2.setValue(Float.toString(choice.getGrade()));
+                grade2.setValue("100%");
             }
             if(numChoices==3) {
                 choice3entry.setText(choice.getText());
-                grade3.setValue(Float.toString(choice.getGrade()));
+                grade3.setValue("100%");
             }
             if(numChoices==4) {
                 choice4entry.setText(choice.getText());
-                grade4.setValue(Float.toString(choice.getGrade()));
+                grade4.setValue("100%");
             }
             if(numChoices==5) {
                 choice5entry.setText(choice.getText());
-                grade5.setValue(Float.toString(choice.getGrade()));
+                grade5.setValue("100%");
             }
             if(numChoices>2) {
                 expand_more_choices();
             }
         }
+
     }
 }
