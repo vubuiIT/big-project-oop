@@ -101,6 +101,30 @@ public class Gui1_2_3Controller implements Initializable {
     @FXML
     private VBox quizVbox;
     @FXML
+    public void Create(Question question){
+        try {
+            // Tạo một Stage mới
+            Stage stage = new Stage();
+
+            // Tải file FXML mới
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("gui3.2-create-question-view.fxml"));
+            Parent root = loader.load();
+            Gui32CreateQuestionViewController controller = loader.getController();
+            controller.run(question);
+            controller.setStage(stage);
+
+            // Tạo một Scene từ Parent và đặt nó cho Stage
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Hiển thị cửa sổ mới
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     /// Khi bấm Create a New Question - 3.2
     public void createQues(javafx.scene.input.MouseEvent mouseEvent) {
         System.out.print("Test createQues");
@@ -162,6 +186,14 @@ public class Gui1_2_3Controller implements Initializable {
     private ScrollPane paneListQuiz;
     @FXML
     public Text showErrorText;
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    private CheckBox tick1;
+
+    @FXML
+    private HBox hbox;
     private boolean addCategory(Integer parentID, String nameCategory,String infoCategory,String idCategory) throws InterruptedException {
         // Create an instance of DatabaseConnector
         DatabaseConnector connector = new DatabaseConnector();
@@ -232,6 +264,55 @@ public class Gui1_2_3Controller implements Initializable {
             // Handle any exceptions that occur during loading or showing the stage
         }
     }
+    void updateQuesShow(Boolean type) {
+        int CategoryId=treeView.getIdChoice();
+        try {
+            VBox container = new VBox();
+            DatabaseConnector connector = new DatabaseConnector();
+            connector.connect();
+            List<Question> questions = connector.getQuestionsFromCategory(CategoryId);
+            for (Question question : questions) {
+                FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
+                Parent itemNode = itemLoader.load();
+                Label label = (Label) itemNode.lookup("#text");
+                label.setText(question.getName()+" : "+ question.getText());
+                Label edit= (Label) itemNode.lookup("#edit");
+                edit.setOnMouseClicked(event1 -> {
+                    Create(question);
+                });
+                container.getChildren().add(itemNode);
+            }
+            if(tick1.isSelected() == type){
+                try{
+                    List<Category> allCategory= connector.getCategories(CategoryId);
+                    for(Category category: allCategory)
+                    {
+                        List<Question> questionss = connector.getQuestionsFromCategory(category.getId());
+                        for (Question question : questionss) {
+                            FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
+                            Parent itemNode = itemLoader.load();
+                            Label label = (Label) itemNode.lookup("#text");
+                            label.setText(question.getName()+" : "+ question.getText());
+                            Label edit= (Label) itemNode.lookup("#edit");
+                            edit.setOnMouseClicked(event1 -> {
+                                Create(question);
+                            });
+                            container.getChildren().add(itemNode);
+                        }
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+            scrollPane.setContent(container);
+            scrollPane.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //Hiện all question trong category
+        hbox.setVisible(true);
+        scrollPane.setVisible(true);
+    }
     @Override
     // 1.1 + 1.2 + 3.3
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -255,6 +336,8 @@ public class Gui1_2_3Controller implements Initializable {
             hoiPopup.getSelectionModel().select(tab1);
             hoiPopup.setVisible(true);
             slider.setVisible(false);
+            scrollPane.setVisible(false);
+            hbox.setVisible(false);
         });
 
         // Hiện popup default
@@ -269,7 +352,13 @@ public class Gui1_2_3Controller implements Initializable {
                 isPopupVisible[0] = false;
             }
         });
-
+        tick1.setOnMousePressed(event -> {
+            updateQuesShow(false);
+        });
+        // Hiện questions từ category
+        defaultPopup1.setOnMousePressed(event -> {
+            updateQuesShow(true);
+        });
         // Ẩn popup default khi click bên ngoài
         defaultPopup1.getParent().setOnMouseClicked(event -> {
             if (!defaultPopup1.getBoundsInParent().contains(event.getX(), event.getY())) {
