@@ -16,7 +16,8 @@ import java.util.*;
 
 public class Gui32CreateQuestionViewController implements Initializable {
     private Stage stage;
-
+    private boolean isCreateQuestion = false;
+    private int idQuesCreate = -1;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -263,6 +264,65 @@ public class Gui32CreateQuestionViewController implements Initializable {
                 connector.addChoice(idQuestion, grade, "", cText);
             }
         }
+        isCreateQuestion = true;
+        idQuesCreate = idQuestion;
+        connector.disconnect();
+    }
+    void modifiedQuestion() {
+        int idCategory = treeView.getIdChoice();
+        String qText = questionText.getText();
+        String qName = questioNameField.getText();
+        String qMark = markField.getText();
+        float qMarkF = Float.parseFloat(qMark);
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+        int idQuestion = connector.addQuestion(idCategory,qText,qName,"",qMarkF);
+        String cText1 = choice1entry.getText();
+        String cText2 = choice2entry.getText();
+        String cText3 = choice3entry.getText();
+        String cText4 = choice4entry.getText();
+        String cText5 = choice5entry.getText();
+        String grade1Value = grade1.getValue();
+        String grade2Value = grade2.getValue();
+        String grade3Value = grade3.getValue();
+        String grade4Value = grade4.getValue();
+        String grade5Value = grade5.getValue();
+        for (int i = 1; i <= 5; i++) {
+            String cText = null;
+            String gradeValue = null;
+            switch (i) {
+                case 1 -> {
+                    cText = cText1;
+                    gradeValue = grade1Value;
+                }
+                case 2 -> {
+                    cText = cText2;
+                    gradeValue = grade2Value;
+                }
+                case 3 -> {
+                    cText = cText3;
+                    gradeValue = grade3Value;
+                }
+                case 4 -> {
+                    cText = cText4;
+                    gradeValue = grade4Value;
+                }
+                case 5 -> {
+                    cText = cText5;
+                    gradeValue = grade5Value;
+                }
+            }
+            System.out.print(cText + ' ' + gradeValue + '\n');
+            if (!cText.isEmpty()) {
+                float grade = 0;
+                if (Objects.equals(gradeValue, "None"))
+                    grade = 0;
+                else
+                    grade = convertPercentage(gradeValue);
+                connector.addChoice(idQuestion, grade, "", cText);
+            }
+        }
+        isCreateQuestion = true;
         connector.disconnect();
     }
     @FXML
@@ -277,7 +337,10 @@ public class Gui32CreateQuestionViewController implements Initializable {
     void saveChange(MouseEvent event) {
         boolean validAddQuestion = checkValidAddQuestion();
         if (validAddQuestion) {
-            createQuestion();
+            if (isCreateQuestion)
+                modifiedQuestion();
+            else
+                createQuestion();
             closeStage();
         }
         else {
@@ -289,7 +352,16 @@ public class Gui32CreateQuestionViewController implements Initializable {
     }
     @FXML
     void saveContinueEdit(MouseEvent event) {
-
+        boolean validAddQuestion = checkValidAddQuestion();
+        if (validAddQuestion) {
+            if (isCreateQuestion)
+                modifiedQuestion();
+            else
+                createQuestion();
+        }
+        else {
+            System.out.print("Not valid");
+        }
     }
     @FXML
     void addchoice(MouseEvent event) {
@@ -301,12 +373,12 @@ public class Gui32CreateQuestionViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         treeView = new TreeViewCategory(categoryTreeView,categoryChoiceBox);
         treeView.start();
-        missingCategories.setVisible(false);
-        missingChoices.setVisible(false);
-        missingMark.setVisible(false);
-        missingName.setVisible(false);
-        missingText.setVisible(false);
-        warningText.setVisible(false);
+//        missingCategories.setVisible(false);
+//        missingChoices.setVisible(false);
+//        missingMark.setVisible(false);
+//        missingName.setVisible(false);
+//        missingText.setVisible(false);
+//        warningText.setVisible(false);
         List<String> gradeList = new ArrayList<>(Arrays.asList("None", "100%", "90%", "83.33333%", "80%", "75%", "70%", "66.66667%", "60%", "50%", "40%", "33.3333%", "30%", "25%", "20%", "16.66667%", "14.28571%", "12.5%", "11.11111%", "10%", "5%","-5%", "-10%", "-11.11111%", "-12.5%", "-14.28571%", "-16.66667%", "-20%", "-25%", "-30%", "-33.3333%", "-40%", "-50%", "-60%", "-66.66667%", "-70%", "-75%", "-80%", "-83.33333%"));
         grade1.getItems().addAll(gradeList);
         grade1.setValue("None");

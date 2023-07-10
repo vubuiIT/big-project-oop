@@ -113,7 +113,7 @@ public class Gui1_2_3Controller implements Initializable {
             controller.run(question);
             controller.setStage(stage);
 
-            // Tạo một Scene từ Parent và đặt nó cho Stage
+            // Tạo một Scenetừ Parent và đặt nó cho Stage
             Scene scene = new Scene(root);
             stage.setScene(scene);
 
