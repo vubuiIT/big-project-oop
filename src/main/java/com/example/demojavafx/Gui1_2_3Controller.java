@@ -1,6 +1,6 @@
 package com.example.demojavafx;
 
-import com.almasb.fxgl.entity.Entity;
+//import com.almasb.fxgl.entity.Entity;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.css.converter.StringConverter;
