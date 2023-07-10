@@ -80,7 +80,6 @@ public class Gui6_12Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         editquiz.setOnMouseClicked(event -> {
             vbox61.setVisible(false);
             vbox62.setVisible(true);
@@ -131,16 +130,16 @@ public class Gui6_12Controller implements Initializable {
                 stage.setTitle("Add a random question to page 1");
                 stage.setScene(scene);
                 stage.show();
-//                controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
-//                    if (newValue) {
-//                        List<HBox> selectedBoxes = controller.getSelectedBoxes();
-//                        try {
-//                            updateQuestionList(selectedBoxes);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
+                controller.isCloseProperty().addListener((observable1, oldValue1, newValue1) -> {
+                    if (newValue1) {
+                        List<HBox> selectedBoxes1 = controller.getSelectedBoxes();
+                        try {
+                            updateQuestionList(selectedBoxes1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -161,20 +160,20 @@ public class Gui6_12Controller implements Initializable {
                 }
                 listQues.getChildren().clear();
                 for (HBox hbox : boxChoice1) {
-                        Label nameLabel = (Label) hbox.lookup("#name_lb");
-                        Label textLabel = (Label) hbox.lookup("#text_lbl");
-                        Label quesId = (Label) hbox.lookup("#quesID_lbl");
-                        String name = nameLabel.getText();
-                        String text = textLabel.getText();
-                        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("63boxfind.fxml"));
-                        HBox boxtick = loader1.load();
-                        Label nameLabel1 = (Label) boxtick.lookup("#name_lb");
-                        Label textLabel1 = (Label) boxtick.lookup("#text_lbl");
-                        Label quesId1 = (Label) boxtick.lookup("#id_lbl");
-                        nameLabel1.setText(name);
-                        textLabel1.setText(text);
-                        quesId1.setUserData(quesId.getUserData());
-                        listQues.getChildren().add(boxtick);
+                    Label nameLabel = (Label) hbox.lookup("#name_lb");
+                    Label textLabel = (Label) hbox.lookup("#text_lbl");
+                    Label quesId = (Label) hbox.lookup("#quesID_lbl");
+                    String name = nameLabel.getText();
+                    String text = textLabel.getText();
+                    FXMLLoader loader1 = new FXMLLoader(getClass().getResource("63boxfind.fxml"));
+                    HBox boxtick = loader1.load();
+                    Label nameLabel1 = (Label) boxtick.lookup("#name_lb");
+                    Label textLabel1 = (Label) boxtick.lookup("#text_lbl");
+                    Label quesId1 = (Label) boxtick.lookup("#id_lbl");
+                    nameLabel1.setText(name);
+                    textLabel1.setText(text);
+                    quesId1.setUserData(quesId.getUserData());
+                    listQues.getChildren().add(boxtick);
                 }
                 multiDelete.setText("DELETE");
                 isDelete=true;
