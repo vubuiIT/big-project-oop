@@ -82,11 +82,11 @@ public class GUI65Controller implements Initializable {
             connector.disconnect();
 
             //chọn số câu random
-                comboBoxSelected = true;
-                for (int i = 0; i <= questions.size(); i++) {
-                    indexList.add(i);
-                }
-                comboBox1.setItems(FXCollections.observableArrayList(indexList));
+            comboBoxSelected = true;
+            for (int i = 0; i <= questions.size(); i++) {
+                indexList.add(i);
+            }
+            comboBox1.setItems(FXCollections.observableArrayList(indexList));
 
             // in câu
             comboBox1.getSelectionModel().selectedItemProperty().addListener((observable1, oldValue1, newValue1) -> {
