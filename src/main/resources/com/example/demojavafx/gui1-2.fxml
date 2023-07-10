@@ -6,9 +6,12 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -30,6 +33,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui1_2_3Controller">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-253.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="884.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="154.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="623.0" />
       <MenuButton layoutX="516.0" layoutY="3.0" mnemonicParsing="false" text="Users">
@@ -226,7 +231,7 @@
                               <ChoiceBox fx:id="tab2Click" layoutX="20.0" layoutY="15.0" prefHeight="25.0" prefWidth="203.0" />
                               <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../icons/question%20mark.png" />
+                                    <Image url="@../../../icons/question mark.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -284,7 +289,7 @@
                            <children>
                               <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../icons/question%20mark.png" />
+                                    <Image url="@../../../icons/question mark.png" />
                                  </image>
                               </ImageView>
                               <TextField fx:id="idCategoryTextfield" layoutX="20.0" layoutY="6.0" prefHeight="25.0" prefWidth="86.0" />
@@ -313,7 +318,78 @@
             </Tab>
             <Tab fx:id="tab3" text="Import">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane prefHeight="392.0" prefWidth="607.0" style="-fx-border-color: WHITE;">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" text="Import question from file" textFill="#e80000">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Pane layoutX="7.0" layoutY="51.0" prefHeight="38.0" prefWidth="594.0">
+                                 <children>
+                                    <ImageView fitHeight="38.0" fitWidth="9.0" layoutX="9.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dropdownicon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="26.0" layoutY="11.0" text="File format" textFill="#e80000" />
+                                    <Label layoutX="297.0" layoutY="11.0" text="Aiken format" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="7.0" layoutY="89.0" prefHeight="38.0" prefWidth="594.0">
+                                 <children>
+                                    <ImageView fitHeight="38.0" fitWidth="9.0" layoutX="9.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dropdownicon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="26.0" layoutY="11.0" text="General" textFill="#e80000" />
+                                    <Separator layoutY="-2.0" prefHeight="4.0" prefWidth="594.0" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="7.0" layoutY="129.0" prefHeight="38.0" prefWidth="594.0">
+                                 <children>
+                                    <ImageView fitHeight="38.0" fitWidth="9.0" layoutX="9.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dropdownicon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="26.0" layoutY="11.0" text="Import question from file" textFill="#e80000" />
+                                 </children>
+                              </Pane>
+                              <Separator layoutX="7.0" layoutY="125.0" prefHeight="4.0" prefWidth="594.0" />
+                              <Label layoutX="14.0" layoutY="171.0" text="Import" />
+                              <Button fx:id="choosefileButton" layoutX="304.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#choosefileButtonActionPerformed" style="-fx-background-color: #2999ff;" text="CHOOSE A FILE" textFill="WHITE" />
+                              <Label layoutX="409.0" layoutY="171.0" text="Maximum for new files: 100MB " />
+                              <Pane fx:id="dragfilePane" layoutX="304.0" layoutY="196.0" onDragDropped="#handleDrop" onDragOver="#handleDragOver" prefHeight="91.0" prefWidth="298.0" style="-fx-border-color: BLACK;">
+                                 <children>
+                                    <ImageView fitHeight="23.0" fitWidth="22.0" layoutX="138.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/downsidearrow.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="28.0" layoutY="51.0" text="You can drag and drop files here to add them" />
+                                 </children>
+                              </Pane>
+                              <Label layoutX="304.0" layoutY="296.0" text="Chosen file: " />
+                              <Label fx:id="chosenfilepath" layoutX="368.0" layoutY="296.0" prefHeight="17.0" prefWidth="234.0" />
+                              <Button fx:id="importButton" layoutX="304.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#importButtonActionPerformed" style="-fx-background-color: #e80000;" text="IMPORT" textFill="WHITE" />
+                              <Label layoutX="207.0" layoutY="354.0" text="There are required fields in this form marked" />
+                              <ImageView fitHeight="10.0" fitWidth="11.0" layoutX="448.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/erroricon.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="10.0" fitWidth="11.0" layoutX="286.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/erroricon.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab fx:id="tab4" text="Export">
