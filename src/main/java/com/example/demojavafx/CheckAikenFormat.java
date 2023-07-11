@@ -209,12 +209,29 @@ public class CheckAikenFormat {
         }
     }
 
-    public static boolean CheckChoicesDocx(String s) {
-        if(s.length() >= 4) {
+    public static List<BufferedImage> getImagefromPara(XWPFParagraph para) throws IOException {
+        List<XWPFRun> runs = para.getRuns();
+        List<XWPFPicture> pics = new ArrayList<>();
+        // Set image for Quiz
+        for(XWPFRun run : runs) {
+            pics.addAll(run.getEmbeddedPictures());
+        }
+        List<BufferedImage> imageList = new ArrayList<>();
+        for(XWPFPicture pic : pics) {
+            byte[] data = pic.getPictureData().getData();
+            BufferedImage img = ImageIO.read(new ByteArrayInputStream(data));
+            imageList.add(img);
+        }
+        return imageList;
+    }
+    public static boolean CheckChoicesDocx(XWPFParagraph para) throws IOException {
+        String s = para.getText();
+        List<BufferedImage> imgs = getImagefromPara(para);
+        if(s.length() >= 3) {
             if(s.charAt(0) >= 'A' && s.charAt(0) <= 'Z'){
                 if (s.charAt(1) =='.') {
                     if(s.charAt(2) == ' ') {
-                        if(s.charAt(3) != ' ') return true;
+                        if((s.length() >=4 && s.charAt(3) != ' ') || imgs.size() > 0) return true;
                     }
                 }
             }
@@ -245,19 +262,9 @@ public class CheckAikenFormat {
                 // If there's still para to read
                 if(paraIterator < paras.size()) {
                     String s = paras.get(paraIterator).getText();
-                    List<XWPFRun> runs = paras.get(paraIterator).getRuns();
-                    List<XWPFPicture> pics = new ArrayList<>();
-                    // Set image for Quiz
-                    for(XWPFRun run : runs) {
-                        pics.addAll(run.getEmbeddedPictures());
-                    }
-                    for(XWPFPicture pic : pics) {
-                        byte[] data = pic.getPictureData().getData();
-                        BufferedImage img = ImageIO.read(new ByteArrayInputStream(data));
-                        quiz.setIllustrator(img);
-                    }
+                    List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
                     // If the paragraph is empty -> error
-                    if(s.isEmpty() && quiz.Illustrators.size() == 0) {
+                    if(s.isEmpty() && imgs.size() == 0) {
                         JOptionPane.showMessageDialog(null, "Error found at line" + (paraIterator + 1));
                         doc.close();
                         errorFlag = true;
@@ -266,6 +273,7 @@ public class CheckAikenFormat {
                     }
                     else {
                         quiz.setQuestion(s);
+                        quiz.setIllustrator(imgs);
                         paraIterator++;
                     }
                 }
@@ -280,18 +288,11 @@ public class CheckAikenFormat {
                 // Read 2nd para (expecting choices)
                 // If there's a para
                 if(paraIterator < paras.size()) {
-                    String s = paras.get(paraIterator).getText();
-                    // If the para is empty
-                    if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
-                        doc.close();
-                        errorFlag = true;
-                        fileOpenFlag = false;
-                        break;
-                    }
                     // If the para has choices format
-                    else if(CheckChoicesDocx(s)) {
-                        choicesList.add(new ChoiceAiken(s));
+                    if(CheckChoicesDocx(paras.get(paraIterator))) {
+                        String s = paras.get(paraIterator).getText();
+                        List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
+                        choicesList.add(new ChoiceAiken(s,imgs));
                         paraIterator++;
                     }
                     else {
@@ -313,18 +314,11 @@ public class CheckAikenFormat {
                 // Read 3rd para (expecting choices)
                 // If there's still para to read
                 if(paraIterator < paras.size()) {
-                    String s = paras.get(paraIterator).getText();
-                    // If the para is empty
-                    if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
-                        doc.close();
-                        errorFlag = true;
-                        fileOpenFlag = false;
-                        break;
-                    }
                     // If the para has choices format
-                    else if(CheckChoicesDocx(s)) {
-                        choicesList.add(new ChoiceAiken(s));
+                    if(CheckChoicesDocx(paras.get(paraIterator))) {
+                        String s = paras.get(paraIterator).getText();
+                        List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
+                        choicesList.add(new ChoiceAiken(s,imgs));
                         paraIterator++;
                     }
                     else {
@@ -356,8 +350,9 @@ public class CheckAikenFormat {
                         break;
                     }
                     // If choice
-                    else if(CheckChoicesDocx(s)) {
-                        choicesList.add(new ChoiceAiken(s));
+                    else if(CheckChoicesDocx(paras.get(paraIterator))) {
+                        List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
+                        choicesList.add(new ChoiceAiken(s,imgs));
                         paraIterator++;
                         continue;
                     }
@@ -368,9 +363,9 @@ public class CheckAikenFormat {
                         for(ChoiceAiken ch:choicesList) {
                             if(ans == ch.getChoiceText().charAt(0)) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
-                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),1));
+                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),1));
                             }
-                            else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),0));
+                            else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),0));
                         }
                         paraIterator++;
                         // If next para is empty, continue the loop to check new quiz
