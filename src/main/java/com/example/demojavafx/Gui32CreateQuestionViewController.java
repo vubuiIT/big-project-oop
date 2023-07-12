@@ -18,7 +18,8 @@ import java.util.*;
 
 public class Gui32CreateQuestionViewController implements Initializable {
     private Stage stage;
-
+    private boolean isCreateQuestion;
+    private int idQuesCreate;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
