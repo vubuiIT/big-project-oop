@@ -70,13 +70,14 @@ public class Gui6_3Controller implements Initializable {
         treeView = new TreeViewCategory(treeViewCategory, choiceboxCategory);
         treeView.start();
 
-            treeViewCategory.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        treeViewCategory.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             clear63BoxFind();
             int categoryId = treeView.getIdChoice();
             DatabaseConnector connector = new DatabaseConnector();
 
             // Connect to the database
             connector.connect();
+
             List<Question> questions = connector.getQuestionsFromCategory(categoryId);
 
             // Print the questions
@@ -88,7 +89,6 @@ public class Gui6_3Controller implements Initializable {
                     Label nameLabel = (Label) boxFind.lookup("#name_lb");
                     Label textLabel = (Label) boxFind.lookup("#text_lbl");
                     Label quesId = (Label) boxFind.lookup("#id_lbl");
-                    CheckBox questiontick = (CheckBox) boxFind.lookup("#question_cbx");
                     quesId.setUserData(question.getId());
                     nameLabel.setText(question.getName());
                     textLabel.setText(question.getText());
@@ -97,7 +97,45 @@ public class Gui6_3Controller implements Initializable {
                     e.printStackTrace();
                 }
             }
+
+            // Disconnect from the database after retrieving questions
             connector.disconnect();
+
+            List<HBox> addedBoxes = new ArrayList<>();
+            alsoShowctg.selectedProperty().addListener((observable1, oldValue1, newValue1) -> {
+                if (newValue1) {
+                    // Xử lý khi CheckBox được chọn
+                    try {
+                        connector.connect();
+                        List<Category> allCategory = connector.getCategories(categoryId);
+
+                        for (Category category : allCategory) {
+                            List<Question> questionss = connector.getQuestionsFromCategory(category.getId());
+                            for (Question question : questionss) {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("63boxfind.fxml"));
+                                HBox boxFind = loader.load();
+                                // Truy cập vào label theo ID và thay đổi nội dung
+                                Label nameLabel = (Label) boxFind.lookup("#name_lb");
+                                Label textLabel = (Label) boxFind.lookup("#text_lbl");
+                                Label quesId = (Label) boxFind.lookup("#id_lbl");
+                                quesId.setUserData(question.getId());
+                                nameLabel.setText(question.getName());
+                                textLabel.setText(question.getText());
+                                showQuesvbox.getChildren().add(boxFind);
+
+                                addedBoxes.add(boxFind);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        connector.disconnect();
+                    }
+                } else {
+                    showQuesvbox.getChildren().removeAll(addedBoxes);
+                    addedBoxes.clear();
+                }
+            });
         });
         // thêm các ques được chọn khi nhấn add ques
         addQues.setOnAction(event -> {

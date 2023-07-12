@@ -35,7 +35,6 @@ public class GUI65Controller implements Initializable {
     @FXML
     private Pagination showQues;
     List<Integer> indexList = new ArrayList<>();
-    private boolean comboBoxSelected = false;
     private Stage stage;
 
     @FXML
@@ -81,12 +80,51 @@ public class GUI65Controller implements Initializable {
             List<Question> questions = connector.getQuestionsFromCategory(categoryId);
             connector.disconnect();
 
+            List<Question> daChon = new ArrayList<>();
             //chọn số câu random
-                comboBoxSelected = true;
-                for (int i = 0; i <= questions.size(); i++) {
-                    indexList.add(i);
+            for (int i = 0; i <= questions.size(); i++) {
+                indexList.add(i);
+            }
+            comboBox1.setItems(FXCollections.observableArrayList(indexList));
+
+            Include_ckb.selectedProperty().addListener((observable1, oldValue1, newValue1) -> {
+                if (newValue1) {
+                    showQues.setPageFactory(null);
+                    daChon.clear();
+                    // Xử lý khi CheckBox được chọn
+                    connector.connect();
+                    try {
+                        List<Category> allCategory = connector.getCategories(categoryId);
+                        for (Category category : allCategory) {
+                            List<Question> questionss = connector.getQuestionsFromCategory(category.getId());
+                            System.out.println(""+questions.size());
+
+                            //chọn số câu random
+                            comboBox1.setValue(null);
+                        indexList.clear();
+                         for (int i = 0; i <= questionss.size()+ questions.size(); i++) {
+                            indexList.add(i);
+                        }
+                        comboBox1.setItems(FXCollections.observableArrayList(indexList));
+                            questions.addAll(questionss);
+                            daChon.addAll(questionss);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        connector.disconnect();
+                    }
+                } else {
+                        showQues.setPageFactory(null);
+                        questions.removeAll(daChon);
+                        //chọn số câu random
+                        indexList.clear();
+                         for (int i = 0; i <= questions.size(); i++) {
+                            indexList.add(i);
+                        }
+                        comboBox1.setItems(FXCollections.observableArrayList(indexList));
                 }
-                comboBox1.setItems(FXCollections.observableArrayList(indexList));
+            });
 
             // in câu
             comboBox1.getSelectionModel().selectedItemProperty().addListener((observable1, oldValue1, newValue1) -> {

@@ -17,8 +17,8 @@
             <Font name="Times New Roman" size="16.0" />
          </font></Text>
       <ChoiceBox fx:id="choiceboxCategory" layoutX="141.0" layoutY="11.0" onMouseClicked="#handleCategoryTreeview" prefHeight="34.0" prefWidth="137.0" style="-fx-background-color: white; -fx-border-color: #595959FF;" />
-      <CheckBox fx:id="alsoShowctg" layoutX="21.0" layoutY="58.0" mnemonicParsing="false" stylesheets="@../../../../../../../../Styles/CheckBox.css" text="Also show questions from sub category" />
-      <CheckBox layoutX="21.0" layoutY="79.0" mnemonicParsing="false" stylesheets="@../../../../../../../../Styles/CheckBox.css" text="Also show old questions" />
+      <CheckBox fx:id="alsoShowctg" layoutX="21.0" layoutY="58.0" mnemonicParsing="false" text="Also show questions from sub category" />
+      <CheckBox layoutX="21.0" layoutY="79.0" mnemonicParsing="false" text="Also show old questions" />
       <ScrollPane layoutX="-1.0" layoutY="102.0" prefHeight="351.0" prefWidth="593.0">
          <content>
             <VBox fx:id="showQuesvbox" prefHeight="347.0" prefWidth="591.0" style="-fx-background-color: white;" />
