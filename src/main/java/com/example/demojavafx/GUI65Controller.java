@@ -35,7 +35,6 @@ public class GUI65Controller implements Initializable {
     @FXML
     private Pagination showQues;
     List<Integer> indexList = new ArrayList<>();
-    private boolean comboBoxSelected = false;
     private Stage stage;
 
     @FXML
@@ -81,12 +80,14 @@ public class GUI65Controller implements Initializable {
             List<Question> questions = connector.getQuestionsFromCategory(categoryId);
             connector.disconnect();
 
+            List<Question> daChon = new ArrayList<>();
             //chọn số câu random
-            comboBoxSelected = true;
+
             for (int i = 0; i <= questions.size(); i++) {
                 indexList.add(i);
             }
             comboBox1.setItems(FXCollections.observableArrayList(indexList));
+
 
             // in câu
             comboBox1.getSelectionModel().selectedItemProperty().addListener((observable1, oldValue1, newValue1) -> {
