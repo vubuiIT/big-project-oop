@@ -93,7 +93,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
     private Button addchoicebtn;
 
     @FXML
-    private GridPane gridPane;
+    public GridPane gridPane;
 
     @FXML
     private ScrollPane scrollPane;

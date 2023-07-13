@@ -12,6 +12,10 @@ module com.example.demojavafx {
             requires com.almasb.fxgl.all;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
+    requires io;
+    requires kernel;
+    requires layout;
+    requires java.desktop;
 
     opens com.example.demojavafx to javafx.fxml;
     exports com.example.demojavafx;

@@ -4,11 +4,14 @@ import com.almasb.fxgl.entity.Entity;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.css.converter.StringConverter;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -16,11 +19,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -29,7 +35,12 @@ import java.util.ResourceBundle;
 import javafx.scene.control.TextFormatter;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
-
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.*;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
 public class Gui1_2_3Controller implements Initializable {
     final boolean[] isPopupVisible = {false};
 
@@ -145,6 +156,38 @@ public class Gui1_2_3Controller implements Initializable {
 
             // Hiển thị cửa sổ mới
             stage.show();
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)","*.pdf"));
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                PdfWriter pdfWriter = new PdfWriter(file);
+                PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+
+                PageSize pageSize = PageSize.A4;
+                float pageHeight = pageSize.getHeight(); // 842
+                float pageWidth = pageSize.getWidth(); // 595
+
+                Document document = new Document(pdfDocument, pageSize);
+                document.setMargins(50, 30, 50, 70);
+
+                WritableImage snapImage = controller.gridPane.snapshot(new SnapshotParameters(), null);
+                BufferedImage bufferedImage = SwingFXUtils.fromFXImage(snapImage,null);
+                int curr_y = 0;
+                while (curr_y < bufferedImage.getHeight()) {
+                    // Crop ảnh thành những ảnh nhỏ tỉ lệ với 1 trang PDF
+                    int h = (int) (pageHeight * (float) bufferedImage.getWidth() / pageWidth);
+                    if (curr_y + h > bufferedImage.getHeight()) h = bufferedImage.getHeight() - curr_y;
+                    BufferedImage subImage = bufferedImage.getSubimage(0, curr_y, bufferedImage.getWidth(), h);
+                    ImageData imgdata = ImageDataFactory.create(subImage, null);
+                    Image img = new Image(imgdata);
+                    img.scaleToFit(pageWidth - 100, pageHeight - 100);
+                    document.add(img);
+                    curr_y += h;
+                }
+                document.close();
+            }
+            stage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
