@@ -12,6 +12,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class CheckAikenFormat {
     public static boolean CheckChoicesTxt(String s) {
@@ -156,10 +157,15 @@ public class CheckAikenFormat {
                     }
                     // If answer
                     else if(CheckAnswersTxt(s)){
-                        char ans = s.charAt(8);
+                        List<Character> ans = new ArrayList<>();
+                        for(int i=8;i<s.length();i++) {
+                            if(s.charAt(i)<='Z' && s.charAt(i)>='A') {
+                                if(!ans.contains(s.charAt(i))) ans.add(s.charAt(i));
+                            }
+                        }
                         // Modify each choice in the choicesList: remove the header and set grade
                         for(ChoiceAiken ch:choicesList) {
-                            if(ans == ch.getChoiceText().charAt(0)) {
+                            if(ans.contains(ch.getChoiceText().charAt(0))) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
                                 quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),1));
                             }
@@ -358,12 +364,17 @@ public class CheckAikenFormat {
                     }
                     // If answer
                     else if(CheckAnswersDocx(s)){
-                        char ans = s.charAt(8);
+                        List<Character> ans = new ArrayList<>();
+                        for(int i=8;i<s.length();i++) {
+                            if(s.charAt(i)<='Z' && s.charAt(i)>='A') {
+                                if(!ans.contains(s.charAt(i))) ans.add(s.charAt(i));
+                            }
+                        }
                         // Modify each choice in the choicesList: remove the header and set grade
                         for(ChoiceAiken ch:choicesList) {
-                            if(ans == ch.getChoiceText().charAt(0)) {
+                            if(ans.contains(ch.getChoiceText().charAt(0))) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
-                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),1));
+                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),1.0 / ans.size()));
                             }
                             else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),0));
                         }
