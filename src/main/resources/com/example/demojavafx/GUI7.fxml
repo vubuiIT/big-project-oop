@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.GUI7Attempt">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.GUI7Attempt">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="119.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="554.0" layoutX="-1.0" layoutY="130.0" stroke="BLACK" strokeType="INSIDE" width="381.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="119.0" layoutX="10.0" stroke="#595959" strokeType="INSIDE" width="982.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="554.0" layoutX="9.0" layoutY="130.0" stroke="#595959" strokeType="INSIDE" width="719.0" />
       <Text fill="#e80000" layoutX="14.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IT" textAlignment="CENTER" wrappingWidth="80.193359375">
          <font>
             <Font name="System Bold" size="36.0" />
@@ -20,14 +26,16 @@
             <Font size="15.0" />
          </font>
       </Text>
-      <Label fx:id="timecountdown" layoutX="258.0" layoutY="139.0" prefHeight="19.0" prefWidth="122.0" style="-fx-border-color: red;" text="Time left  " textAlignment="CENTER" />
-      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" layoutX="-1.0" layoutY="167.0" prefHeight="515.0" prefWidth="381.0" style="-fx-border-color: black;">
+      <Label fx:id="timecountdown" layoutX="572.0" layoutY="132.0" prefHeight="42.0" prefWidth="154.0" style="-fx-border-color: red;" text="Time left  " textAlignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="184.0" prefHeight="500.0" prefWidth="718.0" style="-fx-border-color: #595959FF;">
         <content>
-          <VBox minHeight="0.0" minWidth="0.0" prefHeight="526.0" prefWidth="377.0" />
+          <VBox minHeight="0.0" minWidth="0.0" prefHeight="505.0" prefWidth="716.0" />
         </content>
       </ScrollPane>
-      <FlowPane fx:id="flowPane" hgap="10.0" layoutX="390.0" layoutY="170.0" prefHeight="515.0" prefWidth="209.0" style="-fx-border-color: BLACK;" stylesheets="@Style.css" vgap="10.0" />
-      <Label layoutX="390.0" layoutY="128.0" prefHeight="42.0" prefWidth="209.0" style="-fx-background-color: #f8f5f5; -fx-border-color: black;" text="Quiz navigation" textAlignment="CENTER" textFill="RED">
+      <Label layoutX="750.0" layoutY="129.0" prefHeight="49.0" prefWidth="251.0" style="-fx-background-color: #f8f5f5; -fx-border-color: #595959FF;" text="Quiz navigation" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="19.0" />
          </font>
@@ -35,5 +43,12 @@
             <Insets left="10.0" />
          </padding>
       </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="496.0" layoutX="750.0" layoutY="187.0" stroke="#595959" strokeType="INSIDE" width="251.0" />
+      <FlowPane fx:id="flowPane" hgap="10.0" layoutX="762.0" layoutY="243.0" prefHeight="429.0" prefWidth="232.0" stylesheets="@Style.css" vgap="10.0" />
+      <ImageView fitHeight="53.0" fitWidth="45.0" layoutX="759.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../icons/users.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
@@ -18,6 +19,7 @@ import java.util.*;
 
 import javafx.scene.input.MouseEvent;
 
+import javax.swing.text.html.ImageView;
 import java.beans.EventHandler;
 
 
@@ -55,6 +57,14 @@ public class Gui6_12Controller implements Initializable {
 
     @FXML
     private VBox vbox61;
+    @FXML
+    private GridPane attempt;
+    @FXML
+    private Button close;
+    @FXML
+    private Button cancel;
+    @FXML
+    private Button start;
 
     @FXML
     private VBox vbox62;
@@ -140,6 +150,34 @@ public class Gui6_12Controller implements Initializable {
                         }
                     }
                 });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        // mở start attempt
+        attempt.setVisible(false);
+        preview_btn.setOnAction(event ->{
+            attempt.setVisible(true);
+        });
+        cancel.setOnAction(event ->{
+            attempt.setVisible(false);
+        });
+        close.setOnAction(event ->{
+            attempt.setVisible(false);
+        });
+        start.setOnAction(event ->{
+            try {
+                Stage stage = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI7.fxml"));
+                Parent root = loader.load();
+
+                GUI7Attempt controller = loader.getController();
+                controller.setStage(stage);
+
+                Scene scene = new Scene(root);
+                stage.setTitle("Attempt quiz");
+                stage.setScene(scene);
+                stage.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }

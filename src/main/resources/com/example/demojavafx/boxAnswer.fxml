@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="74.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="correctanswer" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="574.0" style="-fx-background-color: #e1dba5;" text="Label" textFill="#5a5b1a" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="15.0" top="5.0" />
+         </padding>
+         <HBox.margin>
+            <Insets left="125.0" right="10.0" top="10.0" />
+         </HBox.margin>
+      </Label>
+   </children>
+</HBox>

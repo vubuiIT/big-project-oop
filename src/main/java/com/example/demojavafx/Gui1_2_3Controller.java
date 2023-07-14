@@ -239,9 +239,6 @@ public class Gui1_2_3Controller implements Initializable {
 
         }
         connector.disconnect();
-
-
-
     }
     private void openPreviewQuiz(Quiz quiz) {
         try {
