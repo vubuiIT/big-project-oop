@@ -41,6 +41,9 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
+
+import javax.swing.*;
+
 public class Gui1_2_3Controller implements Initializable {
     final boolean[] isPopupVisible = {false};
 
@@ -186,6 +189,12 @@ public class Gui1_2_3Controller implements Initializable {
                     curr_y += h;
                 }
                 document.close();
+
+                int option = JOptionPane.showConfirmDialog(null,"Do you want to set password for the file?",null,JOptionPane.YES_NO_OPTION);
+                if(option == JOptionPane.YES_OPTION) {
+                    String password = JOptionPane.showInputDialog(null,"Enter password: ") ;
+                    SetPassword.PDF(file,password);
+                }
             }
             stage.close();
         } catch (Exception e) {

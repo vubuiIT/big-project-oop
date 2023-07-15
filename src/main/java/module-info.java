@@ -16,6 +16,7 @@ module com.example.demojavafx {
     requires kernel;
     requires layout;
     requires java.desktop;
+    requires org.apache.pdfbox;
 
     opens com.example.demojavafx to javafx.fxml;
     exports com.example.demojavafx;
