@@ -45,6 +45,8 @@ public class Gui6_12Controller implements Initializable {
     @FXML
     private Label nameQuiz;
     @FXML
+    private Label nameQuizAbove;
+    @FXML
     private Button preview_btn;
 
     @FXML
@@ -67,6 +69,7 @@ public class Gui6_12Controller implements Initializable {
     public void setVariable(Quiz quiz) {
         this.quiz = quiz; // Set the passed value to the variable
         nameQuiz.setText(this.quiz.getName());
+        nameQuizAbove.setText(this.quiz.getName());
         if (quiz.getEnableTimeLimit() == 1) {
             String getTimeLimit = String.valueOf(quiz.getTimeLimit());
             timeLimit_lbl.setText(getTimeLimit);

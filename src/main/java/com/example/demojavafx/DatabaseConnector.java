@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DatabaseConnector {
     private List<DatabaseChangeListener> listeners = new ArrayList<>();
-    private Connection connection;
+    private static Connection connection;
     private final String databaseName;
 
 
@@ -149,7 +149,7 @@ public class DatabaseConnector {
             return ("Failed to add category: " + e.getMessage());
         }
     }
-    public Category getCategory(int CategoryId) {
+    public static Category getCategory(int CategoryId) {
         List<Category> categories = new ArrayList<>();
 
         try {

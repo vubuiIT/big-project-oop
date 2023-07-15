@@ -2,8 +2,8 @@ package com.example.demojavafx;
 
 public class ChoiceAiken {
     String choiceText;
-    double Grade;
-    public ChoiceAiken(String s, double x) {
+    float Grade;
+    public ChoiceAiken(String s, float x) {
         this.choiceText = s;
         this.Grade = x;
     }
@@ -13,13 +13,13 @@ public class ChoiceAiken {
     public void setChoiceText(String s){
         this.choiceText = s;
     }
-    public void setGrade(double x){
+    public void setGrade(float x){
         this.Grade = x;
     }
     public String getChoiceText(){
         return this.choiceText;
     }
-    public double getGrade() {
+    public float getGrade() {
         return this.Grade;
     }
 }
