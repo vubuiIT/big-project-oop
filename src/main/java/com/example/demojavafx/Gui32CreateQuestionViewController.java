@@ -8,16 +8,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 
 
 public class Gui32CreateQuestionViewController implements Initializable {
     private Stage stage;
-    private boolean isCreateQuestion = false;
-    private int idQuesCreate = -1;
+    private boolean isCreateQuestion;
+    private int idQuesCreate;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -60,7 +62,8 @@ public class Gui32CreateQuestionViewController implements Initializable {
     }
     private boolean expand_more_choice = false;
     private boolean firstTimeSaveChanges = false;
-    int baseLine = 8;
+    int baseLine = 9;
+    private File selectedFile;
     @FXML
     private TextField choice1entry;
     @FXML
@@ -129,6 +132,29 @@ public class Gui32CreateQuestionViewController implements Initializable {
 
     @FXML
     private Text warningText;
+
+    @FXML
+    private Text fileMediaQues;
+    @FXML
+    void chooseQuesMedia(MouseEvent event) {
+        // Create a FileChooser object
+        FileChooser fileChooser = new FileChooser();
+
+        // Set an initial directory (optional)
+        File initialDirectory = new File("C:\\Users\\Vu Bui\\Pictures");
+        fileChooser.setInitialDirectory(initialDirectory);
+
+        // Show the open file dialog
+        selectedFile = fileChooser.showOpenDialog(this.stage);
+
+        if (selectedFile != null) {
+            // Process the selected file
+            // You can read the file using selectedFile.getAbsolutePath()
+            fileMediaQues.setText(selectedFile.getName());
+        } else {
+            System.out.println("No file selected.");
+        }
+    }
     @FXML
     boolean checkValidAddQuestion() {
         boolean valid = true;
@@ -200,16 +226,16 @@ public class Gui32CreateQuestionViewController implements Initializable {
         }
         return valid;
     }
-    float convertPercentage (String percentageString) {
-        String valueString = percentageString.replace("%", "");
+        float convertPercentage (String percentageString) {
+            String valueString = percentageString.replace("%", "");
 
-        // Parse the remaining string as a float
-        float percentage = Float.parseFloat(valueString);
+            // Parse the remaining string as a float
+            float percentage = Float.parseFloat(valueString);
 
-        // Convert the percentage to its decimal value
+            // Convert the percentage to its decimal value
 
-        return percentage / 100;
-    }
+            return percentage / 100;
+        }
     void createQuestion()  {
         int idCategory = treeView.getIdChoice();
         String qText = questionText.getText();
@@ -218,7 +244,10 @@ public class Gui32CreateQuestionViewController implements Initializable {
         float qMarkF = Float.parseFloat(qMark);
         DatabaseConnector connector = new DatabaseConnector();
         connector.connect();
-        int idQuestion = connector.addQuestion(idCategory,qText,qName,"",qMarkF);
+        String mediaDirection = "";
+        if (selectedFile != null)
+            mediaDirection = selectedFile.getAbsolutePath();
+        int idQuestion = connector.addQuestion(idCategory,qText,qName,mediaDirection,qMarkF);
         String cText1 = choice1entry.getText();
         String cText2 = choice2entry.getText();
         String cText3 = choice3entry.getText();
@@ -371,6 +400,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
     private TreeViewCategory treeView;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        fileMediaQues.setText("");
         treeView = new TreeViewCategory(categoryTreeView,categoryChoiceBox);
         treeView.start();
 //        missingCategories.setVisible(false);
