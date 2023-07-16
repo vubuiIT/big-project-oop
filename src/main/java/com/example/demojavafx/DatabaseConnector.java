@@ -59,7 +59,7 @@ public class DatabaseConnector {
                 String text = resultSet.getString("text");
                 String name = resultSet.getString("name");
                 String mediaName = resultSet.getString("media_name");
-                byte[] media = resultSet.getBytes("media_name");
+                byte[] media = resultSet.getBytes("media");
                 float mark = resultSet.getFloat("mark");
 
                 Question question = new Question(questionId, categoryId, text, name, media, mark, mediaName);
@@ -92,7 +92,7 @@ public class DatabaseConnector {
                 String text = resultSet.getString("text");
                 String name = resultSet.getString("name");
                 String mediaName = resultSet.getString("media_name");
-                byte[] media = resultSet.getBytes("media_name");
+                byte[] media = resultSet.getBytes("media");
                 float mark = resultSet.getFloat("mark");
 
                 Question question = new Question(questionId, categoryId, text, name, media, mark, mediaName);
@@ -485,11 +485,14 @@ public class DatabaseConnector {
                     int categoryId = resultSet1.getInt("category_id");
                     String text = resultSet1.getString("text");
                     String name = resultSet1.getString("name");
-                    String media = resultSet1.getString("media");
+                    String mediaName = resultSet.getString("media_name");
+                    byte[] media = resultSet1.getBytes("media");
                     float mark = resultSet1.getFloat("mark");
 
-                    Question question = new Question(tmpId, categoryId, text, name, media, mark);
+                    Question question = new Question(tmpId, categoryId, text, name, media, mark, mediaName);
                     questions.add(question);
+
+
                 }
             }
         } catch (SQLException e) {

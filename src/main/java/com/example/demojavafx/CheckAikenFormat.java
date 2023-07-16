@@ -230,7 +230,8 @@ public class CheckAikenFormat {
                     String qText = quiz.Question;                   // Text
 
                     connector.connect();
-                    int idQuestion = connector.addQuestion(category.getId(),qText,"","",1);
+                    byte[] picData = new byte[0];
+                    int idQuestion = connector.addQuestion(category.getId(),qText,"",picData,"",1);
 
                     String cText = null;
                     float cGrade;
@@ -239,7 +240,7 @@ public class CheckAikenFormat {
                         cText = ch.getChoiceText();
                         cGrade = ch.getGrade();
                         System.out.print(cText + "  Grade: " + cGrade + '\n');
-                        connector.addChoice(idQuestion, cGrade, "", cText);
+                        connector.addChoice(idQuestion, cGrade, picData, cText, "");
                     }
                     connector.disconnect();
                 }
@@ -467,9 +468,9 @@ public class CheckAikenFormat {
                 /* Add quizList to database */
                 for (QuizAiken quiz: quizList){
                     String qText = quiz.Question;                   // Text
-
+                    byte[] picData = new byte[0];
                     connector.connect();
-                    int idQuestion = connector.addQuestion(category.getId(),qText,"","",1);
+                    int idQuestion = connector.addQuestion(category.getId(),qText,"",picData,"", 1);
 
                     String cText = null;
                     float cGrade;
@@ -478,7 +479,7 @@ public class CheckAikenFormat {
                         cText = ch.getChoiceText();
                         cGrade = ch.getGrade();
                         System.out.print(cText + "  Grade: " + cGrade + '\n');
-                        connector.addChoice(idQuestion, cGrade, "", cText);
+                        connector.addChoice(idQuestion, cGrade, picData, cText, "");
                     }
                     connector.disconnect();
                 }
