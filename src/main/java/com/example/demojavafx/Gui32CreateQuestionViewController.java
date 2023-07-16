@@ -39,10 +39,12 @@ import java.util.List;
 
 
 public class Gui32CreateQuestionViewController implements Initializable {
+    private Question questionStage = null;
     private Stage stage;
     private int idQuesCreate = -1;
     boolean[] hasImgChoice = new boolean[5];
     File[] choiceImg = new File[5];
+    List<byte[]> choiceImgDataList = new ArrayList<>();
     private BooleanProperty isCloseProperty = new SimpleBooleanProperty(false);
     public BooleanProperty isCloseProperty() {
         return isCloseProperty;
@@ -118,6 +120,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
     }
     private boolean expand_more_choice = false;
     private boolean firstTimeSaveChanges = false;
+    List<Choices> choiceDataMedia = new ArrayList<>();
     int baseLine = 9;
     private File selectedFile;
     @FXML
@@ -492,10 +495,10 @@ public class Gui32CreateQuestionViewController implements Initializable {
                     grade = 0;
                 else
                     grade = convertPercentage(gradeValue);
-                File slFile = choiceImg[i-1];
-                if (slFile != null) {
-                    byte[] fileChoiceImgData = readFileData(slFile.getAbsolutePath());
-                    connector.addChoice(idQuesCreate,grade,fileChoiceImgData,cText,slFile.getName());
+                Choices file = choiceDataMedia.get(i-1);
+                String fileName = file.getPicName();
+                if (!Objects.equals(fileName, "")) {
+                    connector.addChoice(idQuesCreate,grade,file.getPic(),cText,fileName);
                 }
                 else {
                     byte[] picData = new byte[0];
@@ -611,6 +614,9 @@ public class Gui32CreateQuestionViewController implements Initializable {
                 int columnIndex = 2; // Chỉ số cột (ở đây mình đặt là 0)
                 gridPane.add(imageView, columnIndex, rowIndex);
                 choiceImg[stt-1] = selectedFileChoice;
+                choiceDataMedia.get(stt - 1).setPicName(selectedFileChoice.getName());
+                choiceDataMedia.get(stt - 1).setPicData(fileData);
+
             }
             hasImgChoice[stt-1] = true;
 
@@ -624,7 +630,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
         double rowWidth = 300;
         int baseLine = 5;
         double previousHeight = gridPane.getHeight();
-        gridPane.setPrefSize(gridPane.getPrefWidth(), previousHeight + 300);
+        gridPane.setPrefSize(gridPane.getPrefWidth(), previousHeight + 300 * stt);
         // Kiểm tra định dạng của file dựa trên phần mở rộng (extension)
         String fileExtension = getFileExtension(picName);
         if (fileExtension.equalsIgnoreCase("mp4")) {
@@ -652,6 +658,8 @@ public class Gui32CreateQuestionViewController implements Initializable {
             int columnIndex = 2; // Chỉ số cột (ở đây mình đặt là 0)
             gridPane.add(imageView, columnIndex, rowIndex);
         }
+        choiceDataMedia.get(stt - 1).setPicName(picName);
+        choiceDataMedia.get(stt - 1).setPicData(fileData);
         hasImgChoice[stt-1] = true;
     }
     private TreeViewCategory treeView;
@@ -660,6 +668,11 @@ public class Gui32CreateQuestionViewController implements Initializable {
         fileMediaQues.setText("");
         treeView = new TreeViewCategory(categoryTreeView,categoryChoiceBox);
         treeView.start();
+
+        byte[] picData = new byte[0];
+        for (int i=1;i<=5;i++) {
+            choiceDataMedia.add(new Choices(0,0,0,picData,"",""));
+        }
 //        missingCategories.setVisible(false);
 //        missingChoices.setVisible(false);
 //        missingMark.setVisible(false);
@@ -722,13 +735,15 @@ public class Gui32CreateQuestionViewController implements Initializable {
     }
     @FXML
     public void run(Question question){
+        questionStage = question;
         questionText.setText(question.getText());
         questioNameField.setText(question.getName());
         markField.setText(Float.toString(question.getMark()));
         addedit.setText("Editing Multiple choice question");
         setIdQues(question.getId());
-        DatabaseConnector connector = new DatabaseConnector();
-        connector.connect();
+        this.stage.setOnShown(e -> {
+            DatabaseConnector connector = new DatabaseConnector();
+            connector.connect();
         if (!Objects.equals(question.getMediaName(), "")) {
             byte[] fileData = connector.getMediaData(question.getId());
             String mediaName = question.getName();
@@ -767,30 +782,45 @@ public class Gui32CreateQuestionViewController implements Initializable {
                 choice1entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade1.setValue(stringGrade + "%");
-
+                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
+                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
             }
             if(numChoices==2) {
                 choice2entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade2.setValue(stringGrade + "%");
+                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
+                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
             }
             if(numChoices==3) {
                 choice3entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade3.setValue(stringGrade + "%");
+                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
+                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
             }
             if(numChoices==4) {
                 choice4entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade4.setValue(stringGrade + "%");
+                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
+                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
             }
             if(numChoices==5) {
                 choice5entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade5.setValue(stringGrade + "%");
+                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
+                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
+            }
+            if (!choiceDataMedia.isEmpty()) {
+                if (!Objects.equals(choice.getPicName(), "")) {
+                    choiceDataMedia.get(numChoices - 1).setPicName(choice.getPicName());
+                    choiceDataMedia.get(numChoices - 1).setPicData(choice.getPic());
+                }
             }
         }
         connector.disconnect();
-
+        });
     }
 }

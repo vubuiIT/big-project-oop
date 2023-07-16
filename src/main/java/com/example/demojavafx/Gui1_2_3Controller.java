@@ -123,9 +123,9 @@ public class Gui1_2_3Controller implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui3.2-create-question-view.fxml"));
             Parent root = loader.load();
             Gui32CreateQuestionViewController controller = loader.getController();
-            controller.run(question);
-            controller.setStage(stage);
 
+            controller.setStage(stage);
+            controller.run(question);
             controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
                     updateQuesShow(true);
