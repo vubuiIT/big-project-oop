@@ -285,6 +285,24 @@ public class DatabaseConnector {
 
         return choiceId;
     }
+    public byte[] getPicChoiceData(int choiceId) {
+        byte[] picData = null;
+        String sql = "SELECT pic FROM Choice WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, choiceId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                picData = resultSet.getBytes("pic");
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return picData;
+    }
     public byte[] getMediaData(int questionId) {
         byte[] mediaData = null;
         String sql = "SELECT media FROM Question WHERE id = ?";
