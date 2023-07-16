@@ -177,13 +177,16 @@ public class Gui6_12Controller implements Initializable {
             attempt.setVisible(false);
         });
         start.setOnAction(event ->{
+            Stage currentStage = (Stage) start.getScene().getWindow();
+            currentStage.close();
             try {
                 Stage stage = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI7.fxml"));
-                Parent root = loader.load();
+                FXMLLoader loaders = new FXMLLoader(getClass().getResource("GUI7.fxml"));
+                Parent root = loaders.load();
 
-                GUI7Attempt controller = loader.getController();
+                GUI7Attempt controller = loaders.getController();
                 controller.setStage(stage);
+                controller.setquiz(this.quiz);
 
                 Scene scene = new Scene(root);
                 stage.setTitle("Attempt quiz");
@@ -286,6 +289,7 @@ public class Gui6_12Controller implements Initializable {
                 nameLabel.setText(name);
                 quesNumber.setText("" + number);
                 totalMark_lbl.setText("" + number + ".00");
+                numOfQues_lbl.setText(""+number);
                 number++;
                 textLabel.setText(text);
                 quesId1.setUserData(quesId.getUserData());

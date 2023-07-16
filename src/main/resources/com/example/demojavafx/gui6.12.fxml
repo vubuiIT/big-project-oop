@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui6_12Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui6_12Controller">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="115.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-253.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="877.0" />
@@ -125,16 +142,19 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time limit:" wrappingWidth="54.814453125" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time limit:" wrappingWidth="58.814453125" />
                               <Label fx:id="timeLimit_lbl" alignment="CENTER" prefHeight="0.0" prefWidth="18.0" text="Label" textAlignment="CENTER">
                                  <HBox.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Text layoutX="158.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" wrappingWidth="42.2578125" />
+                              <Text layoutX="158.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" wrappingWidth="49.2578125" />
                            </children>
                         </HBox>
-                        <Text layoutX="10.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grading method: Last attempt" wrappingWidth="159.251953125" />
+                        <Text layoutX="10.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grading method: Last attempt" wrappingWidth="159.251953125">
+                           <font>
+                              <Font size="12.0" />
+                           </font></Text>
                      </children>
                      <HBox.margin>
                         <Insets top="5.0" />
@@ -265,8 +285,14 @@
                      <HBox.margin>
                         <Insets left="250.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
                   </Label>
-                  <Label fx:id="totalMark_lbl" layoutX="693.0" layoutY="16.0" text="0.00" />
+                  <Label fx:id="totalMark_lbl" layoutX="693.0" layoutY="16.0" text="0.00">
+                     <font>
+                        <Font size="12.0" />
+                     </font></Label>
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -386,7 +412,7 @@
             </Button>
             <Button fx:id="cancel" mnemonicParsing="false" prefHeight="41.0" prefWidth="115.0" style="-fx-background-color: #1E90FFFF;" text="CANCEL" textFill="WHITE" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="5.0" left="210.0" />
+                  <Insets bottom="5.0" left="330.0" />
                </GridPane.margin>
                <font>
                   <Font name="System Bold" size="20.0" />
@@ -400,6 +426,14 @@
                   <Font size="15.0" />
                </font>
             </Label>
+            <Button fx:id="start1" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b51313;" text="EXPORT" textFill="WHITE" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="210.0" />
+               </GridPane.margin>
+            </Button>
          </children>
          <opaqueInsets>
             <Insets />

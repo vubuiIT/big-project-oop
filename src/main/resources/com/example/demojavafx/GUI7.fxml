@@ -26,13 +26,16 @@
             <Font size="15.0" />
          </font>
       </Text>
-      <Label fx:id="timecountdown" layoutX="572.0" layoutY="132.0" prefHeight="42.0" prefWidth="154.0" style="-fx-border-color: red;" text="Time left  " textAlignment="CENTER">
+      <Label fx:id="timecountdown" layoutX="589.0" layoutY="137.0" prefHeight="39.0" prefWidth="137.0" style="-fx-border-color: red;" text="Time left  " textAlignment="CENTER" AnchorPane.topAnchor="137.0">
          <font>
             <Font size="15.0" />
-         </font></Label>
-      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="184.0" prefHeight="500.0" prefWidth="718.0" style="-fx-border-color: #595959FF;">
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></Label>
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="184.0" prefHeight="500.0" prefWidth="716.0" style="-fx-border-color: white;">
         <content>
-          <VBox minHeight="0.0" minWidth="0.0" prefHeight="505.0" prefWidth="716.0" />
+          <VBox minHeight="0.0" minWidth="0.0" prefHeight="505.0" prefWidth="716.0" visible="false" />
         </content>
       </ScrollPane>
       <Label layoutX="750.0" layoutY="129.0" prefHeight="49.0" prefWidth="251.0" style="-fx-background-color: #f8f5f5; -fx-border-color: #595959FF;" text="Quiz navigation" textAlignment="CENTER" textFill="RED">
@@ -43,12 +46,27 @@
             <Insets left="10.0" />
          </padding>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="496.0" layoutX="750.0" layoutY="187.0" stroke="#595959" strokeType="INSIDE" width="251.0" />
-      <FlowPane fx:id="flowPane" hgap="10.0" layoutX="762.0" layoutY="243.0" prefHeight="429.0" prefWidth="232.0" stylesheets="@Style.css" vgap="10.0" />
       <ImageView fitHeight="53.0" fitWidth="45.0" layoutX="759.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../icons/users.png" />
          </image>
       </ImageView>
+      <VBox layoutX="750.0" layoutY="234.0" prefHeight="449.0" prefWidth="241.0">
+         <children>
+            <FlowPane fx:id="flowPane" hgap="10.0" prefWidth="241.0" stylesheets="@Style.css" vgap="10.0">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </FlowPane>
+            <Label fx:id="additionalLabel" prefHeight="69.0" prefWidth="241.0" text="Finish attempt ...">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
