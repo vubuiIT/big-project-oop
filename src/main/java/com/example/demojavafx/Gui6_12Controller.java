@@ -267,7 +267,7 @@ public class Gui6_12Controller implements Initializable {
                         textInputDialog.setHeaderText("Set password for the PDF file: ");
                         textInputDialog.setContentText("Password: ");
                         Optional<String> password = textInputDialog.showAndWait();
-                        SetPassword.PDF(file,password.get());
+                        if(password.isPresent()) SetPassword.PDF(file,password.get());
                     }
                 }
                 stage.close();
