@@ -468,9 +468,20 @@ public class CheckAikenFormat {
                 /* Add quizList to database */
                 for (QuizAiken quiz: quizList){
                     String qText = quiz.Question;                   // Text
+
                     byte[] picData = new byte[0];
+                    List<BufferedImage> quesImages = quiz.getIllustrators();
+                    String mediaName;
+                    if (!quesImages.isEmpty()){
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        ImageIO.write(quesImages.get(0), "png", bos);
+                        picData = bos.toByteArray();
+                        mediaName = "pic_question";
+                    }
+                    else mediaName = "";
+
                     connector.connect();
-                    int idQuestion = connector.addQuestion(category.getId(),qText,"",picData,"", 1);
+                    int idQuestion = connector.addQuestion(category.getId(),qText,"",picData, mediaName, 1);
 
                     String cText = null;
                     float cGrade;
@@ -479,7 +490,15 @@ public class CheckAikenFormat {
                         cText = ch.getChoiceText();
                         cGrade = ch.getGrade();
                         System.out.print(cText + "  Grade: " + cGrade + '\n');
-                        connector.addChoice(idQuestion, cGrade, picData, cText, "");
+
+                        List<BufferedImage> choiceImages = ch.getImage();
+                        if (!choiceImages.isEmpty()) {
+                            ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
+                            ImageIO.write(choiceImages.get(0), "png", bos1);
+                            picData = bos1.toByteArray();
+                        }
+
+                        connector.addChoice(idQuestion, cGrade, picData, cText, "pic_choice");
                     }
                     connector.disconnect();
                 }

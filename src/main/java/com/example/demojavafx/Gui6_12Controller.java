@@ -269,6 +269,10 @@ public class Gui6_12Controller implements Initializable {
             System.out.println("Successfully added question " + tmpId);
         }
 
+        List<Question> tmp = connector.getQuestionsFromQuiz(1);
+        for (Question run : tmp)
+            System.out.println("Got" + run.getId() + " " + run.getText());
+
         connector.disconnect();
     }
 }
