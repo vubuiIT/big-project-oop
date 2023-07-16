@@ -126,6 +126,11 @@ public class Gui1_2_3Controller implements Initializable {
             controller.run(question);
             controller.setStage(stage);
 
+            controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    updateQuesShow(true);
+                }
+            });
             // Tạo một Scenetừ Parent và đặt nó cho Stage
             Scene scene = new Scene(root);
             stage.setScene(scene);
