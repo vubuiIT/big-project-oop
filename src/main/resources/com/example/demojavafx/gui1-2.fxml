@@ -9,6 +9,7 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -30,8 +31,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="692.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui1_2_3Controller">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="154.0" layoutX="7.0" layoutY="25.0" stroke="#b2afaf" strokeLineCap="ROUND" strokeType="INSIDE" width="609.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="-253.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="781.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="623.0" />
       <MenuButton layoutX="516.0" layoutY="3.0" mnemonicParsing="false" text="Users">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -66,15 +68,11 @@
             <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fill="#e80000" strokeType="OUTSIDE" strokeWidth="0.0" text="ae IT depzai" wrappingWidth="155.193359375">
+            <Text fill="#e80000" strokeType="OUTSIDE" strokeWidth="0.0" text="IT" wrappingWidth="155.193359375">
                <font>
                   <Font name="System Bold" size="23.0" />
                </font>
             </Text>
-            <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home/ My courses/ THI CUỐI KỲ" wrappingWidth="224.041015625" GridPane.rowIndex="1">
-               <font>
-                  <Font size="14.0" />
-               </font></Text>
             <Button contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onMouseClicked="#turnEdit" style="-fx-background-color: #2999ff;" text="TURN EDTING ON" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="15.0" />
@@ -97,6 +95,25 @@
                   </ImageView>
                </graphic>
             </Button>
+            <HBox prefHeight="36.0" prefWidth="243.0" GridPane.rowIndex="1">
+               <children>
+                  <Text fill="#e17575" onMouseClicked="#menuActionPerformed" onMousePressed="#menuActionPerformed" strokeType="OUTSIDE" strokeWidth="0.0" text="My courses " wrappingWidth="74.041015625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/ Home /" wrappingWidth="58.041015625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#e17575" layoutX="10.0" layoutY="25.0" onMouseClicked="#menuActionPerformed" onMousePressed="#menuActionPerformed" strokeType="OUTSIDE" strokeWidth="0.0" text="THI CUỐI KỲ" wrappingWidth="79.041015625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
          </children>
       </GridPane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="471.0" layoutX="7.0" layoutY="188.0" stroke="#bfbfbf" strokeType="INSIDE" styleClass="iconButton" width="609.0" />
@@ -134,6 +151,24 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
+                        <HBox fx:id="hbox" layoutX="19.0" layoutY="236.0" prefHeight="36.0" prefWidth="569.0">
+                           <children>
+                              <CheckBox mnemonicParsing="false" prefHeight="35.0" prefWidth="30.0">
+                                 <padding>
+                                    <Insets left="15.0" />
+                                 </padding>
+                              </CheckBox>
+                              <Label prefHeight="36.0" prefWidth="468.0" text="Question" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets left="60.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="35.0" prefWidth="71.0" text="Actions" textAlignment="CENTER" />
+                           </children>
+                        </HBox>
                         <GridPane layoutX="20.0" layoutY="6.0" prefHeight="242.0" prefWidth="582.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -184,7 +219,6 @@
                               </Button>
                            </children>
                         </GridPane>
-                        <TreeView id="defaultpopup" fx:id="defaultPopup1" layoutX="151.0" layoutY="93.0" prefHeight="272.0" prefWidth="267.0" />
                         <Pane layoutX="453.0" layoutY="303.0" />
                         <ScrollPane fx:id="scrollPane" layoutX="19.0" layoutY="272.0" prefHeight="191.0" prefWidth="570.0">
                            <content>
@@ -195,24 +229,7 @@
                               </AnchorPane>
                            </content>
                         </ScrollPane>
-                        <HBox fx:id="hbox" layoutX="19.0" layoutY="236.0" prefHeight="36.0" prefWidth="569.0">
-                           <children>
-                              <CheckBox mnemonicParsing="false" prefHeight="35.0" prefWidth="30.0">
-                                 <padding>
-                                    <Insets left="15.0" />
-                                 </padding>
-                              </CheckBox>
-                              <Label prefHeight="36.0" prefWidth="468.0" text="Question" textAlignment="CENTER">
-                                 <padding>
-                                    <Insets left="60.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="35.0" prefWidth="71.0" text="Actions" textAlignment="CENTER" />
-                           </children>
-                        </HBox>
+                        <TreeView id="defaultpopup" fx:id="defaultPopup1" layoutX="151.0" layoutY="93.0" prefHeight="272.0" prefWidth="267.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -226,7 +243,7 @@
                               <ChoiceBox fx:id="tab2Click" layoutX="20.0" layoutY="15.0" prefHeight="25.0" prefWidth="203.0" />
                               <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../icons/question%20mark.png" />
+                                    <Image url="@../../../icons/question mark.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -284,7 +301,7 @@
                            <children>
                               <ImageView fitHeight="15.0" fitWidth="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../icons/question%20mark.png" />
+                                    <Image url="@../../../icons/question mark.png" />
                                  </image>
                               </ImageView>
                               <TextField fx:id="idCategoryTextfield" layoutX="20.0" layoutY="6.0" prefHeight="25.0" prefWidth="86.0" />
@@ -313,7 +330,78 @@
             </Tab>
             <Tab fx:id="tab3" text="Import">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane prefHeight="392.0" prefWidth="607.0" style="-fx-border-color: WHITE;">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" text="Import question from file" textFill="#e80000">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Pane layoutX="7.0" layoutY="51.0" prefHeight="38.0" prefWidth="594.0">
+                                 <children>
+                                    <ImageView fitHeight="38.0" fitWidth="9.0" layoutX="9.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dropdownicon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="26.0" layoutY="11.0" text="File format" textFill="#e80000" />
+                                    <Label layoutX="297.0" layoutY="11.0" text="Aiken format" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="7.0" layoutY="89.0" prefHeight="38.0" prefWidth="594.0">
+                                 <children>
+                                    <ImageView fitHeight="38.0" fitWidth="9.0" layoutX="9.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dropdownicon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="26.0" layoutY="11.0" text="General" textFill="#e80000" />
+                                    <Separator layoutY="-2.0" prefHeight="4.0" prefWidth="594.0" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="7.0" layoutY="129.0" prefHeight="38.0" prefWidth="594.0">
+                                 <children>
+                                    <ImageView fitHeight="38.0" fitWidth="9.0" layoutX="9.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dropdownicon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="26.0" layoutY="11.0" text="Import question from file" textFill="#e80000" />
+                                 </children>
+                              </Pane>
+                              <Separator layoutX="7.0" layoutY="125.0" prefHeight="4.0" prefWidth="594.0" />
+                              <Label layoutX="14.0" layoutY="171.0" text="Import" />
+                              <Button fx:id="choosefileButton" layoutX="304.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#choosefileButtonActionPerformed" style="-fx-background-color: #2999ff;" text="CHOOSE A FILE" textFill="WHITE" />
+                              <Label layoutX="409.0" layoutY="171.0" text="Maximum for new files: 100MB " />
+                              <Pane fx:id="dragfilePane" layoutX="304.0" layoutY="196.0" onDragDropped="#handleDrop" onDragOver="#handleDragOver" prefHeight="91.0" prefWidth="298.0" style="-fx-border-color: BLACK;">
+                                 <children>
+                                    <ImageView fitHeight="23.0" fitWidth="22.0" layoutX="138.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/downsidearrow.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="28.0" layoutY="51.0" text="You can drag and drop files here to add them" />
+                                 </children>
+                              </Pane>
+                              <Label layoutX="304.0" layoutY="296.0" text="Chosen file: " />
+                              <Label fx:id="chosenfilepath" layoutX="368.0" layoutY="296.0" prefHeight="17.0" prefWidth="234.0" />
+                              <Button fx:id="importButton" layoutX="304.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#importButtonActionPerformed" style="-fx-background-color: #e80000;" text="IMPORT" textFill="WHITE" />
+                              <Label layoutX="207.0" layoutY="354.0" text="There are required fields in this form marked" />
+                              <ImageView fitHeight="10.0" fitWidth="11.0" layoutX="448.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/erroricon.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="10.0" fitWidth="11.0" layoutX="286.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/erroricon.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab fx:id="tab4" text="Export">
