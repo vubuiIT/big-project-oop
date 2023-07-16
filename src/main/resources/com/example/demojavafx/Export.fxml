@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.ExportController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="119.0" layoutX="10.0" stroke="#595959" strokeType="INSIDE" width="982.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="554.0" layoutX="9.0" layoutY="130.0" stroke="#595959" strokeType="INSIDE" width="719.0" />
+        <Text fill="#e80000" layoutX="14.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IT" textAlignment="CENTER" wrappingWidth="80.193359375">
+            <font>
+                <Font name="System Bold" size="36.0" />
+            </font>
+        </Text>
+        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="184.0" prefHeight="500.0" prefWidth="716.0" style="-fx-border-color: white;">
+            <content>
+                <VBox fx:id="snapBox" minHeight="0.0" minWidth="0.0" prefHeight="505.0" prefWidth="716.0" visible="false" />
+            </content>
+        </ScrollPane>
+        <Label layoutX="750.0" layoutY="129.0" prefHeight="49.0" prefWidth="251.0" style="-fx-background-color: #f8f5f5; -fx-border-color: #595959FF;" text="Quiz navigation" textAlignment="CENTER" textFill="RED">
+            <font>
+                <Font size="19.0" />
+            </font>
+            <padding>
+                <Insets left="10.0" />
+            </padding>
+        </Label>
+        <ImageView fitHeight="53.0" fitWidth="45.0" layoutX="759.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../icons/users.png" />
+            </image>
+        </ImageView>
+        <VBox layoutX="750.0" layoutY="234.0" prefHeight="449.0" prefWidth="241.0">
+            <children>
+                <FlowPane fx:id="flowPane" hgap="10.0" prefWidth="241.0" stylesheets="@Style.css" vgap="10.0">
+                    <VBox.margin>
+                        <Insets left="10.0" />
+                    </VBox.margin>
+                </FlowPane>
+                <Label fx:id="additionalLabel" prefHeight="69.0" prefWidth="241.0" text="Finish attempt ...">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="10.0" />
+                    </VBox.margin>
+                </Label>
+            </children>
+        </VBox>
+        <HBox layoutX="10.0" layoutY="70.0" prefHeight="36.0" prefWidth="625.0">
+            <children>
+                <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="42.041015625">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/ My courses /" wrappingWidth="83.041015625">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text fill="#e17575" layoutX="10.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THI CUỐI KỲ / General /" wrappingWidth="146.041015625">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Label fx:id="nameQuizAbove" prefHeight="0.0" prefWidth="233.0" text="Thi giữa kỳ 2 môn Công nghệ /  Preview" textFill="#e17575">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </children>
+            <padding>
+                <Insets left="10.0" top="10.0" />
+            </padding>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </HBox>
+    </children>
+</AnchorPane>
