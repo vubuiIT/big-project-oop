@@ -23,7 +23,7 @@ public class TreeViewCategory {
     }
     public void start() {
         // Create the root TreeItem
-        TreeItem<Category> rootItem = new TreeItem<>(new Category(-2,-2,"","--Select--"));
+        TreeItem<Category> rootItem = new TreeItem<>(new Category(-2,-2,"","--Chọn--"));
         rootItem.setExpanded(true);
 
         // Get the categories from the database

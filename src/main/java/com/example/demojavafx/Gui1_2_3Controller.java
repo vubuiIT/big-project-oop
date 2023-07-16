@@ -1,11 +1,12 @@
 package com.example.demojavafx;
 
-import com.almasb.fxgl.entity.Entity;
+//import com.almasb.fxgl.entity.Entity;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.css.converter.StringConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,6 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,10 +26,15 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.*;
 
 import javafx.scene.control.TextFormatter;
@@ -103,6 +111,41 @@ public class Gui1_2_3Controller implements Initializable {
     @FXML
     private TextArea infoCategoryTextfield;
     final boolean[] isTab2Popup = {false};
+    @FXML
+    private VBox quizVbox;
+    @FXML
+    public void Create(Question question){
+        try {
+            // Tạo một Stage mới
+            Stage stage = new Stage();
+
+            // Tải file FXML mới
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("gui3.2-create-question-view.fxml"));
+            Parent root = loader.load();
+            Gui32CreateQuestionViewController controller = loader.getController();
+            controller.run(question);
+            controller.setStage(stage);
+
+            // Tạo một Scenetừ Parent và đặt nó cho Stage
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Hiển thị cửa sổ mới
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    // Bam HOME hoac THI CUOI KY thi quay lai trang chu
+    void menuActionPerformed(MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui1-2.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
     /// Khi bấm Create a New Question - 3.2
@@ -129,13 +172,51 @@ public class Gui1_2_3Controller implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void turnEdit(MouseEvent event) {
+        try {
+            // Tạo một Stage mới
+            Stage stage = new Stage();
+
+            // Tải file FXML mới
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI5.fxml"));
+            Parent root = loader.load();
+
+            GUI5Controller controller = loader.getController();
+            controller.setStage(stage);
+
+            // Tạo một Scene từ Parent và đặt nó cho Stage
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Hiển thị cửa sổ mới
+            stage.show();
+            controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    updateQuizShow();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void showCategory(MouseEvent mouseEvent) {
         tab2Popup.setVisible(true);
     }
     @FXML
     private TextField idCategoryTextfield;
     @FXML
+    private ScrollPane paneListQuiz;
+    @FXML
     public Text showErrorText;
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    private CheckBox tick1;
+
+    @FXML
+    private HBox hbox;
     private boolean addCategory(Integer parentID, String nameCategory,String infoCategory,String idCategory) throws InterruptedException {
         // Create an instance of DatabaseConnector
         DatabaseConnector connector = new DatabaseConnector();
@@ -159,6 +240,101 @@ public class Gui1_2_3Controller implements Initializable {
 
         connector.disconnect();
         return false;
+    }
+    void updateQuizShow() {
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+        List<Quiz> quizs = connector.getQuiz();
+        quizVbox.getChildren().clear();
+        for (Quiz quiz: quizs) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("quizBar.fxml"));
+            try {
+                AnchorPane quizBar = loader.load();
+                Hyperlink quizName = (Hyperlink) quizBar.lookup("#quizName");
+                // Add event listener to the Hyperlink
+                quizName.setOnAction(e -> openPreviewQuiz(quiz)); // Call openPreviewQuiz function with the current quiz
+                quizName.setText(quiz.getName());
+                quizVbox.getChildren().add(quizBar);
+            } catch (IOException e) {
+                System.out.print(e);
+                throw new RuntimeException(e);
+            }
+
+        }
+        connector.disconnect();
+
+
+
+    }
+    private void openPreviewQuiz(Quiz quiz) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("gui6.12.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage
+            Stage previewStage = new Stage();
+            previewStage.setTitle("Quiz Preview");
+
+            Gui6_12Controller controller = loader.getController(); // Get the controller instance
+            controller.setVariable(quiz); // Pass the variable to the controller
+            // Set the loaded scene as the content for the new stage
+            previewStage.setScene(new Scene(root));
+
+            // Show the new stage
+            previewStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle any exceptions that occur during loading or showing the stage
+        }
+    }
+    void updateQuesShow(Boolean type) {
+        int CategoryId=treeView.getIdChoice();
+        try {
+            VBox container = new VBox();
+            DatabaseConnector connector = new DatabaseConnector();
+            connector.connect();
+            List<Question> questions = connector.getQuestionsFromCategory(CategoryId);
+            for (Question question : questions) {
+                FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
+                Parent itemNode = itemLoader.load();
+                Label label = (Label) itemNode.lookup("#text");
+                label.setText(question.getName()+" : "+ question.getText());
+                Label edit= (Label) itemNode.lookup("#edit");
+                edit.setOnMouseClicked(event1 -> {
+                    Create(question);
+                });
+                container.getChildren().add(itemNode);
+            }
+            if(tick1.isSelected() == type){
+                try{
+                    List<Category> allCategory= connector.getCategories(CategoryId);
+                    for(Category category: allCategory)
+                    {
+                        List<Question> questionss = connector.getQuestionsFromCategory(category.getId());
+                        for (Question question : questionss) {
+                            FXMLLoader itemLoader = new FXMLLoader(getClass().getResource("31boxfind.fxml"));
+                            Parent itemNode = itemLoader.load();
+                            Label label = (Label) itemNode.lookup("#text");
+                            label.setText(question.getName()+" : "+ question.getText());
+                            Label edit= (Label) itemNode.lookup("#edit");
+                            edit.setOnMouseClicked(event1 -> {
+                                Create(question);
+                            });
+                            container.getChildren().add(itemNode);
+                        }
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+            scrollPane.setContent(container);
+            scrollPane.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //Hiện all question trong category
+        hbox.setVisible(true);
+        scrollPane.setVisible(true);
     }
 
     @FXML
@@ -218,10 +394,10 @@ public class Gui1_2_3Controller implements Initializable {
         slider.setVisible(false);
         hoiPopup.setVisible(false);
         defaultPopup1.setVisible(false);
-
+        updateQuizShow();
         // Hiện question bank từ nút gear
         Menu.setOnMouseClicked(event -> {
-            list1.setVisible(false);
+            paneListQuiz.setVisible(false);
             slider.setVisible(true);
             Menu.setVisible(false);
             MenuBack.setVisible(true);
@@ -233,6 +409,8 @@ public class Gui1_2_3Controller implements Initializable {
             hoiPopup.getSelectionModel().select(tab1);
             hoiPopup.setVisible(true);
             slider.setVisible(false);
+            scrollPane.setVisible(false);
+            hbox.setVisible(false);
         });
 
         // Hiện popup default
@@ -247,7 +425,13 @@ public class Gui1_2_3Controller implements Initializable {
                 isPopupVisible[0] = false;
             }
         });
-
+        tick1.setOnMousePressed(event -> {
+            updateQuesShow(false);
+        });
+        // Hiện questions từ category
+        defaultPopup1.setOnMousePressed(event -> {
+            updateQuesShow(true);
+        });
         // Ẩn popup default khi click bên ngoài
         defaultPopup1.getParent().setOnMouseClicked(event -> {
             if (!defaultPopup1.getBoundsInParent().contains(event.getX(), event.getY())) {
@@ -256,7 +440,7 @@ public class Gui1_2_3Controller implements Initializable {
         });
         // Quay về ban đầu
         MenuBack.setOnMouseClicked(event -> {
-            list1.setVisible(true);
+            paneListQuiz.setVisible(true);
             slider.setVisible(false);
             hoiPopup.setVisible(false);
             Menu.setVisible(true);

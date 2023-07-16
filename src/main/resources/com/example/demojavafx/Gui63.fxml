@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="592.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demojavafx.Gui6_3Controller">
+   <children>
+      <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a category :">
+         <font>
+            <Font name="Times New Roman" size="16.0" />
+         </font></Text>
+      <ChoiceBox fx:id="choiceboxCategory" layoutX="141.0" layoutY="11.0" onMouseClicked="#handleCategoryTreeview" prefHeight="34.0" prefWidth="137.0" style="-fx-background-color: white; -fx-border-color: #595959FF;" />
+      <CheckBox fx:id="alsoShowctg" layoutX="21.0" layoutY="58.0" mnemonicParsing="false" text="Also show questions from sub category" />
+      <CheckBox layoutX="21.0" layoutY="79.0" mnemonicParsing="false" text="Also show old questions" />
+      <ScrollPane layoutX="-1.0" layoutY="102.0" prefHeight="351.0" prefWidth="593.0">
+         <content>
+            <VBox fx:id="showQuesvbox" prefHeight="347.0" prefWidth="591.0" style="-fx-background-color: white;" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="addQues" layoutX="33.0" layoutY="467.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="233.0" style="-fx-background-color: #0088ff;" styleClass="Button" text="ADD SELECTED QUESTION TO THE QUIZ" textFill="WHITE" />
+      <TreeView fx:id="treeViewCategory" layoutX="141.0" layoutY="45.0" prefHeight="200.0" prefWidth="175.0" />
+   </children>
+</AnchorPane>

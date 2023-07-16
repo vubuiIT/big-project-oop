@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static com.example.demojavafx.DatabaseConnector.*;
 
 public class CheckAikenFormat {
     public static boolean CheckChoicesTxt(String s) {
@@ -35,8 +38,23 @@ public class CheckAikenFormat {
         }
         return false;
     }
+
     public static void CheckTxt(File f) {
         List<QuizAiken> quizList = new ArrayList<QuizAiken>(); // Create list for quizzes
+
+        int min = 1;        // Gia tri nho nhat cho idCategory
+        int max = 1000;     // Gia tri lon nhat cho idCategory
+        // Random(min..max) cho idCategory
+        int idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+
+        Category category = connector.getCategory(idCategory);
+        // Neu catrgory chua ton tai thi tao moi va add
+        if (category.getParentId() == -1 && category.getName().isEmpty() && category.getInfo().isEmpty())
+            connector.addNewCategoryWithId(idCategory, -1, "","");
+        connector.disconnect();
+
         try {
             Scanner fileScanner = new Scanner(f);
             int currentline = 0; // Used to know whick line is being read
@@ -208,6 +226,23 @@ public class CheckAikenFormat {
             }
             if(errorFlag == false) {
                 /* Add quizList to database */
+                for (QuizAiken quiz: quizList){
+                    String qText = quiz.Question;                   // Text
+
+                    connector.connect();
+                    int idQuestion = connector.addQuestion(category.getId(),qText,"","",1);
+
+                    String cText = null;
+                    float cGrade;
+                    System.out.print(qText + '\n' + category.getId() + ' ' + category.getName() + '\n');
+                    for (ChoiceAiken ch:quiz.choiceList) {
+                        cText = ch.getChoiceText();
+                        cGrade = ch.getGrade();
+                        System.out.print(cText + "  Grade: " + cGrade + '\n');
+                        connector.addChoice(idQuestion, cGrade, "", cText);
+                    }
+                    connector.disconnect();
+                }
                 JOptionPane.showMessageDialog(null,"Successfully import " + quizList.size() + " quiz!");
             }
         } catch (FileNotFoundException e) {
@@ -254,6 +289,20 @@ public class CheckAikenFormat {
     }
     public static void CheckDocx(File f) throws IOException {
         List<QuizAiken> quizList = new ArrayList<QuizAiken>(); // Create list for quizzes
+
+        int min = 1;        // Gia tri nho nhat cho idCategory
+        int max = 1000;     // Gia tri lon nhat cho idCategory
+        // Random(min..max) cho idCategory
+        int idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+
+        Category category = connector.getCategory(idCategory);
+        // Neu catrgory chua ton tai thi tao moi va add
+        if (category.getParentId() == -1 && category.getName().isEmpty() && category.getInfo().isEmpty())
+            connector.addNewCategoryWithId(idCategory, -1, "","");
+        connector.disconnect();
+
         try {
             XWPFDocument doc = new XWPFDocument(new FileInputStream(f));
             List<XWPFParagraph>paras = doc.getParagraphs();
@@ -321,10 +370,8 @@ public class CheckAikenFormat {
                 // If there's still para to read
                 if(paraIterator < paras.size()) {
                     // If the para has choices format
-                    if(CheckChoicesDocx(paras.get(paraIterator))) {
-                        String s = paras.get(paraIterator).getText();
-                        List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
-                        choicesList.add(new ChoiceAiken(s,imgs));
+                    else if(CheckChoicesDocx(s)) {
+                        choicesList.add(new ChoiceAiken(s));
                         paraIterator++;
                     }
                     else {
@@ -416,6 +463,23 @@ public class CheckAikenFormat {
             }
             if(errorFlag == false) {
                 /* Add quizList to database */
+                for (QuizAiken quiz: quizList){
+                    String qText = quiz.Question;                   // Text
+
+                    connector.connect();
+                    int idQuestion = connector.addQuestion(category.getId(),qText,"","",1);
+
+                    String cText = null;
+                    float cGrade;
+                    System.out.print(qText + '\n' + category.getId() + ' ' + category.getName() + '\n');
+                    for (ChoiceAiken ch:quiz.choiceList) {
+                        cText = ch.getChoiceText();
+                        cGrade = ch.getGrade();
+                        System.out.print(cText + "  Grade: " + cGrade + '\n');
+                        connector.addChoice(idQuestion, cGrade, "", cText);
+                    }
+                    connector.disconnect();
+                }
                 JOptionPane.showMessageDialog(null,"Successfully import " + quizList.size() + " quiz!");
             }
             else quizList.clear();

@@ -6,8 +6,9 @@ import java.util.List;
 public class ChoiceAiken {
     String choiceText;
     List<BufferedImage> imageList;
-    double Grade;
     public ChoiceAiken(String s, List<BufferedImage> imgs, double x) {
+    float Grade;
+    public ChoiceAiken(String s, float x) {
         this.choiceText = s;
         this.Grade = x;
         this.imageList = imgs;
@@ -19,20 +20,20 @@ public class ChoiceAiken {
     public ChoiceAiken(String s) {
         this.choiceText = s;
     }
-    public ChoiceAiken(String s, double x) {
+    public ChoiceAiken(String s, float x) {
         this.choiceText = s;
         this.Grade = x;
     }
     public void setChoiceText(String s){
         this.choiceText = s;
     }
-    public void setGrade(double x){
+    public void setGrade(float x){
         this.Grade = x;
     }
     public String getChoiceText(){
         return this.choiceText;
     }
-    public double getGrade() {
+    public float getGrade() {
         return this.Grade;
     }
     public List<BufferedImage> getImage() { return this.imageList;}
