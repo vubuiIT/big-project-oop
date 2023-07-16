@@ -237,7 +237,7 @@
          <children>
             <HBox prefHeight="23.0" prefWidth="609.0">
                <children>
-                  <Label prefHeight="28.0" prefWidth="403.0" text="Editing quiz: Name of quiz" textFill="RED">
+                  <Label fx:id="nameQuiz2" prefHeight="28.0" prefWidth="403.0" text="Editing quiz: Name of quiz" textFill="RED">
                      <font>
                         <Font name="Times New Roman" size="24.0" />
                      </font>
@@ -263,7 +263,7 @@
                   <Region prefHeight="32.0" prefWidth="126.0" HBox.hgrow="ALWAYS" />
                   <Label layoutX="10.0" layoutY="22.0" text="Maximum grade" />
                   <TextField alignment="CENTER" prefHeight="35.0" prefWidth="63.0" promptText="10.00" />
-                  <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="68.0" style="-fx-background-color: #1E90FFFF;" styleClass="Button" text="SAVE" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#saveActionPerformed" prefHeight="34.0" prefWidth="68.0" style="-fx-background-color: #1E90FFFF;" styleClass="Button" text="SAVE" textFill="WHITE" />
                </children>
                <VBox.margin>
                   <Insets left="10.0" />
