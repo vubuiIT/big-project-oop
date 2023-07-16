@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DatabaseConnector {
     private List<DatabaseChangeListener> listeners = new ArrayList<>();
-    private Connection connection;
+    private static Connection connection;
     private final String databaseName;
 
 
@@ -58,10 +58,11 @@ public class DatabaseConnector {
                 int questionId = resultSet.getInt("id");
                 String text = resultSet.getString("text");
                 String name = resultSet.getString("name");
-                String media = resultSet.getString("media");
+                String mediaName = resultSet.getString("media_name");
+                byte[] media = resultSet.getBytes("media");
                 float mark = resultSet.getFloat("mark");
 
-                Question question = new Question(questionId, categoryId, text, name, media, mark);
+                Question question = new Question(questionId, categoryId, text, name, media, mark, mediaName);
                 questions.add(question);
             }
 
@@ -90,10 +91,11 @@ public class DatabaseConnector {
                 int questionId = resultSet.getInt("id");
                 String text = resultSet.getString("text");
                 String name = resultSet.getString("name");
-                String media = resultSet.getString("media");
+                String mediaName = resultSet.getString("media_name");
+                byte[] media = resultSet.getBytes("media");
                 float mark = resultSet.getFloat("mark");
 
-                Question question = new Question(questionId, categoryId, text, name, media, mark);
+                Question question = new Question(questionId, categoryId, text, name, media, mark, mediaName);
                 questions.add(question);
             }
 
@@ -149,7 +151,7 @@ public class DatabaseConnector {
             return ("Failed to add category: " + e.getMessage());
         }
     }
-    public Category getCategory(int CategoryId) {
+    public static Category getCategory(int CategoryId) {
         List<Category> categories = new ArrayList<>();
 
         try {
@@ -217,56 +219,162 @@ public class DatabaseConnector {
         }
         return categories;
     }
-    public int addQuestion(int categoryId, String questionText, String questionName, String questionMedia, float questionMark) {
-        int questionId = -1; // Default value in case of failure
+    public int addQuestion(int categoryId, String questionText, String questionName, byte[] questionMedia, String mediaName, float questionMark) {
+        int questionId = -1; // Giá trị mặc định nếu thất bại
 
         try {
-            // Prepare SQL statement with parameter placeholders
-            String sql = "INSERT INTO Question (category_id, text, name, media, mark) VALUES (?, ?, ?, ?, ?)";
+            // Chuẩn bị câu lệnh SQL với các tham số giữ chỗ
+            String sql = "INSERT INTO Question (category_id, text, name, media, media_name, mark) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            // Set values for the parameters
+            // Thiết lập giá trị cho các tham số
             statement.setInt(1, categoryId);
             statement.setString(2, questionText);
             statement.setString(3, questionName);
-            statement.setString(4, questionMedia);
-            statement.setFloat(5, questionMark);
+            statement.setBytes(4, questionMedia);
+            statement.setString(5, mediaName);
+            statement.setFloat(6, questionMark);
 
-            // Execute the SQL statement
+            // Thực thi câu lệnh SQL
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows > 0) {
-                // Retrieve the generated keys (in this case, the question ID)
+                // Lấy các khóa tự tạo (trong trường hợp này, question ID)
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     questionId = generatedKeys.getInt(1);
-                    System.out.println("Question added successfully. ID: " + questionId);
+                    System.out.println("Thêm câu hỏi thành công. ID: " + questionId);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Failed to add question: " + e.getMessage());
+            System.err.println("Thêm câu hỏi thất bại: " + e.getMessage());
         }
 
         return questionId;
     }
-    public void addChoice(int questionId, float grade, String pic, String text) {
+
+        public int addChoice(int questionId, float grade, byte[] picData, String choiceText, String picName) {
+        int choiceId = -1; // Giá trị mặc định nếu thất bại
+
         try {
-            String sql = "INSERT INTO Choice (question_id, grade, pic, text) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            // Chuẩn bị câu lệnh SQL với các placeholder tham số
+            String sql = "INSERT INTO Choice (question_id, grade, pic, text, pic_name) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            // Đặt giá trị cho các tham số
             statement.setInt(1, questionId);
             statement.setFloat(2, grade);
-            statement.setString(3, pic);
-            statement.setString(4, text);
-            statement.executeUpdate();
-            System.out.println("Choice added successfully");
+            statement.setBytes(3, picData);
+            statement.setString(4, choiceText);
+            statement.setString(5, picName);
+
+            // Thực thi câu lệnh SQL
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows > 0) {
+                // Lấy khóa tự sinh (id) được tạo ra
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    choiceId = generatedKeys.getInt(1);
+                    System.out.println("Choice added successfully. ID: " + choiceId);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to add choice: " + e.getMessage());
         }
 
-        catch (SQLException e) {
+        return choiceId;
+    }
+    public byte[] getPicChoiceData(int choiceId) {
+        byte[] picData = null;
+        String sql = "SELECT pic FROM Choice WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, choiceId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                picData = resultSet.getBytes("pic");
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return picData;
+    }
+    public byte[] getMediaData(int questionId) {
+        byte[] mediaData = null;
+        String sql = "SELECT media FROM Question WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, questionId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                mediaData = resultSet.getBytes("media");
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return mediaData;
+    }
+    public void addQuesWithId(int questionId, int categoryId, String questionText, String questionName, byte[] questionMedia,  String mediaName, float questionMark) {
+        String sql = "INSERT INTO Question (id, category_id, text, name, media, media_name, mark) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, questionId);
+            statement.setInt(2, categoryId);
+            statement.setString(3, questionText);
+            statement.setString(4, questionName);
+            statement.setBytes(5, questionMedia);
+            statement.setString(6, mediaName);
+            statement.setFloat(7, questionMark);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Question with ID " + questionId + " added successfully.");
+            } else {
+                System.out.println("Failed to add question with ID " + questionId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteQues(int questionId) {
+        String sql = "DELETE FROM Question WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, questionId);
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Question with ID " + questionId + " deleted successfully.");
+            } else {
+                System.out.println("Question with ID " + questionId + " not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteChoice(int choiceId) {
+        String sql = "DELETE FROM Choice WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, choiceId);
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Choice with ID " + choiceId + " deleted successfully.");
+            } else {
+                System.out.println("Choice with ID " + choiceId + " not found.");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     public List<Choices> getChoicesFromQuestion(int questionId) {
-        List<com.example.demojavafx.Choices> choices = new ArrayList<>();
+        List<Choices> choices = new ArrayList<>();
         String sql = "SELECT * FROM Choice WHERE question_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, questionId);
@@ -276,10 +384,11 @@ public class DatabaseConnector {
                 int id = resultSet.getInt("id");
                 int questionIdResult = resultSet.getInt("question_id");
                 float grade = resultSet.getFloat("grade");
-                String pic = resultSet.getString("pic");
+                byte[] picData = resultSet.getBytes("pic");
                 String text = resultSet.getString("text");
+                String picName = resultSet.getString("pic_name");
 
-                com.example.demojavafx.Choices choice = new com.example.demojavafx.Choices(id, questionIdResult, grade, pic, text);
+                Choices choice = new Choices(id, questionIdResult, grade, picData, text,picName);
                 choices.add(choice);
             }
 
@@ -340,6 +449,74 @@ public class DatabaseConnector {
         } catch (SQLException e) {
             System.err.println("Failed to add quiz: " + e.getMessage());
         }
+    }
+
+    // Them cac question duoc chon vao trong quiz
+    public void addQuesToQuiz(int quesId, int quizId){
+        try {
+            String sql = "INSERT INTO QuizQues (ques_id, quiz_id) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, quesId);
+            statement.setInt(2, quizId);
+            statement.executeUpdate();
+            System.out.println("Question added successfully to Quiz");
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Question> getQuestionsFromQuiz(int quizId) {
+        List<Question> questions = new ArrayList<>();
+        List<Integer> tmpIds = new ArrayList<>();
+
+        try {
+            // Prepare SQL statement
+            String sql = "SELECT * FROM QuizQues WHERE quiz_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            // Set the parameter value
+            statement.setInt(1, quizId);
+
+            // Execute the SQL statement
+            ResultSet resultSet = statement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                int tmpId = resultSet.getInt("ques_id");
+                tmpIds.add(tmpId);
+            }
+
+            for (int tmpId : tmpIds) {
+                String sql1 = "SELECT * FROM Question WHERE id = ?";
+                PreparedStatement statement1 = connection.prepareStatement(sql1);
+
+                // Set the parameter value
+                statement1.setInt(1, tmpId);
+
+                // Execute the SQL statement
+                ResultSet resultSet1 = statement1.executeQuery();
+
+                // Process the result set
+                while (resultSet1.next()) {
+                    int categoryId = resultSet1.getInt("category_id");
+                    String text = resultSet1.getString("text");
+                    String name = resultSet1.getString("name");
+                    String mediaName = resultSet1.getString("media_name");
+                    byte[] media = resultSet1.getBytes("media");
+                    float mark = resultSet1.getFloat("mark");
+
+                    Question question = new Question(tmpId, categoryId, text, name, media, mark, mediaName);
+                    questions.add(question);
+
+
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to get questions from quiz: " + e.getMessage());
+        }
+        return questions;
     }
 
     public void disconnect() {

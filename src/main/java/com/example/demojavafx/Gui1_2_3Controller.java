@@ -1,21 +1,22 @@
 package com.example.demojavafx;
 
-import com.almasb.fxgl.entity.Entity;
+//import com.almasb.fxgl.entity.Entity;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.css.converter.StringConverter;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
-import javafx.scene.image.WritableImage;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -25,24 +26,20 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.scene.control.TextFormatter;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Image;
 
 import javax.swing.*;
 
@@ -81,7 +78,7 @@ public class Gui1_2_3Controller implements Initializable {
 
     @FXML
     private Hyperlink export;
-
+    
     @FXML
     private Tab tab1;
 
@@ -126,9 +123,14 @@ public class Gui1_2_3Controller implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui3.2-create-question-view.fxml"));
             Parent root = loader.load();
             Gui32CreateQuestionViewController controller = loader.getController();
-            controller.run(question);
-            controller.setStage(stage);
 
+            controller.setStage(stage);
+            controller.run(question);
+            controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    updateQuesShow(true);
+                }
+            });
             // Tạo một Scenetừ Parent và đặt nó cho Stage
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -138,6 +140,16 @@ public class Gui1_2_3Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    // Bam HOME hoac THI CUOI KY thi quay lai trang chu
+    void menuActionPerformed(MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui1-2.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -161,51 +173,6 @@ public class Gui1_2_3Controller implements Initializable {
 
             // Hiển thị cửa sổ mới
             stage.show();
-
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)","*.pdf"));
-            File file = fileChooser.showSaveDialog(null);
-            if (file != null) {
-                PdfWriter pdfWriter = new PdfWriter(file);
-                PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-
-                PageSize pageSize = PageSize.A4;
-                float pageHeight = pageSize.getHeight(); // 842
-                float pageWidth = pageSize.getWidth(); // 595
-
-                Document document = new Document(pdfDocument, pageSize);
-                document.setMargins(50, 30, 50, 70);
-
-                WritableImage snapImage = controller.gridPane.snapshot(new SnapshotParameters(), null);
-                BufferedImage bufferedImage = SwingFXUtils.fromFXImage(snapImage,null);
-                int curr_y = 0;
-                while (curr_y < bufferedImage.getHeight()) {
-                    // Crop ảnh thành những ảnh nhỏ tỉ lệ với 1 trang PDF
-                    int h = (int) (pageHeight * (float) bufferedImage.getWidth() / pageWidth);
-                    if (curr_y + h > bufferedImage.getHeight()) h = bufferedImage.getHeight() - curr_y;
-                    BufferedImage subImage = bufferedImage.getSubimage(0, curr_y, bufferedImage.getWidth(), h);
-                    ImageData imgdata = ImageDataFactory.create(subImage, null);
-                    Image img = new Image(imgdata);
-                    img.scaleToFit(pageWidth - 100, pageHeight - 100);
-                    document.add(img);
-                    curr_y += h;
-                }
-                document.close();
-
-                Dialog<ButtonType> dialog = new Dialog<>();
-                dialog.getDialogPane().getButtonTypes().addAll(ButtonType.YES,ButtonType.NO);
-                dialog.setContentText("Do you want to set password for the file?");
-                Optional<ButtonType> option = dialog.showAndWait();
-                if(option.get() == ButtonType.YES) {
-                    TextInputDialog textInputDialog = new TextInputDialog();
-                    textInputDialog.setTitle("Set password");
-                    textInputDialog.setHeaderText("Set password for the PDF file: ");
-                    textInputDialog.setContentText("Password: ");
-                    Optional<String> password = textInputDialog.showAndWait();
-                    SetPassword.PDF(file,password.get());
-                }
-            }
-            stage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,9 +267,6 @@ public class Gui1_2_3Controller implements Initializable {
 
         }
         connector.disconnect();
-
-
-
     }
     private void openPreviewQuiz(Quiz quiz) {
         try {
@@ -373,6 +337,56 @@ public class Gui1_2_3Controller implements Initializable {
         //Hiện all question trong category
         hbox.setVisible(true);
         scrollPane.setVisible(true);
+    }
+
+    @FXML
+    private Button choosefileButton;
+    @FXML
+    private Label chosenfilepath;
+    public static File chosenFile; // file đã chọn
+    @FXML
+    void choosefileButtonActionPerformed(MouseEvent event) {
+        FileChooser filechooser = new FileChooser();
+        filechooser.setTitle("Choose a file");
+        chosenFile = filechooser.showOpenDialog(null);
+        chosenfilepath.setText((chosenFile.getName())) ;
+    }
+    // Xử lí kéo thả file
+    @FXML
+    private Pane dragfilePane;
+    @FXML
+    void handleDragOver(DragEvent event) {
+        if(event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(TransferMode.ANY);
+        }
+
+    }
+    @FXML
+    void handleDrop(DragEvent event) throws FileNotFoundException {
+        List<File> files = event.getDragboard().getFiles();
+        for(File f : files) chosenFile = f;
+        chosenfilepath.setText(chosenFile.getName());
+
+    }
+    // Xử lí khi import file
+    @FXML
+    private Button importButton;
+    @FXML
+    void importButtonActionPerformed(MouseEvent event) throws FileNotFoundException, IOException {
+        String path = chosenfilepath.getText();
+        String extension = "";
+        if (path.contains("."))
+            extension = path.substring(path.lastIndexOf(".")+1);
+
+        if(extension.equals("txt")) {
+            CheckAikenFormat.CheckTxt(chosenFile);
+        }
+        else if(extension.equals("docx")) {
+            CheckAikenFormat.CheckDocx(chosenFile);
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"Wrong Format");
+        }
     }
     @Override
     // 1.1 + 1.2 + 3.3

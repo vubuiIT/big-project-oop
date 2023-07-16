@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
@@ -17,7 +18,9 @@ import javafx.scene.layout.HBox;
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
+import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.html.ImageView;
 import java.beans.EventHandler;
 
 
@@ -45,6 +48,10 @@ public class Gui6_12Controller implements Initializable {
     @FXML
     private Label nameQuiz;
     @FXML
+    private Label nameQuiz2;
+    @FXML
+    private Label nameQuizAbove;
+    @FXML
     private Button preview_btn;
 
     @FXML
@@ -55,18 +62,32 @@ public class Gui6_12Controller implements Initializable {
 
     @FXML
     private VBox vbox61;
+    @FXML
+    private GridPane attempt;
+    @FXML
+    private Button close;
+    @FXML
+    private Button cancel;
+    @FXML
+    private Button start;
 
     @FXML
     private VBox vbox62;
     Set<Integer> check = new HashSet<>();
     boolean isDelete=false;
     public Quiz quiz; // Declare a variable to hold the passed value
+    Set<Integer> finalQues = new HashSet<>();
+    int quizId;
+
 
     // ...
 
     public void setVariable(Quiz quiz) {
         this.quiz = quiz; // Set the passed value to the variable
+        quizId = this.quiz.getId();
         nameQuiz.setText(this.quiz.getName());
+        nameQuiz2.setText(this.quiz.getName());
+        nameQuizAbove.setText(this.quiz.getName());
         if (quiz.getEnableTimeLimit() == 1) {
             String getTimeLimit = String.valueOf(quiz.getTimeLimit());
             timeLimit_lbl.setText(getTimeLimit);
@@ -144,6 +165,37 @@ public class Gui6_12Controller implements Initializable {
                 e.printStackTrace();
             }
         });
+        // mở start attempt
+        attempt.setVisible(false);
+        preview_btn.setOnAction(event ->{
+            attempt.setVisible(true);
+        });
+        cancel.setOnAction(event ->{
+            attempt.setVisible(false);
+        });
+        close.setOnAction(event ->{
+            attempt.setVisible(false);
+        });
+        start.setOnAction(event ->{
+            Stage currentStage = (Stage) start.getScene().getWindow();
+            currentStage.close();
+            try {
+                Stage stage = new Stage();
+                FXMLLoader loaders = new FXMLLoader(getClass().getResource("GUI7.fxml"));
+                Parent root = loaders.load();
+
+                GUI7Attempt controller = loaders.getController();
+                controller.setStage(stage);
+                controller.setquiz(this.quiz);
+
+                Scene scene = new Scene(root);
+                stage.setTitle("Attempt quiz");
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     //thao tác delete
@@ -191,6 +243,7 @@ public class Gui6_12Controller implements Initializable {
                 listQues.getChildren().clear();
                 check.clear();
                 number=1;
+                finalQues.clear();
                 updateQuestionList(boxChoice);
                 multiDelete.setText("SELECT MULTIPLE ITEMS");
                 isDelete=false;
@@ -219,6 +272,7 @@ public class Gui6_12Controller implements Initializable {
             Label nameLabel1 = (Label) selectedBox.lookup("#name_lb");
             Label textLabel1 = (Label) selectedBox.lookup("#text_lbl");
             Label quesId = (Label) selectedBox.lookup("#id_lbl");
+
             Integer Id= (int) quesId.getUserData();
             if(check.contains(Id)) {int t;}
             else {
@@ -235,11 +289,32 @@ public class Gui6_12Controller implements Initializable {
                 nameLabel.setText(name);
                 quesNumber.setText("" + number);
                 totalMark_lbl.setText("" + number + ".00");
+                numOfQues_lbl.setText(""+number);
                 number++;
                 textLabel.setText(text);
                 quesId1.setUserData(quesId.getUserData());
                 listQues.getChildren().add(boxtick);
+                finalQues.add(Id);
+                System.out.println(Id);
             }
         }
+    }
+
+    // An nut Save -> luu Quiz vao database
+    @FXML
+    void saveActionPerformed(MouseEvent event) throws IOException {
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+
+        for (int tmpId : finalQues){
+            connector.addQuesToQuiz(tmpId, quizId);
+            System.out.println("Successfully added question " + tmpId);
+        }
+
+        List<Question> tmp = connector.getQuestionsFromQuiz(1);
+        for (Question run : tmp)
+            System.out.println("Got" + run.getId() + " " + run.getText());
+
+        connector.disconnect();
     }
 }
