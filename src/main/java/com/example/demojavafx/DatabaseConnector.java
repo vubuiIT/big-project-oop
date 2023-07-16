@@ -503,7 +503,7 @@ public class DatabaseConnector {
                     int categoryId = resultSet1.getInt("category_id");
                     String text = resultSet1.getString("text");
                     String name = resultSet1.getString("name");
-                    String mediaName = resultSet.getString("media_name");
+                    String mediaName = resultSet1.getString("media_name");
                     byte[] media = resultSet1.getBytes("media");
                     float mark = resultSet1.getFloat("mark");
 

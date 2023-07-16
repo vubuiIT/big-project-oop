@@ -5,9 +5,9 @@ public class Choices {
     private final int id;
     private final int questionId;
     private final float grade;
-    private final byte[] pic;
+    private byte[] pic;
     private final String text;
-    private final String picName;
+    private String picName;
 
     public Choices(int id, int questionId, float grade, byte[] pic, String text, String picName) {
         this.id = id;
@@ -39,5 +39,11 @@ public class Choices {
     }
     public String getPicName() {
         return picName;
+    }
+    public void setPicName(String name) {
+        this.picName = name;
+    }
+    public void setPicData(byte[] data) {
+        this.pic = data;
     }
 }
