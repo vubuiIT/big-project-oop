@@ -729,11 +729,13 @@ public class Gui32CreateQuestionViewController implements Initializable {
         setIdQues(question.getId());
         DatabaseConnector connector = new DatabaseConnector();
         connector.connect();
+        System.out.println(question.getMediaName());
         if (!Objects.equals(question.getMediaName(), "")) {
             byte[] fileData = connector.getMediaData(question.getId());
             String mediaName = question.getName();
             fileMediaQues.setText(mediaName);
             String fileExtension = getFileExtension(mediaName);
+
             if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("mov") || fileExtension.equalsIgnoreCase("avi")) {
                 // Xử lý nếu file là video
                 Media media = byteArrayToMedia(fileData, mediaName);
