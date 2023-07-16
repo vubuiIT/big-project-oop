@@ -433,6 +433,71 @@ public class DatabaseConnector {
         }
     }
 
+    // Them cac question duoc chon vao trong quiz
+    public void addQuesToQuiz(int quesId, int quizId){
+        try {
+            String sql = "INSERT INTO QuizQues (ques_id, quiz_id) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, quesId);
+            statement.setInt(2, quizId);
+            statement.executeUpdate();
+            System.out.println("Question added successfully to Quiz");
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Question> getQuestionsFromQuiz(int quizId) {
+        List<Question> questions = new ArrayList<>();
+        List<Integer> tmpIds = new ArrayList<>();
+
+        try {
+            // Prepare SQL statement
+            String sql = "SELECT * FROM QuizQues WHERE quiz_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            // Set the parameter value
+            statement.setInt(1, quizId);
+
+            // Execute the SQL statement
+            ResultSet resultSet = statement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                int tmpId = resultSet.getInt("ques_id");
+                tmpIds.add(tmpId);
+            }
+
+            for (int tmpId : tmpIds) {
+                String sql1 = "SELECT * FROM Question WHERE id = ?";
+                PreparedStatement statement1 = connection.prepareStatement(sql1);
+
+                // Set the parameter value
+                statement1.setInt(1, tmpId);
+
+                // Execute the SQL statement
+                ResultSet resultSet1 = statement1.executeQuery();
+
+                // Process the result set
+                while (resultSet1.next()) {
+                    int categoryId = resultSet1.getInt("category_id");
+                    String text = resultSet1.getString("text");
+                    String name = resultSet1.getString("name");
+                    String media = resultSet1.getString("media");
+                    float mark = resultSet1.getFloat("mark");
+
+                    Question question = new Question(tmpId, categoryId, text, name, media, mark);
+                    questions.add(question);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to get questions from quiz: " + e.getMessage());
+        }
+        return questions;
+    }
+
     public void disconnect() {
         try {
             if (connection != null && !connection.isClosed()) {
