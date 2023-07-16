@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.text.html.ImageView;
 import java.beans.EventHandler;
@@ -47,6 +48,10 @@ public class Gui6_12Controller implements Initializable {
     @FXML
     private Label nameQuiz;
     @FXML
+    private Label nameQuiz2;
+    @FXML
+    private Label nameQuizAbove;
+    @FXML
     private Button preview_btn;
 
     @FXML
@@ -71,12 +76,18 @@ public class Gui6_12Controller implements Initializable {
     Set<Integer> check = new HashSet<>();
     boolean isDelete=false;
     public Quiz quiz; // Declare a variable to hold the passed value
+    Set<Integer> finalQues = new HashSet<>();
+    int quizId;
+
 
     // ...
 
     public void setVariable(Quiz quiz) {
         this.quiz = quiz; // Set the passed value to the variable
+        quizId = this.quiz.getId();
         nameQuiz.setText(this.quiz.getName());
+        nameQuiz2.setText(this.quiz.getName());
+        nameQuizAbove.setText(this.quiz.getName());
         if (quiz.getEnableTimeLimit() == 1) {
             String getTimeLimit = String.valueOf(quiz.getTimeLimit());
             timeLimit_lbl.setText(getTimeLimit);
@@ -229,6 +240,7 @@ public class Gui6_12Controller implements Initializable {
                 listQues.getChildren().clear();
                 check.clear();
                 number=1;
+                finalQues.clear();
                 updateQuestionList(boxChoice);
                 multiDelete.setText("SELECT MULTIPLE ITEMS");
                 isDelete=false;
@@ -257,6 +269,7 @@ public class Gui6_12Controller implements Initializable {
             Label nameLabel1 = (Label) selectedBox.lookup("#name_lb");
             Label textLabel1 = (Label) selectedBox.lookup("#text_lbl");
             Label quesId = (Label) selectedBox.lookup("#id_lbl");
+
             Integer Id= (int) quesId.getUserData();
             if(check.contains(Id)) {int t;}
             else {
@@ -277,7 +290,23 @@ public class Gui6_12Controller implements Initializable {
                 textLabel.setText(text);
                 quesId1.setUserData(quesId.getUserData());
                 listQues.getChildren().add(boxtick);
+                finalQues.add(Id);
+                System.out.println(Id);
             }
         }
+    }
+
+    // An nut Save -> luu Quiz vao database
+    @FXML
+    void saveActionPerformed(MouseEvent event) throws IOException {
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+
+        for (int tmpId : finalQues){
+            connector.addQuesToQuiz(tmpId, quizId);
+            System.out.println("Successfully added question " + tmpId);
+        }
+
+        connector.disconnect();
     }
 }

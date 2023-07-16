@@ -1,34 +1,47 @@
 package com.example.demojavafx;
 
-import com.almasb.fxgl.entity.Entity;
+//import com.almasb.fxgl.entity.Entity;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.css.converter.StringConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.scene.control.TextFormatter;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
+
+import javax.swing.*;
 
 public class Gui1_2_3Controller implements Initializable {
     final boolean[] isPopupVisible = {false};
@@ -113,6 +126,11 @@ public class Gui1_2_3Controller implements Initializable {
             controller.run(question);
             controller.setStage(stage);
 
+            controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    updateQuesShow(true);
+                }
+            });
             // Tạo một Scenetừ Parent và đặt nó cho Stage
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -122,6 +140,16 @@ public class Gui1_2_3Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    // Bam HOME hoac THI CUOI KY thi quay lai trang chu
+    void menuActionPerformed(MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui1-2.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -309,6 +337,56 @@ public class Gui1_2_3Controller implements Initializable {
         //Hiện all question trong category
         hbox.setVisible(true);
         scrollPane.setVisible(true);
+    }
+
+    @FXML
+    private Button choosefileButton;
+    @FXML
+    private Label chosenfilepath;
+    public static File chosenFile; // file đã chọn
+    @FXML
+    void choosefileButtonActionPerformed(MouseEvent event) {
+        FileChooser filechooser = new FileChooser();
+        filechooser.setTitle("Choose a file");
+        chosenFile = filechooser.showOpenDialog(null);
+        chosenfilepath.setText((chosenFile.getName())) ;
+    }
+    // Xử lí kéo thả file
+    @FXML
+    private Pane dragfilePane;
+    @FXML
+    void handleDragOver(DragEvent event) {
+        if(event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(TransferMode.ANY);
+        }
+
+    }
+    @FXML
+    void handleDrop(DragEvent event) throws FileNotFoundException {
+        List<File> files = event.getDragboard().getFiles();
+        for(File f : files) chosenFile = f;
+        chosenfilepath.setText(chosenFile.getName());
+
+    }
+    // Xử lí khi import file
+    @FXML
+    private Button importButton;
+    @FXML
+    void importButtonActionPerformed(MouseEvent event) throws FileNotFoundException, IOException {
+        String path = chosenfilepath.getText();
+        String extension = "";
+        if (path.contains("."))
+            extension = path.substring(path.lastIndexOf(".")+1);
+
+        if(extension.equals("txt")) {
+            CheckAikenFormat.CheckTxt(chosenFile);
+        }
+        else if(extension.equals("docx")) {
+            CheckAikenFormat.CheckDocx(chosenFile);
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"Wrong Format");
+        }
     }
     @Override
     // 1.1 + 1.2 + 3.3

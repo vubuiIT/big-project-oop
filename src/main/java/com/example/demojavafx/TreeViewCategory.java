@@ -47,6 +47,9 @@ public class TreeViewCategory {
             }
         });
     }
+    public void setIdChoice (int id) {
+        idTreeViewChoice = id;
+    }
     public int getIdChoice () {
         return idTreeViewChoice;
     }
