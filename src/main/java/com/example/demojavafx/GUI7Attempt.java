@@ -18,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -25,6 +27,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import javafx.util.Duration;
 import java.time.LocalDate;
@@ -92,7 +96,11 @@ public class GUI7Attempt implements Initializable{
                 num.setText("" + (container.getChildren().size() + 1));
                 Label name = (Label) root.lookup("#questionName");
                 name.setText(question.getName() + " : " + question.getText());
-
+                ImageView image = (ImageView) root.lookup("#imagetext");
+                if(question.getMedia()!=null) {
+                    InputStream inputStream = new ByteArrayInputStream(question.getMedia());
+                    image.setImage(new Image(inputStream));
+                }
                 ToggleButton text1 = (ToggleButton) root.lookup("#choice1");
                 text1.setVisible(false);
                 ToggleButton text2 = (ToggleButton) root.lookup("#choice2");
@@ -111,6 +119,11 @@ public class GUI7Attempt implements Initializable{
                         ToggleButton text = (ToggleButton) root.lookup("#choice1");
                         text.setText(choice.getText());
                         text.setVisible(true);
+                        if(choice.getPic()!=null) {
+                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                            ImageView choice1image = (ImageView) root.lookup("#choice1image");
+                            choice1image.setImage(new Image(inputStream));
+                        }
                         text.setOnMouseClicked(event -> {
                             if(text.isSelected()) {
                                 Node box = flowPane.getChildren().get(indexQues-1);
@@ -122,6 +135,11 @@ public class GUI7Attempt implements Initializable{
                         ToggleButton text = (ToggleButton) root.lookup("#choice2");
                         text.setText(choice.getText());
                         text.setVisible(true);
+                        if(choice.getPic()!=null) {
+                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                            ImageView choice2image = (ImageView) root.lookup("#choice2image");
+                            choice2image.setImage(new Image(inputStream));
+                        }
                         text.setOnMouseClicked(event -> {
                             if(text.isSelected()) {
                                 Node box = flowPane.getChildren().get(indexQues-1);
@@ -133,6 +151,11 @@ public class GUI7Attempt implements Initializable{
                         ToggleButton text = (ToggleButton) root.lookup("#choice3");
                         text.setText(choice.getText());
                         text.setVisible(true);
+                        if(choice.getPic()!=null) {
+                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                            ImageView choice3image = (ImageView) root.lookup("#choice3image");
+                            choice3image.setImage(new Image(inputStream));
+                        }
                         text.setOnMouseClicked(event -> {
                             if(text.isSelected()) {
                                 Node box = flowPane.getChildren().get(indexQues-1);
@@ -144,6 +167,11 @@ public class GUI7Attempt implements Initializable{
                         ToggleButton text = (ToggleButton) root.lookup("#choice4");
                         text.setText(choice.getText());
                         text.setVisible(true);
+                        if(choice.getPic()!=null) {
+                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                            ImageView choice4image = (ImageView) root.lookup("#choice4image");
+                            choice4image.setImage(new Image(inputStream));
+                        }
                         text.setOnMouseClicked(event -> {
                             if(text.isSelected()) {
                                 Node box = flowPane.getChildren().get(indexQues-1);
@@ -156,6 +184,11 @@ public class GUI7Attempt implements Initializable{
                         ToggleButton text = (ToggleButton) root.lookup("#choice5");
                         text.setText(choice.getText());
                         text.setVisible(true);
+                        if(choice.getPic()!=null) {
+                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                            ImageView choice5image = (ImageView) root.lookup("#choice5image");
+                            choice5image.setImage(new Image(inputStream));
+                        }
                         text.setOnMouseClicked(event -> {
                             if(text.isSelected()) {
                                 Node box = flowPane.getChildren().get(indexQues-1);
@@ -171,6 +204,7 @@ public class GUI7Attempt implements Initializable{
             e.printStackTrace();
         }
         additionalLabel.setOnMouseClicked( event -> {
+            scrollToQuestion(scrollPane,1);
             try {
                 isSub=true;
                 if(kt) {additionalLabel.setText(" Finish review ");kt=false;}
@@ -302,7 +336,7 @@ public class GUI7Attempt implements Initializable{
             HBox questionHBox = (HBox) vbox.getChildren().get(questionIndex - 1);
             // Di chuyển scrollpane đến hbox chứa câu hỏi
             double scrollY = questionHBox.getBoundsInParent().getMinY();
-            scrollPane.setVvalue( scrollY / (vbox.getHeight()-500));
+            scrollPane.setVvalue( scrollY / (vbox.getHeight()-450));
         }
         else {
             // Tìm hbox chứa câu hỏi tương ứng

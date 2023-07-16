@@ -7,6 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -19,11 +20,6 @@
       <Text fill="#e80000" layoutX="14.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IT" textAlignment="CENTER" wrappingWidth="80.193359375">
          <font>
             <Font name="System Bold" size="36.0" />
-         </font>
-      </Text>
-      <Text fill="#e17575" layoutX="14.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home / My courses / THI CUỐI KỲ/ General / Thi giữa kỳ 2 môn Công nghệ / Prieview" wrappingWidth="559.041015625">
-         <font>
-            <Font size="15.0" />
          </font>
       </Text>
       <Label fx:id="timecountdown" layoutX="589.0" layoutY="137.0" prefHeight="39.0" prefWidth="137.0" style="-fx-border-color: red;" text="Time left  " textAlignment="CENTER" AnchorPane.topAnchor="137.0">
@@ -68,5 +64,35 @@
             </Label>
          </children>
       </VBox>
+      <HBox layoutX="10.0" layoutY="70.0" prefHeight="36.0" prefWidth="625.0">
+         <children>
+            <Text fill="#e17575" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="42.041015625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/ My courses /" wrappingWidth="83.041015625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#e17575" layoutX="10.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THI CUỐI KỲ / General /" wrappingWidth="146.041015625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Label fx:id="nameQuizAbove" prefHeight="0.0" prefWidth="233.0" text="Thi giữa kỳ 2 môn Công nghệ /  Preview" textFill="#e17575">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
    </children>
 </AnchorPane>
