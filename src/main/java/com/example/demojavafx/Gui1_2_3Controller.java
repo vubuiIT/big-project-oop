@@ -25,12 +25,14 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextFormatter;
 import javafx.util.Duration;
@@ -79,7 +81,7 @@ public class Gui1_2_3Controller implements Initializable {
 
     @FXML
     private Hyperlink export;
-    
+
     @FXML
     private Tab tab1;
 
@@ -190,10 +192,17 @@ public class Gui1_2_3Controller implements Initializable {
                 }
                 document.close();
 
-                int option = JOptionPane.showConfirmDialog(null,"Do you want to set password for the file?",null,JOptionPane.YES_NO_OPTION);
-                if(option == JOptionPane.YES_OPTION) {
-                    String password = JOptionPane.showInputDialog(null,"Enter password: ") ;
-                    SetPassword.PDF(file,password);
+                Dialog<ButtonType> dialog = new Dialog<>();
+                dialog.getDialogPane().getButtonTypes().addAll(ButtonType.YES,ButtonType.NO);
+                dialog.setContentText("Do you want to set password for the file?");
+                Optional<ButtonType> option = dialog.showAndWait();
+                if(option.get() == ButtonType.YES) {
+                    TextInputDialog textInputDialog = new TextInputDialog();
+                    textInputDialog.setTitle("Set password");
+                    textInputDialog.setHeaderText("Set password for the PDF file: ");
+                    textInputDialog.setContentText("Password: ");
+                    Optional<String> password = textInputDialog.showAndWait();
+                    SetPassword.PDF(file,password.get());
                 }
             }
             stage.close();
