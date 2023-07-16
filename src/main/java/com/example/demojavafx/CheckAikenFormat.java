@@ -370,8 +370,10 @@ public class CheckAikenFormat {
                 // If there's still para to read
                 if(paraIterator < paras.size()) {
                     // If the para has choices format
-                    else if(CheckChoicesDocx(s)) {
-                        choicesList.add(new ChoiceAiken(s));
+                    if(CheckChoicesDocx(paras.get(paraIterator))) {
+                        String s = paras.get(paraIterator).getText();
+                        List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
+                        choicesList.add(new ChoiceAiken(s,imgs));
                         paraIterator++;
                     }
                     else {
@@ -421,7 +423,7 @@ public class CheckAikenFormat {
                         for(ChoiceAiken ch:choicesList) {
                             if(ans.contains(ch.getChoiceText().charAt(0))) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
-                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),1.0 / ans.size()));
+                                quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),(float) 1.0 / ans.size()));
                             }
                             else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),0));
                         }
