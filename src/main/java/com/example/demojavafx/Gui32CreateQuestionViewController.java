@@ -749,6 +749,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
             String mediaName = question.getName();
             fileMediaQues.setText(mediaName);
             String fileExtension = getFileExtension(mediaName);
+
             if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("mov") || fileExtension.equalsIgnoreCase("avi")) {
                 // Xử lý nếu file là video
                 Media media = byteArrayToMedia(fileData, mediaName);
@@ -782,45 +783,30 @@ public class Gui32CreateQuestionViewController implements Initializable {
                 choice1entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade1.setValue(stringGrade + "%");
-                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
-                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
+
             }
             if(numChoices==2) {
                 choice2entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade2.setValue(stringGrade + "%");
-                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
-                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
             }
             if(numChoices==3) {
                 choice3entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade3.setValue(stringGrade + "%");
-                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
-                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
             }
             if(numChoices==4) {
                 choice4entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade4.setValue(stringGrade + "%");
-                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
-                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
             }
             if(numChoices==5) {
                 choice5entry.setText(choice.getText());
                 String stringGrade = Float.toString(choice.getGrade() * 100);
                 grade5.setValue(stringGrade + "%");
-                byte[] fileDataChoice = connector.getPicChoiceData(choice.getId());
-                setImgChoice(fileDataChoice,numChoices,choice.getPicName());
-            }
-            if (!choiceDataMedia.isEmpty()) {
-                if (!Objects.equals(choice.getPicName(), "")) {
-                    choiceDataMedia.get(numChoices - 1).setPicName(choice.getPicName());
-                    choiceDataMedia.get(numChoices - 1).setPicData(choice.getPic());
-                }
             }
         }
         connector.disconnect();
-        });
+
     }
 }
