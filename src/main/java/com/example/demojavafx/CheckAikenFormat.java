@@ -71,22 +71,32 @@ public class CheckAikenFormat {
                     String s = fileScanner.nextLine();
                     // If the line is empty
                     if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
-                        fileScanner.close();
-                        errorFlag = true;
-                        fileOpenFlag = false;
-                        break;
+                        if(currentline==1) {
+                            JOptionPane.showMessageDialog(null, "Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        else continue;
                     }
                     else {
                         quiz.setQuestion(s);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
-                    fileScanner.close();
-                    errorFlag = true;
-                    fileOpenFlag = false;
-                    break;
+                    if(currentline==0) {
+                        JOptionPane.showMessageDialog(null, "Error found at line" + currentline);
+                        fileScanner.close();
+                        errorFlag = true;
+                        fileOpenFlag = false;
+                        break;
+                    }
+                    else {
+                        fileScanner.close();
+                        fileOpenFlag = false;
+                        break;
+                    }
                 }
 
                 // Read 2nd line (expecting choices)
@@ -321,11 +331,17 @@ public class CheckAikenFormat {
                     List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
                     // If the paragraph is empty -> error
                     if(s.isEmpty() && imgs.size() == 0) {
-                        JOptionPane.showMessageDialog(null, "Error found at line" + (paraIterator + 1));
-                        doc.close();
-                        errorFlag = true;
-                        fileOpenFlag = false;
-                        break;
+                        if(paraIterator==0) {
+                            JOptionPane.showMessageDialog(null, "Error found at line" + (paraIterator + 1));
+                            doc.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        else {
+                            paraIterator++;
+                            continue;
+                        }
                     }
                     else {
                         quiz.setQuestion(s);
@@ -334,11 +350,18 @@ public class CheckAikenFormat {
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
-                    doc.close();
-                    errorFlag = true;
-                    fileOpenFlag = false;
-                    break;
+                    if(paraIterator==0) {
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
+                        errorFlag = true;
+                        fileOpenFlag = false;
+                        break;
+                    }
+                    else {
+                        doc.close();
+                        fileOpenFlag = false;
+                        break;
+                    }
                 }
 
                 // Read 2nd para (expecting choices)
