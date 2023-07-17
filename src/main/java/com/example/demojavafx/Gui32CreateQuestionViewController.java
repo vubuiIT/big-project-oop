@@ -276,6 +276,8 @@ public class Gui32CreateQuestionViewController implements Initializable {
                 showQuesImg.setVisible(true);
                 showQuesVideo.setVisible(false);
             }
+            questionStage.setMedia(fileData);
+            questionStage.setMediaName(selectedFile.getName());
 
         } else {
             System.out.println("No file selected.");
@@ -443,9 +445,9 @@ public class Gui32CreateQuestionViewController implements Initializable {
         DatabaseConnector connector = new DatabaseConnector();
         connector.connect();
         String mediaName = "";
-        if (selectedFile != null) {
-            mediaName = selectedFile.getName();
-            byte[] fileData = readFileData(selectedFile.getAbsolutePath());
+        if (!Objects.equals(questionStage.getMediaName(), "")) {
+            mediaName = questionStage.getMediaName();
+            byte[] fileData = questionStage.getMedia();
             if (idQuesCreate == -1) {
                 idQuesCreate = connector.addQuestion(idCategory, qText, qName, fileData, mediaName, qMarkF);
             } else {
@@ -682,7 +684,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
         fileMediaQues.setText("");
         treeView = new TreeViewCategory(categoryTreeView, categoryChoiceBox);
         treeView.start();
-
+        questionStage = new Question(-1,-1,"","",null,0,"");
         byte[] picData = new byte[0];
         for (int i = 1; i <= 5; i++) {
             choiceDataMedia.add(new Choices(0, 0, 0, picData, "", ""));
@@ -761,6 +763,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
             connector.connect();
             if (!Objects.equals(question.getMediaName(), "")) {
                 byte[] fileData = connector.getMediaData(question.getId());
+                questionStage.setMedia(fileData);
                 String mediaName = question.getName();
                 fileMediaQues.setText(mediaName);
                 String fileExtension = getFileExtension(mediaName);

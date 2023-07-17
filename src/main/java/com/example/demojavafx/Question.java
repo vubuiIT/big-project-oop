@@ -45,4 +45,12 @@ public class Question {
     public float getMark() {
         return mark;
     }
+
+    public void setMedia(byte[] mediaFile) {
+        media = mediaFile;
+    }
+
+    public void setMediaName(String name) {
+        mediaName = name;
+    }
 }
