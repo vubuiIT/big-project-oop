@@ -24,13 +24,22 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import javafx.util.Duration;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,16 +52,16 @@ public class ExportController implements Initializable{
     @FXML
     private FlowPane flowPane;
     @FXML
-    private float scores = 0;
-    @FXML
-    private Label additionalLabel;
-    public Quiz quiz;
-    @FXML
     public VBox snapBox;
+    @FXML
+    private float scores = 0;
+    public Quiz quiz;
     private boolean isSub=false;
+    private boolean isPlay =false;
     public void setquiz(Quiz quiz) {
         this.quiz = quiz;
         //System.out.println(this.quiz.getId());
+        String timeBegin = LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy, h:mm a", Locale.ENGLISH));
         DatabaseConnector connector = new DatabaseConnector();
         connector.connect();
         VBox container = new VBox();
@@ -63,6 +72,9 @@ public class ExportController implements Initializable{
                 VBox vbox = createVBox(container.getChildren().size() + 1);
                 Label label= (Label) vbox.getChildren().get(0);
                 int indexQues=Integer.valueOf(label.getText());
+                vbox.setOnMouseClicked(event -> {
+                    scrollToQuestion(scrollPane, indexQues);
+                });
                 flowPane.getChildren().add(vbox);
                 List<Choices> choices = connector.getChoicesFromQuestion(question.getId());
                 boolean check = false;
@@ -75,119 +87,290 @@ public class ExportController implements Initializable{
                     }
                 }
                 FXMLLoader Loader = new FXMLLoader(getClass().getResource("questionBox.fxml"));
-                if (check) Loader = new FXMLLoader(getClass().getResource("boxQuestion.fxml"));
-                Parent root = Loader.load();
+                FXMLLoader Loaderr = new FXMLLoader(getClass().getResource("boxQuestion.fxml"));
+                Parent root;
+                if(check) root = Loaderr.load();
+                else root = Loader.load();
                 Label num = (Label) root.lookup("#num");
                 num.setText("" + (container.getChildren().size() + 1));
                 Label name = (Label) root.lookup("#questionName");
                 name.setText(question.getName() + " : " + question.getText());
-                ImageView image = (ImageView) root.lookup("#imagetext");
-                if(question.getMedia()!=null) {
-                    InputStream inputStream = new ByteArrayInputStream(question.getMedia());
-                    image.setImage(new Image(inputStream));
+                String fileExtension = getFileExtension(question.getMediaName());
+                System.out.println(question.getMediaName());
+                if (fileExtension.equalsIgnoreCase("mp4")) {
+                    MediaView mediaView = (MediaView) root.lookup("#mediaViewVideo");
+                    ByteArrayInputStream inputStream = new ByteArrayInputStream(question.getMedia());
+                    System.out.println(question.getMediaName());
+                    // Tạo Media từ ByteArrayInputStream
+                    Media media = byteArrayToMedia(question.getMedia(),question.getMediaName());
+
+                    // Tạo MediaPlayer từ Media
+                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+                    // Đặt MediaPlayer cho MediaView
+                    mediaView.setMediaPlayer(mediaPlayer);
+                    mediaView.setOnMouseClicked(event -> {
+                        if (isPlay) {
+                            mediaView.getMediaPlayer().pause();
+                            isPlay = false;
+                        }
+                        else {
+                            mediaView.getMediaPlayer().play();
+                            isPlay = true;
+                        }
+                    });
                 }
-                ToggleButton text1 = (ToggleButton) root.lookup("#choice1");
-                text1.setVisible(false);
-                ToggleButton text2 = (ToggleButton) root.lookup("#choice2");
-                text2.setVisible(false);
-                ToggleButton text3 = (ToggleButton) root.lookup("#choice3");
-                text3.setVisible(false);
-                ToggleButton text4 = (ToggleButton) root.lookup("#choice4");
-                text4.setVisible(false);
-                ToggleButton text5 = (ToggleButton) root.lookup("#choice5");
-                text5.setVisible(false);
-
-                int numChoices = 0;
-                for (Choices choice : choices) {
-                    numChoices++;
-                    if (numChoices == 1) {
-                        ToggleButton text = (ToggleButton) root.lookup("#choice1");
-                        text.setText(choice.getText());
-                        text.setVisible(true);
-                        if(choice.getPic()!=null) {
-                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
-                            ImageView choice1image = (ImageView) root.lookup("#choice1image");
-                            choice1image.setImage(new Image(inputStream));
-                        }
-                        text.setOnMouseClicked(event -> {
-                            if(text.isSelected()) {
-                                Node box = flowPane.getChildren().get(indexQues-1);
-                                box.setStyle("-fx-background-color: #000000");
-                            }
-                        });
-                    }
-                    if (numChoices == 2) {
-                        ToggleButton text = (ToggleButton) root.lookup("#choice2");
-                        text.setText(choice.getText());
-                        text.setVisible(true);
-                        if(choice.getPic()!=null) {
-                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
-                            ImageView choice2image = (ImageView) root.lookup("#choice2image");
-                            choice2image.setImage(new Image(inputStream));
-                        }
-                        text.setOnMouseClicked(event -> {
-                            if(text.isSelected()) {
-                                Node box = flowPane.getChildren().get(indexQues-1);
-                                box.setStyle("-fx-background-color: #000000");
-                            }
-                        });
-                    }
-                    if (numChoices == 3) {
-                        ToggleButton text = (ToggleButton) root.lookup("#choice3");
-                        text.setText(choice.getText());
-                        text.setVisible(true);
-                        if(choice.getPic()!=null) {
-                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
-                            ImageView choice3image = (ImageView) root.lookup("#choice3image");
-                            choice3image.setImage(new Image(inputStream));
-                        }
-                        text.setOnMouseClicked(event -> {
-                            if(text.isSelected()) {
-                                Node box = flowPane.getChildren().get(indexQues-1);
-                                box.setStyle("-fx-background-color: #000000");
-                            }
-                        });
-                    }
-                    if (numChoices == 4) {
-                        ToggleButton text = (ToggleButton) root.lookup("#choice4");
-                        text.setText(choice.getText());
-                        text.setVisible(true);
-                        if(choice.getPic()!=null) {
-                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
-                            ImageView choice4image = (ImageView) root.lookup("#choice4image");
-                            choice4image.setImage(new Image(inputStream));
-                        }
-                        text.setOnMouseClicked(event -> {
-                            if(text.isSelected()) {
-                                Node box = flowPane.getChildren().get(indexQues-1);
-                                box.setStyle("-fx-background-color: #000000");
-                            }
-                        });
-
-                    }
-                    if (numChoices == 5) {
-                        ToggleButton text = (ToggleButton) root.lookup("#choice5");
-                        text.setText(choice.getText());
-                        text.setVisible(true);
-                        if(choice.getPic()!=null) {
-                            InputStream inputStream = new ByteArrayInputStream(choice.getPic());
-                            ImageView choice5image = (ImageView) root.lookup("#choice5image");
-                            choice5image.setImage(new Image(inputStream));
-                        }
-                        text.setOnMouseClicked(event -> {
-                            if(text.isSelected()) {
-                                Node box = flowPane.getChildren().get(indexQues-1);
-                                box.setStyle("-fx-background-color: #000000");
-                            }
-                        });
+                else {
+                    ImageView image = (ImageView) root.lookup("#imagetext");
+                    if(question.getMedia()!= null ) {
+                        InputStream inputStream = new ByteArrayInputStream(question.getMedia());
+                        image.setImage(new Image(inputStream));
                     }
                 }
+                if(check) {
+                    ToggleButton text1 = (ToggleButton) root.lookup("#choice1");
+                    text1.setVisible(false);
+                    ToggleButton text2 = (ToggleButton) root.lookup("#choice2");
+                    text2.setVisible(false);
+                    ToggleButton text3 = (ToggleButton) root.lookup("#choice3");
+                    text3.setVisible(false);
+                    ToggleButton text4 = (ToggleButton) root.lookup("#choice4");
+                    text4.setVisible(false);
+                    ToggleButton text5 = (ToggleButton) root.lookup("#choice5");
+                    text5.setVisible(false);
+                    int numChoices = 0;
+                    for (Choices choice : choices) {
+                        numChoices++;
+                        if (numChoices == 1) {
+                            ToggleButton text = (ToggleButton) root.lookup("#choice1");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice1image = (ImageView) root.lookup("#choice1image");
+                                choice1image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                        if (numChoices == 2) {
+                            ToggleButton text = (ToggleButton) root.lookup("#choice2");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice2image = (ImageView) root.lookup("#choice2image");
+                                choice2image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                        if (numChoices == 3) {
+                            ToggleButton text = (ToggleButton) root.lookup("#choice3");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice3image = (ImageView) root.lookup("#choice3image");
+                                choice3image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                        if (numChoices == 4) {
+                            ToggleButton text = (ToggleButton) root.lookup("#choice4");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice4image = (ImageView) root.lookup("#choice4image");
+                                choice4image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+
+                        }
+                        if (numChoices == 5) {
+                            ToggleButton text = (ToggleButton) root.lookup("#choice5");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice5image = (ImageView) root.lookup("#choice5image");
+                                choice5image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                    }
+                }
+                else {
+                    CheckBox text1 = (CheckBox) root.lookup("#choice1");
+                    text1.setVisible(false);
+                    CheckBox text2 = (CheckBox) root.lookup("#choice2");
+                    text2.setVisible(false);
+                    CheckBox text3 = (CheckBox) root.lookup("#choice3");
+                    text3.setVisible(false);
+                    CheckBox text4 = (CheckBox) root.lookup("#choice4");
+                    text4.setVisible(false);
+                    CheckBox text5 = (CheckBox) root.lookup("#choice5");
+                    text5.setVisible(false);
+                    int numChoices = 0;
+                    for (Choices choice : choices) {
+                        numChoices++;
+                        if (numChoices == 1) {
+                            CheckBox text = (CheckBox) root.lookup("#choice1");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice1image = (ImageView) root.lookup("#choice1image");
+                                choice1image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                        if (numChoices == 2) {
+                            CheckBox text = (CheckBox) root.lookup("#choice2");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice2image = (ImageView) root.lookup("#choice2image");
+                                choice2image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                        if (numChoices == 3) {
+                            CheckBox text = (CheckBox) root.lookup("#choice3");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice3image = (ImageView) root.lookup("#choice3image");
+                                choice3image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                        if (numChoices == 4) {
+                            CheckBox text = (CheckBox) root.lookup("#choice4");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice4image = (ImageView) root.lookup("#choice4image");
+                                choice4image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+
+                        }
+                        if (numChoices == 5) {
+                            CheckBox text = (CheckBox) root.lookup("#choice5");
+                            text.setText(choice.getText());
+                            text.setVisible(true);
+                            if(choice.getPic()!=null) {
+                                InputStream inputStream = new ByteArrayInputStream(choice.getPic());
+                                ImageView choice5image = (ImageView) root.lookup("#choice5image");
+                                choice5image.setImage(new Image(inputStream));
+                            }
+                            text.setOnMouseClicked(event -> {
+                                if(text.isSelected()) {
+                                    Node box = flowPane.getChildren().get(indexQues-1);
+                                    box.setStyle("-fx-background-color: #000000");
+                                }
+                            });
+                        }
+                    }
+                }
+
                 container.getChildren().add(root);
             }
             scrollPane.setContent(container); snapBox = container;
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private String generateRandomFileName() {
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder randomName = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 10; i++) {
+            int randomIndex = random.nextInt(alphabet.length());
+            randomName.append(alphabet.charAt(randomIndex));
+        }
+
+        return randomName.toString();
+    }
+    private Media byteArrayToMedia(byte[] fileData, String fileName) {
+        try {
+            String fileExt = getFileExtension(fileName);
+            // Tạo một tệp tin ẩn với tên ngẫu nhiên
+            String tempFileName = generateRandomFileName();
+            String tempFilePath = System.getProperty("java.io.tmpdir") + tempFileName + "." + fileExt;
+
+            // Ghi mảng byte vào tệp tin tạm thời
+            Files.write(Paths.get(tempFilePath), fileData);
+
+            // Tạo URI từ đường dẫn tệp tin tạm thời
+            URI uri = new File(tempFilePath).toURI();
+
+            // Tạo đối tượng Media từ URI
+            Media media = new Media(uri.toString());
+
+            return media;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public String getFileExtension(String fileName) {
+
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex + 1).toLowerCase();
+        }
+        return "";
     }
     private Stage stage;
     public void setStage(Stage stage) {
@@ -215,5 +398,23 @@ public class ExportController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //System.out.println(quiz.getId());
 
+    }
+    private void scrollToQuestion(ScrollPane scrollPane, int questionIndex) {
+        if(isSub!=true){
+            // Tìm hbox chứa câu hỏi tương ứng
+            VBox vbox = (VBox) scrollPane.getContent();
+            HBox questionHBox = (HBox) vbox.getChildren().get(questionIndex - 1);
+            // Di chuyển scrollpane đến hbox chứa câu hỏi
+            double scrollY = questionHBox.getBoundsInParent().getMinY();
+            scrollPane.setVvalue( scrollY / (vbox.getHeight()-450));
+        }
+        else {
+            // Tìm hbox chứa câu hỏi tương ứng
+            VBox vbox = (VBox) scrollPane.getContent();
+            HBox questionHBox = (HBox) vbox.getChildren().get(2*questionIndex - 1);
+            // Di chuyển scrollpane đến hbox chứa câu hỏi
+            double scrollY = questionHBox.getBoundsInParent().getMinY();
+            scrollPane.setVvalue( scrollY / (vbox.getHeight()-500));
+        }
     }
 }
