@@ -418,7 +418,10 @@ public class GUI7Attempt implements Initializable{
                                 Node text = (Node) element.lookup("#choice1");
                                 if (text instanceof CheckBox) {
                                     CheckBox choicet = (CheckBox) text;
-                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    if(choicet.isSelected()) {
+                                        scores += choice.getGrade();click=true;
+                                        if(choice.getGrade()==0.00) scores = preScores;
+                                    }
                                     // Sử dụng CheckBox
                                 } else if (text instanceof RadioButton) {
                                     RadioButton choicet = (RadioButton) text;
@@ -430,7 +433,10 @@ public class GUI7Attempt implements Initializable{
                                 Node text = (Node) element.lookup("#choice2");
                                 if (text instanceof CheckBox) {
                                     CheckBox choicet = (CheckBox) text;
-                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    if(choicet.isSelected()) {
+                                        scores += choice.getGrade();click=true;
+                                        if(choice.getGrade()==0.00) scores = preScores;
+                                    }
                                     // Sử dụng CheckBox
                                 } else if (text instanceof RadioButton) {
                                     RadioButton choicet = (RadioButton) text;
@@ -442,7 +448,10 @@ public class GUI7Attempt implements Initializable{
                                 Node text = (Node) element.lookup("#choice3");
                                 if (text instanceof CheckBox) {
                                     CheckBox choicet = (CheckBox) text;
-                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    if(choicet.isSelected()) {
+                                        scores += choice.getGrade();click=true;
+                                        if(choice.getGrade()==0.00) scores = preScores;
+                                    }
                                     // Sử dụng CheckBox
                                 } else if (text instanceof RadioButton) {
                                     RadioButton choicet = (RadioButton) text;
@@ -454,7 +463,10 @@ public class GUI7Attempt implements Initializable{
                                 Node text = (Node) element.lookup("#choice4");
                                 if (text instanceof CheckBox) {
                                     CheckBox choicet = (CheckBox) text;
-                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    if(choicet.isSelected()) {
+                                        scores += choice.getGrade();click=true;
+                                        if(choice.getGrade()==0.00) scores = preScores;
+                                    }
                                     // Sử dụng CheckBox
                                 } else if (text instanceof RadioButton) {
                                     RadioButton choicet = (RadioButton) text;
@@ -466,7 +478,10 @@ public class GUI7Attempt implements Initializable{
                                 Node text = (Node) element.lookup("#choice5");
                                 if (text instanceof CheckBox) {
                                     CheckBox choicet = (CheckBox) text;
-                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    if(choicet.isSelected()) {
+                                        scores += choice.getGrade();click=true;
+                                        if(choice.getGrade()==0.00) scores = preScores;
+                                    }
                                     // Sử dụng CheckBox
                                 } else if (text instanceof RadioButton) {
                                     RadioButton choicet = (RadioButton) text;
