@@ -325,7 +325,8 @@ public class Gui1_2_3Controller implements Initializable {
                             container.getChildren().add(itemNode);
                         }
                     }
-                }catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
             };
