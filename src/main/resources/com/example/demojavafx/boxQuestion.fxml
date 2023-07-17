@@ -8,13 +8,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
 <HBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefWidth="108.0" style="-fx-background-color: #ecf0f1; -fx-border-color: gray;">
          <HBox.margin>
-            <Insets bottom="70.0" left="5.0" right="3.0" top="10.0" />
+            <Insets bottom="50.0" left="5.0" right="3.0" top="10.0" />
          </HBox.margin>
          <children>
             <HBox prefHeight="19.0" prefWidth="68.0">
@@ -80,6 +81,11 @@
                <VBox.margin>
                   <Insets left="50.0" />
                </VBox.margin></ImageView>
+            <MediaView fx:id="mediaViewVideo" fitWidth="200.0">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </MediaView>
             <RadioButton fx:id="choice1" alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="562.0" text="RadioButton" wrapText="true">
                <toggleGroup>
                   <ToggleGroup fx:id="x" />
