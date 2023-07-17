@@ -1,17 +1,18 @@
 package com.example.demojavafx;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Label;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 
@@ -22,6 +23,17 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.text.html.ImageView;
 import java.beans.EventHandler;
+
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.*;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 
 import java.io.IOException;
@@ -70,7 +82,8 @@ public class Gui6_12Controller implements Initializable {
     private Button cancel;
     @FXML
     private Button start;
-
+    @FXML
+    private Button start1;
     @FXML
     private VBox vbox62;
     Set<Integer> check = new HashSet<>();
@@ -219,6 +232,72 @@ public class Gui6_12Controller implements Initializable {
                 stage.setTitle("Attempt quiz");
                 stage.setScene(scene);
                 stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        start1.setOnAction(event ->{
+            Stage currentStage = (Stage) start1.getScene().getWindow();
+            currentStage.close();
+            try {
+                Stage stage = new Stage();
+                FXMLLoader loaders = new FXMLLoader(getClass().getResource("Export.fxml"));
+                Parent root = loaders.load();
+
+                ExportController controller = loaders.getController();
+                controller.setStage(stage);
+                controller.setquiz(this.quiz);
+
+                Scene scene = new Scene(root);
+                stage.setTitle("Preview quiz and export");
+                stage.setScene(scene);
+                stage.show();
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)","*.pdf"));
+                File file = fileChooser.showSaveDialog(null);
+                if (file != null) {
+                    PdfWriter pdfWriter = new PdfWriter(file);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+
+                    PageSize pageSize = PageSize.A4;
+                    float pageHeight = pageSize.getHeight(); // 842
+                    float pageWidth = pageSize.getWidth(); // 595
+
+                    Document document = new Document(pdfDocument, pageSize);
+                    document.setMargins(50, 30, 50, 70);
+
+                    WritableImage snapImage = controller.snapBox.snapshot(new SnapshotParameters(), null);
+                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(snapImage,null);
+                    int curr_y = 0;
+                    while (curr_y < bufferedImage.getHeight()) {
+                        // Crop ảnh thành những ảnh nhỏ tỉ lệ với 1 trang PDF
+                        int h = (int) (pageHeight * (float) bufferedImage.getWidth() / pageWidth);
+                        if (curr_y + h > bufferedImage.getHeight()) h = bufferedImage.getHeight() - curr_y;
+                        BufferedImage subImage = bufferedImage.getSubimage(0, curr_y, bufferedImage.getWidth(), h);
+                        ImageData imgdata = ImageDataFactory.create(subImage, null);
+                        Image img = new Image(imgdata);
+                        img.scaleToFit(pageWidth - 100, pageHeight - 100);
+                        document.add(img);
+                        curr_y += h;
+                    }
+                    document.close();
+
+                    Dialog<ButtonType> dialog = new Dialog<>();
+                    dialog.setTitle("Set password for exported file?");
+                    dialog.getDialogPane().getButtonTypes().addAll(ButtonType.YES,ButtonType.NO);
+                    dialog.setContentText("Do you want to set password for the file?");
+                    Optional<ButtonType> option = dialog.showAndWait();
+                    if(option.get() == ButtonType.YES) {
+                        TextInputDialog textInputDialog = new TextInputDialog();
+                        textInputDialog.setTitle("Set password");
+                        textInputDialog.setHeaderText("Set password for the PDF file: ");
+                        textInputDialog.setContentText("Password: ");
+                        Optional<String> password = textInputDialog.showAndWait();
+                        if(password.isPresent()) SetPassword.PDF(file,password.get());
+                    }
+                }
+                stage.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

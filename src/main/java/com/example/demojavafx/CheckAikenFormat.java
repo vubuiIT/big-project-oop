@@ -485,20 +485,23 @@ public class CheckAikenFormat {
 
                     String cText = null;
                     float cGrade;
-                    System.out.print(qText + '\n' + category.getId() + ' ' + category.getName() + '\n');
+                    System.out.print(qText + '\n' + category.getId() + ' ' + category.getName() + ' ' + quiz.getIllustrators().size() + '\n');
                     for (ChoiceAiken ch:quiz.choiceList) {
                         cText = ch.getChoiceText();
                         cGrade = ch.getGrade();
-                        System.out.print(cText + "  Grade: " + cGrade + '\n');
+                        System.out.print(cText + "  Grade: " + cGrade + ' ' + ch.getImage().size() + '\n');
 
                         List<BufferedImage> choiceImages = ch.getImage();
+                        byte[] choicepicData = new byte[0];
+                        String choicepicName;
                         if (!choiceImages.isEmpty()) {
                             ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
                             ImageIO.write(choiceImages.get(0), "png", bos1);
-                            picData = bos1.toByteArray();
+                            choicepicData = bos1.toByteArray();
+                            choicepicName = "pic_choice";
                         }
-
-                        connector.addChoice(idQuestion, cGrade, picData, cText, "pic_choice");
+                        else choicepicName = "";
+                        connector.addChoice(idQuestion, cGrade, choicepicData, cText, choicepicName);
                     }
                     connector.disconnect();
                 }
