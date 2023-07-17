@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -30,6 +31,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +40,7 @@ import java.net.URI;
 import java.net.URL;
 import javafx.util.Duration;
 
+import javax.imageio.ImageIO;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -58,6 +61,12 @@ public class GUI7Attempt implements Initializable{
     public Quiz quiz;
     @FXML
     private Label timecountdown;
+    @FXML
+    private Button yes;
+    @FXML
+    private Button no;
+    @FXML
+    private VBox again;
     private Timeline countdownTimer;
     private int timeLimitInSeconds;
     private int timeLimit = 0;
@@ -67,7 +76,7 @@ public class GUI7Attempt implements Initializable{
         this.quiz = quiz;
         //System.out.println(this.quiz.getId());
         if (quiz.getEnableTimeLimit() == 1) {
-            timeLimitInSeconds = quiz.getTimeLimit();
+            timeLimitInSeconds = quiz.getTimeLimit()*60;
         }
         countdownTimer = new Timeline(
                 new KeyFrame(Duration.seconds(1), this::updateCountdown)
@@ -109,35 +118,46 @@ public class GUI7Attempt implements Initializable{
                 Label name = (Label) root.lookup("#questionName");
                 name.setText(question.getName() + " : " + question.getText());
                 String fileExtension = getFileExtension(question.getMediaName());
-                System.out.println(question.getMediaName());
-                if (fileExtension.equalsIgnoreCase("mp4")) {
-                    MediaView mediaView = (MediaView) root.lookup("#mediaViewVideo");
-                    ByteArrayInputStream inputStream = new ByteArrayInputStream(question.getMedia());
-                    System.out.println(question.getMediaName());
-                    // Tạo Media từ ByteArrayInputStream
-                    Media media = byteArrayToMedia(question.getMedia(),question.getMediaName());
+                //System.out.println(question.getMediaName());
+                if(question.getMediaName()!="")
+                {
+                    if (fileExtension.equalsIgnoreCase("mp4")) {
+                        // Xử lý nếu file là video
+                        Media media = byteArrayToMedia(question.getMedia(),question.getMediaName());
+                        if(media != null) {
+                            // Set the Media object to the MediaPlayer
+                            MediaView mediaView = (MediaView) root.lookup("#mediaViewVideo");
+                            //ByteArrayInputStream inputStream = new ByteArrayInputStream(question.getMedia());
+                            //System.out.println(question.getMediaName());
 
-                    // Tạo MediaPlayer từ Media
-                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            // Tạo MediaPlayer từ Media
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
 
-                    // Đặt MediaPlayer cho MediaView
-                    mediaView.setMediaPlayer(mediaPlayer);
-                    mediaView.setOnMouseClicked(event -> {
-                        if (isPlay) {
-                            mediaView.getMediaPlayer().pause();
-                            isPlay = false;
+                            // Đặt MediaPlayer cho MediaView
+                            mediaView.setMediaPlayer(mediaPlayer);
+                            mediaView.setOnMouseClicked(event -> {
+                                if (isPlay) {
+                                    mediaView.getMediaPlayer().pause();
+                                    isPlay = false;
+                                    mediaPlayer.setMute(true);
+                                }
+                                else {
+                                    mediaView.getMediaPlayer().play();
+                                    isPlay = true;
+                                    mediaPlayer.setMute(false);
+                                }
+                            });
                         }
-                        else {
-                            mediaView.getMediaPlayer().play();
-                            isPlay = true;
-                        }
-                    });
-                }
-                else {
-                    ImageView image = (ImageView) root.lookup("#imagetext");
-                    if(question.getMedia()!= null ) {
-                        InputStream inputStream = new ByteArrayInputStream(question.getMedia());
-                        image.setImage(new Image(inputStream));
+                    } else if (fileExtension.equalsIgnoreCase("gif")) {
+                        ImageView image = (ImageView) root.lookup("#imagetext");
+                        Image gifImage = new Image(new ByteArrayInputStream(question.getMedia()));
+                        image.setImage(gifImage);
+                    }
+                    else if (!Objects.equals(question.getMediaName(), "")){
+                        // Xử lý nếu file không phải là video
+                        ImageView images = (ImageView) root.lookup("#imagetext");
+                        Image image = byteArrayToImage(question.getMedia());
+                        images.setImage(image);
                     }
                 }
                 if(check) {
@@ -341,126 +361,144 @@ public class GUI7Attempt implements Initializable{
         }catch (Exception e) {
             e.printStackTrace();
         }
-        additionalLabel.setOnMouseClicked( event -> {
-            scrollToQuestion(scrollPane,1);
-            try {
-                isSub=true;
-                if(kt) {additionalLabel.setText(" Finish review ");kt=false;}
-                else {stage.close();return;}
-                timecountdown.setVisible(false);
-                FXMLLoader Loader = new FXMLLoader(getClass().getResource("preview.fxml"));
-                Parent rot = Loader.load();
-                Text begin = (Text) rot.lookup("#begin");
-                begin.setText(""+ timeBegin);
-                Text end = (Text) rot.lookup("#end");
-                String timeText = LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy, h:mm a", Locale.ENGLISH));
-                end.setText("" + timeText);
-                Text mark = (Text) rot.lookup("#mark");
-                Text grade = (Text) rot.lookup("#grade");
-                Text time = (Text) rot.lookup("#time");
-                int hours = timeLimit / 3600; // Giờ
-                int minutes = (timeLimit % 3600) / 60; // Phút
-                int seconds = timeLimit % 60; // Giây
-                if(hours!=0) time.setText(String.format("%02d hours %02d mins %02d seconds", hours, minutes, seconds));
-                else if(minutes!=0) time.setText(String.format("%02d mins %02d seconds", minutes, seconds));
-                else time.setText(String.format("%02d seconds", seconds));
-                container.getChildren().add(0,rot);
-                List<Question> questions = connector.getQuestionsFromQuiz(quiz.getId());
-                int cnt=0;
-                for (Question question : questions) {
-                    cnt+=2;
-                    Node element = container.getChildren().get(cnt-1);
-                    FXMLLoader Load = new FXMLLoader(getClass().getResource("boxAnswer.fxml"));
-                    Parent root = Load.load();
-                    Label answer = (Label) root.lookup("#correctanswer");
-                    String answers ="The correct answer is: ";
-                    List<Choices> choices = connector.getChoicesFromQuestion(question.getId());
-                    int numChoices = 0;
-                    float preScores = scores;
-                    boolean click=false;
-                    for (Choices choice : choices) {
-                        numChoices++;
-                        if (numChoices == 1) {
-                            Node text = (Node) element.lookup("#choice1");
-                            if (text instanceof CheckBox) {
-                                CheckBox choicet = (CheckBox) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng CheckBox
-                            } else if (text instanceof RadioButton) {
-                                RadioButton choicet = (RadioButton) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng RadioButton
+        additionalLabel.setOnMouseClicked(even -> {
+            //if(!kt) {stage.close();return;}
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Are you sure you want to submit your attempt?");
+
+            // Tùy chỉnh các nút trong hộp thoại
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+            // Hiển thị hộp thoại và chờ đến khi người dùng đóng nó
+            ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+
+            // Xử lý kết quả từ hộp thoại
+            if (result == buttonTypeYes) {
+                additionalLabel.setText(" Finish review ");kt=false;
+                scrollToQuestion(scrollPane,1);
+                try {
+                    isSub=true;
+                    timecountdown.setVisible(false);
+                    FXMLLoader Loader = new FXMLLoader(getClass().getResource("preview.fxml"));
+                    Parent rot = Loader.load();
+                    Text begin = (Text) rot.lookup("#begin");
+                    begin.setText(""+ timeBegin);
+                    Text end = (Text) rot.lookup("#end");
+                    String timeText = LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy, h:mm a", Locale.ENGLISH));
+                    end.setText("" + timeText);
+                    Text mark = (Text) rot.lookup("#mark");
+                    Text grade = (Text) rot.lookup("#grade");
+                    Text time = (Text) rot.lookup("#time");
+                    int hours = timeLimit / 3600; // Giờ
+                    int minutes = (timeLimit % 3600) / 60; // Phút
+                    int seconds = timeLimit % 60; // Giây
+                    if(hours!=0) time.setText(String.format("%02d hours %02d mins %02d seconds", hours, minutes, seconds));
+                    else if(minutes!=0) time.setText(String.format("%02d mins %02d seconds", minutes, seconds));
+                    else time.setText(String.format("%02d seconds", seconds));
+                    container.getChildren().add(0,rot);
+                    List<Question> questions = connector.getQuestionsFromQuiz(quiz.getId());
+                    int cnt=0;
+                    for (Question question : questions) {
+                        cnt+=2;
+                        Node element = container.getChildren().get(cnt-1);
+                        FXMLLoader Load = new FXMLLoader(getClass().getResource("boxAnswer.fxml"));
+                        Parent root = Load.load();
+                        Label answer = (Label) root.lookup("#correctanswer");
+                        String answers ="The correct answer is: ";
+                        List<Choices> choices = connector.getChoicesFromQuestion(question.getId());
+                        int numChoices = 0;
+                        float preScores = scores;
+                        boolean click=false;
+                        for (Choices choice : choices) {
+                            numChoices++;
+                            if (numChoices == 1) {
+                                Node text = (Node) element.lookup("#choice1");
+                                if (text instanceof CheckBox) {
+                                    CheckBox choicet = (CheckBox) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng CheckBox
+                                } else if (text instanceof RadioButton) {
+                                    RadioButton choicet = (RadioButton) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng RadioButton
+                                }
                             }
-                        }
-                        if (numChoices == 2) {
-                            Node text = (Node) element.lookup("#choice2");
-                            if (text instanceof CheckBox) {
-                                CheckBox choicet = (CheckBox) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng CheckBox
-                            } else if (text instanceof RadioButton) {
-                                RadioButton choicet = (RadioButton) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng RadioButton
+                            if (numChoices == 2) {
+                                Node text = (Node) element.lookup("#choice2");
+                                if (text instanceof CheckBox) {
+                                    CheckBox choicet = (CheckBox) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng CheckBox
+                                } else if (text instanceof RadioButton) {
+                                    RadioButton choicet = (RadioButton) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng RadioButton
+                                }
                             }
-                        }
-                        if (numChoices == 3) {
-                            Node text = (Node) element.lookup("#choice3");
-                            if (text instanceof CheckBox) {
-                                CheckBox choicet = (CheckBox) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng CheckBox
-                            } else if (text instanceof RadioButton) {
-                                RadioButton choicet = (RadioButton) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng RadioButton
+                            if (numChoices == 3) {
+                                Node text = (Node) element.lookup("#choice3");
+                                if (text instanceof CheckBox) {
+                                    CheckBox choicet = (CheckBox) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng CheckBox
+                                } else if (text instanceof RadioButton) {
+                                    RadioButton choicet = (RadioButton) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng RadioButton
+                                }
                             }
-                        }
-                        if (numChoices == 4) {
-                            Node text = (Node) element.lookup("#choice4");
-                            if (text instanceof CheckBox) {
-                                CheckBox choicet = (CheckBox) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng CheckBox
-                            } else if (text instanceof RadioButton) {
-                                RadioButton choicet = (RadioButton) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng RadioButton
+                            if (numChoices == 4) {
+                                Node text = (Node) element.lookup("#choice4");
+                                if (text instanceof CheckBox) {
+                                    CheckBox choicet = (CheckBox) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng CheckBox
+                                } else if (text instanceof RadioButton) {
+                                    RadioButton choicet = (RadioButton) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng RadioButton
+                                }
                             }
-                        }
-                        if (numChoices == 5) {
-                            Node text = (Node) element.lookup("#choice5");
-                            if (text instanceof CheckBox) {
-                                CheckBox choicet = (CheckBox) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng CheckBox
-                            } else if (text instanceof RadioButton) {
-                                RadioButton choicet = (RadioButton) text;
-                                if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
-                                // Sử dụng RadioButton
+                            if (numChoices == 5) {
+                                Node text = (Node) element.lookup("#choice5");
+                                if (text instanceof CheckBox) {
+                                    CheckBox choicet = (CheckBox) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng CheckBox
+                                } else if (text instanceof RadioButton) {
+                                    RadioButton choicet = (RadioButton) text;
+                                    if(choicet.isSelected()) {scores += choice.getGrade();click=true;}
+                                    // Sử dụng RadioButton
+                                }
                             }
+                            if (choice.getGrade()!=0.00) answers = answers + choice.getText() + "\n";
                         }
-                        if (choice.getGrade()!=0.00) answers = answers + choice.getText() + "\n";
+                        Node vbox = flowPane.getChildren().get(cnt/2 - 1);
+                        vbox.setStyle("-fx-background-color: #000000");
+                        if(scores-preScores==1.00) {
+                            vbox.setStyle("-fx-background-color: #00fc15");
+                        }
+                        else if(scores-preScores!=0.00) {
+                            vbox.setStyle("-fx-background-color: #ff9200");
+                        }
+                        else if(click) vbox.setStyle("-fx-background-color: #ff0000");
+                        answer.setText(answers);
+                        container.getChildren().add(cnt,root);
                     }
-                    Node vbox = flowPane.getChildren().get(cnt/2 - 1);
-                    vbox.setStyle("-fx-background-color: #000000");
-                    if(scores-preScores==1.00) {
-                        vbox.setStyle("-fx-background-color: #00fc15");
-                    }
-                    else if(scores-preScores!=0.00) {
-                        vbox.setStyle("-fx-background-color: #ff9200");
-                    }
-                    else if(click) vbox.setStyle("-fx-background-color: #ff0000");
-                    answer.setText(answers);
-                    container.getChildren().add(cnt,root);
+                    mark.setText("" + scores + "/" + cnt/2 + ".00");
+                    float ten = 20*scores/cnt;
+                    int percent = (int) ((int) 10*ten);
+                    grade.setText("" + ten + " out of 10.00 (" + percent + "%)");
+                    scrollPane.setContent(container);
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
-                mark.setText("" + scores + "/" + cnt/2 + ".00");
-                float ten = 20*scores/cnt;
-                int percent = (int) ((int) 10*ten);
-                grade.setText("" + ten + " out of 10.00 (" + percent + "%)");
-                scrollPane.setContent(container);
-            }catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("User chose No or closed the dialog.");
+                alert.close();
             }
         });
     }
@@ -475,6 +513,16 @@ public class GUI7Attempt implements Initializable{
         }
 
         return randomName.toString();
+    }
+    private Image byteArrayToImage(byte[] fileData) {
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(fileData);
+            BufferedImage bufferedImage = ImageIO.read(inputStream);
+            return SwingFXUtils.toFXImage(bufferedImage, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     private Media byteArrayToMedia(byte[] fileData, String fileName) {
         try {
