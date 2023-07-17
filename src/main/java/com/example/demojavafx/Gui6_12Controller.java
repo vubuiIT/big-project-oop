@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ import java.util.*;
 import javafx.scene.input.MouseEvent;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.html.ImageView;
 import java.beans.EventHandler;
 
 
@@ -60,6 +62,14 @@ public class Gui6_12Controller implements Initializable {
 
     @FXML
     private VBox vbox61;
+    @FXML
+    private GridPane attempt;
+    @FXML
+    private Button close;
+    @FXML
+    private Button cancel;
+    @FXML
+    private Button start;
 
     @FXML
     private VBox vbox62;
@@ -85,17 +95,44 @@ public class Gui6_12Controller implements Initializable {
         else {
             timeLimit_lbl.setText("Unlimited");
         }
-
+        // hiện data câu hỏi đã có từ trước
+        System.out.println("2e3qwrefe    " + quizId);
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.connect();
+        List<Question> tmp1 = connector.getQuestionsFromQuiz(quizId);
+        connector.disconnect();
+        for(Question ques : tmp1) {
+            try {
+                FXMLLoader loader1 = new FXMLLoader(getClass().getResource("64boxtick.fxml"));
+                HBox boxtick = loader1.load();
+                Label nameLabel = (Label) boxtick.lookup("#name_lb");
+                Label textLabel = (Label) boxtick.lookup("#text_lbl");
+                Label quesNumber = (Label) boxtick.lookup("#rank_lbl");
+                Label quesId1 = (Label) boxtick.lookup("#quesID_lbl");
+                nameLabel.setText(ques.getName());
+                quesNumber.setText("" + number);
+                totalMark_lbl.setText("" + number + ".00");
+                numOfQues_lbl.setText("" + number);
+                number++;
+                textLabel.setText(ques.getText());
+                quesId1.setUserData(ques.getId());
+                listQues.getChildren().add(boxtick);
+                check.add(ques.getId());
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         // You can use this variable to initialize or update the GUI elements in your controller
+
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle)  {
         editquiz.setOnMouseClicked(event -> {
             vbox61.setVisible(false);
             vbox62.setVisible(true);
         });
-
         //mở Gui63 khi ấn Add from the question bank
         add62a.setOnAction(event -> {
             try {
@@ -151,6 +188,37 @@ public class Gui6_12Controller implements Initializable {
                         }
                     }
                 });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        // mở start attempt
+        attempt.setVisible(false);
+        preview_btn.setOnAction(event ->{
+            attempt.setVisible(true);
+        });
+        cancel.setOnAction(event ->{
+            attempt.setVisible(false);
+        });
+        close.setOnAction(event ->{
+            attempt.setVisible(false);
+        });
+        start.setOnAction(event ->{
+            Stage currentStage = (Stage) start.getScene().getWindow();
+            currentStage.close();
+            try {
+                Stage stage = new Stage();
+                FXMLLoader loaders = new FXMLLoader(getClass().getResource("GUI7.fxml"));
+                Parent root = loaders.load();
+
+                GUI7Attempt controller = loaders.getController();
+                controller.setStage(stage);
+                controller.setquiz(this.quiz);
+
+                Scene scene = new Scene(root);
+                stage.setTitle("Attempt quiz");
+                stage.setScene(scene);
+                stage.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -248,12 +316,12 @@ public class Gui6_12Controller implements Initializable {
                 nameLabel.setText(name);
                 quesNumber.setText("" + number);
                 totalMark_lbl.setText("" + number + ".00");
+                numOfQues_lbl.setText(""+number);
                 number++;
                 textLabel.setText(text);
                 quesId1.setUserData(quesId.getUserData());
                 listQues.getChildren().add(boxtick);
                 finalQues.add(Id);
-                System.out.println(Id);
             }
         }
     }
@@ -268,11 +336,13 @@ public class Gui6_12Controller implements Initializable {
             connector.addQuesToQuiz(tmpId, quizId);
             System.out.println("Successfully added question " + tmpId);
         }
-
-        List<Question> tmp = connector.getQuestionsFromQuiz(1);
+        System.out.println(""+quizId);
+        List<Question> tmp = connector.getQuestionsFromQuiz(quizId);
         for (Question run : tmp)
             System.out.println("Got" + run.getId() + " " + run.getText());
 
         connector.disconnect();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close();
     }
 }

@@ -3,6 +3,6 @@
     -fx-border-width: 0px 0px 3px 0px;
 }
 .vbox-with-border {
-    -fx-border-color: black;
+    -fx-border-color:  #595959FF;
     -fx-border-width: 1.5px;
 }

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefWidth="108.0" style="-fx-background-color: #ecf0f1; -fx-border-color: gray;">
+         <HBox.margin>
+            <Insets bottom="70.0" left="5.0" right="3.0" top="10.0" />
+         </HBox.margin>
+         <children>
+            <HBox prefHeight="19.0" prefWidth="68.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="19.0" prefWidth="62.0" text="Question" textAlignment="CENTER" textFill="#ff1a00">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="num" alignment="TOP_LEFT" prefHeight="25.0" prefWidth="22.0" text="X" textAlignment="CENTER" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <Label prefHeight="34.0" prefWidth="66.0" text="Not yet answered " wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label prefHeight="34.0" prefWidth="101.0" text="Marked out of 1.00" wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="31.0" prefWidth="92.0">
+               <children>
+                  <ImageView fitHeight="31.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/flag.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label prefHeight="17.0" prefWidth="76.0" text="Flag question">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefWidth="566.0" style="-fx-background-color: #D4E5E0FF;">
+         <children>
+            <Label fx:id="questionName" alignment="TOP_LEFT" prefWidth="556.0" text="Name" wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imagetext" disable="true" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin></ImageView>
+            <RadioButton fx:id="choice1" alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="562.0" text="RadioButton" wrapText="true">
+               <toggleGroup>
+                  <ToggleGroup fx:id="x" />
+               </toggleGroup>
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </RadioButton>
+            <ImageView fx:id="choice1image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin></ImageView>
+            <RadioButton fx:id="choice2" alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="568.0" text="RadioButton" toggleGroup="$x" wrapText="true">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin></RadioButton>
+            <ImageView fx:id="choice2image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin></ImageView>
+            <RadioButton fx:id="choice3" alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="568.0" text="RadioButton" toggleGroup="$x" wrapText="true">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin></RadioButton>
+            <ImageView fx:id="choice3image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin></ImageView>
+            <RadioButton fx:id="choice4" alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="568.0" text="RadioButton" toggleGroup="$x" wrapText="true">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin></RadioButton>
+            <ImageView fx:id="choice4image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin></ImageView>
+            <RadioButton fx:id="choice5" alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="568.0" text="RadioButton" toggleGroup="$x" wrapText="true">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin></RadioButton>
+            <ImageView fx:id="choice5image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin></ImageView>
+         </children>
+         <HBox.margin>
+            <Insets bottom="5.0" left="10.0" top="10.0" />
+         </HBox.margin>
+      </VBox>
+   </children>
+</HBox>
