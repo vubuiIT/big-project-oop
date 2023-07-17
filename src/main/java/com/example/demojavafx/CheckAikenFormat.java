@@ -499,7 +499,7 @@ public class CheckAikenFormat {
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();
                         ImageIO.write(quesImages.get(0), "png", bos);
                         picData = bos.toByteArray();
-                        mediaName = "pic_question";
+                        mediaName = "pic_question.png";
                     }
                     else mediaName = "";
 
@@ -521,7 +521,7 @@ public class CheckAikenFormat {
                             ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
                             ImageIO.write(choiceImages.get(0), "png", bos1);
                             choicepicData = bos1.toByteArray();
-                            choicepicName = "pic_choice";
+                            choicepicName = "pic_choice.png";
                         }
                         else choicepicName = "";
                         connector.addChoice(idQuestion, cGrade, choicepicData, cText, choicepicName);
