@@ -434,7 +434,7 @@ public class CheckAikenFormat {
                         if(paraIterator < paras.size()) {
                             String s1 = paras.get(paraIterator).getText();
                             // If next para is empty
-                            if(s1.isEmpty()) {
+                            if(s1.isEmpty() && getImagefromPara(paras.get(paraIterator)).size()==0) {
                                 paraIterator++;
                                 break;
                             }
