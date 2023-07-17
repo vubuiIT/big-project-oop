@@ -396,7 +396,6 @@ public class Gui6_12Controller implements Initializable {
                 quesId1.setUserData(quesId.getUserData());
                 listQues.getChildren().add(boxtick);
                 finalQues.add(Id);
-                System.out.println(Id);
             }
         }
     }
