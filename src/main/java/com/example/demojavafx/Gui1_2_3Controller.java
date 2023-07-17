@@ -123,9 +123,9 @@ public class Gui1_2_3Controller implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui3.2-create-question-view.fxml"));
             Parent root = loader.load();
             Gui32CreateQuestionViewController controller = loader.getController();
-            controller.run(question);
-            controller.setStage(stage);
 
+            controller.setStage(stage);
+            controller.run(question);
             controller.isCloseProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
                     updateQuesShow(true);
@@ -267,9 +267,6 @@ public class Gui1_2_3Controller implements Initializable {
 
         }
         connector.disconnect();
-
-
-
     }
     private void openPreviewQuiz(Quiz quiz) {
         try {
@@ -328,7 +325,8 @@ public class Gui1_2_3Controller implements Initializable {
                             container.getChildren().add(itemNode);
                         }
                     }
-                }catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
             };
@@ -351,8 +349,10 @@ public class Gui1_2_3Controller implements Initializable {
     void choosefileButtonActionPerformed(MouseEvent event) {
         FileChooser filechooser = new FileChooser();
         filechooser.setTitle("Choose a file");
+        File prev = chosenFile;
         chosenFile = filechooser.showOpenDialog(null);
-        chosenfilepath.setText((chosenFile.getName())) ;
+        if(chosenFile!=null) chosenfilepath.setText((chosenFile.getName())) ;
+        else chosenFile = prev;
     }
     // Xử lí kéo thả file
     @FXML
@@ -380,15 +380,20 @@ public class Gui1_2_3Controller implements Initializable {
         String extension = "";
         if (path.contains("."))
             extension = path.substring(path.lastIndexOf(".")+1);
-
-        if(extension.equals("txt")) {
+        if(path.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"Choose a file!!!");
+        }
+        else if(extension.equals("txt")) {
             CheckAikenFormat.CheckTxt(chosenFile);
+            chosenfilepath.setText("");
         }
         else if(extension.equals("docx")) {
             CheckAikenFormat.CheckDocx(chosenFile);
+            chosenfilepath.setText("");
         }
         else {
             JOptionPane.showMessageDialog(null,"Wrong Format");
+            chosenfilepath.setText("");
         }
     }
     @Override

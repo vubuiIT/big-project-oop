@@ -15,6 +15,10 @@ module com.example.demojavafx {
     requires java.desktop;
     requires org.apache.poi.ooxml;
     requires annotations;
+    requires org.apache.pdfbox;
+    requires io;
+    requires kernel;
+    requires layout;
 
     opens com.example.demojavafx to javafx.fxml;
     exports com.example.demojavafx;

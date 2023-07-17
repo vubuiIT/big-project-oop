@@ -1,128 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="124.0" prefWidth="76.0" style="-fx-background-color: #ecf0f1; -fx-border-color: gray;">
+      <VBox prefWidth="108.0" style="-fx-background-color: #ecf0f1; -fx-border-color: gray;">
          <HBox.margin>
-            <Insets bottom="30.0" left="5.0" right="3.0" top="10.0" />
+            <Insets bottom="50.0" left="5.0" right="3.0" top="10.0" />
          </HBox.margin>
          <children>
             <HBox prefHeight="19.0" prefWidth="68.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="19.0" prefWidth="47.0" text="Question" textAlignment="CENTER" textFill="#ff1a00">
+                  <Label alignment="CENTER" prefHeight="19.0" prefWidth="62.0" text="Question" textAlignment="CENTER" textFill="#ff1a00">
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="10.0" />
                      </HBox.margin>
-                     <font>
-                        <Font size="10.0" />
-                     </font>
                   </Label>
                   <Label fx:id="num" alignment="TOP_LEFT" prefHeight="25.0" prefWidth="22.0" text="X" textAlignment="CENTER" textFill="RED">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
             </HBox>
             <Label prefHeight="34.0" prefWidth="66.0" text="Not yet answered " wrapText="true">
                <VBox.margin>
-                  <Insets left="5.0" top="10.0" />
+                  <Insets left="10.0" top="5.0" />
                </VBox.margin>
-               <font>
-                  <Font size="10.0" />
-               </font>
             </Label>
-            <Label prefHeight="34.0" prefWidth="68.0" text="Marked out of 1.00" wrapText="true">
+            <Label prefHeight="34.0" prefWidth="101.0" text="Marked out of 1.00" wrapText="true">
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets left="10.0" top="5.0" />
                </VBox.margin>
-               <font>
-                  <Font size="10.0" />
-               </font>
             </Label>
-            <HBox prefHeight="31.0" prefWidth="105.0">
+            <HBox prefHeight="31.0" prefWidth="92.0">
                <children>
-                  <ImageView fitHeight="19.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="31.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/pngwing.com.png" />
+                        <Image url="@../../../icons/flag.png" />
                      </image>
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </ImageView>
-                  <Label prefHeight="17.0" prefWidth="61.0" text="Flag question">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
+                  <Label prefHeight="17.0" prefWidth="76.0" text="Flag question">
                      <HBox.margin>
-                        <Insets />
-                     </HBox.margin></Label>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
                <VBox.margin>
-                  <Insets top="15.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
             </HBox>
          </children>
       </VBox>
-      <VBox prefHeight="210.0" prefWidth="275.0" style="-fx-background-color: #D4E5E0FF;">
+      <VBox prefWidth="566.0" style="-fx-background-color: #D4E5E0FF;">
          <children>
-            <Label fx:id="questionName" alignment="TOP_LEFT" prefHeight="34.0" prefWidth="262.0" text="Name" wrapText="true">
+            <Label fx:id="questionName" alignment="TOP_LEFT" prefWidth="556.0" text="Name" wrapText="true">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="10.0" top="5.0" />
                </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </Label>
-            <CheckBox fx:id="choice1" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="37.0" prefWidth="262.0" text="Choice1" wrapText="true">
+            <ImageView fx:id="imagetext" disable="true" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="50.0" />
                </VBox.margin>
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </CheckBox>
-            <CheckBox fx:id="choice2" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="36.0" prefWidth="262.0" text="Choice2" wrapText="true">
-               <font>
-                  <Font size="10.0" />
-               </font>
+            </ImageView>
+            <MediaView fx:id="mediaViewVideo" fitWidth="200.0">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="50.0" />
                </VBox.margin>
-            </CheckBox>
-            <CheckBox fx:id="choice3" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="36.0" prefWidth="262.0" text="Choice3" wrapText="true">
-               <font>
-                  <Font size="10.0" />
-               </font>
+            </MediaView>
+            <CheckBox fx:id="choice1" mnemonicParsing="false" prefWidth="570.0" text="CheckBox">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="5.0" top="5.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox fx:id="choice4" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="262.0" text="Choice4" wrapText="true">
-               <font>
-                  <Font size="10.0" />
-               </font>
+            <ImageView fx:id="choice1image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </ImageView>
+            <CheckBox fx:id="choice2" mnemonicParsing="false" prefWidth="570.0" text="CheckBox">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox fx:id="choice5" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="262.0" text="Choice5" wrapText="true">
-               <font>
-                  <Font size="10.0" />
-               </font>
+            <ImageView fx:id="choice2image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </ImageView>
+            <CheckBox fx:id="choice3" mnemonicParsing="false" prefWidth="570.0" text="CheckBox">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
                </VBox.margin>
             </CheckBox>
+            <ImageView fx:id="choice3image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </ImageView>
+            <CheckBox fx:id="choice4" mnemonicParsing="false" prefWidth="570.0" text="CheckBox">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <ImageView fx:id="choice4image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </ImageView>
+            <CheckBox fx:id="choice5" mnemonicParsing="false" prefWidth="570.0" text="CheckBox">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <ImageView fx:id="choice5image" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </ImageView>
          </children>
          <HBox.margin>
-            <Insets bottom="5.0" left="5.0" top="10.0" />
+            <Insets bottom="5.0" left="10.0" top="10.0" />
          </HBox.margin>
       </VBox>
    </children>
