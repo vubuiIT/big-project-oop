@@ -97,7 +97,7 @@ public class GUI7Attempt implements Initializable{
                 Label name = (Label) root.lookup("#questionName");
                 name.setText(question.getName() + " : " + question.getText());
                 ImageView image = (ImageView) root.lookup("#imagetext");
-                if(question.getMedia()!=null) {
+                if(question.getMedia()!= null ) {
                     InputStream inputStream = new ByteArrayInputStream(question.getMedia());
                     image.setImage(new Image(inputStream));
                 }
