@@ -348,8 +348,10 @@ public class Gui1_2_3Controller implements Initializable {
     void choosefileButtonActionPerformed(MouseEvent event) {
         FileChooser filechooser = new FileChooser();
         filechooser.setTitle("Choose a file");
+        File prev = chosenFile;
         chosenFile = filechooser.showOpenDialog(null);
-        chosenfilepath.setText((chosenFile.getName())) ;
+        if(chosenFile!=null) chosenfilepath.setText((chosenFile.getName())) ;
+        else chosenFile = prev;
     }
     // Xử lí kéo thả file
     @FXML
@@ -377,15 +379,20 @@ public class Gui1_2_3Controller implements Initializable {
         String extension = "";
         if (path.contains("."))
             extension = path.substring(path.lastIndexOf(".")+1);
-
-        if(extension.equals("txt")) {
+        if(path.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"Choose a file!!!");
+        }
+        else if(extension.equals("txt")) {
             CheckAikenFormat.CheckTxt(chosenFile);
+            chosenfilepath.setText("");
         }
         else if(extension.equals("docx")) {
             CheckAikenFormat.CheckDocx(chosenFile);
+            chosenfilepath.setText("");
         }
         else {
             JOptionPane.showMessageDialog(null,"Wrong Format");
+            chosenfilepath.setText("");
         }
     }
     @Override
