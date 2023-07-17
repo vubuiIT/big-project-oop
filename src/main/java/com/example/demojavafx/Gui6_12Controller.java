@@ -136,10 +136,7 @@ public class Gui6_12Controller implements Initializable {
                 e.printStackTrace();
             }
         }
-        // You can use this variable to initialize or update the GUI elements in your controller
-
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)  {
         editquiz.setOnMouseClicked(event -> {
@@ -170,8 +167,6 @@ public class Gui6_12Controller implements Initializable {
                         }
                     }
                 });
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

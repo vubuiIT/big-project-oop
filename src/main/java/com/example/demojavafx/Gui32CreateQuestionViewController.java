@@ -37,7 +37,6 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 
-
 public class Gui32CreateQuestionViewController implements Initializable {
     private Question questionStage = null;
     private Stage stage;
@@ -221,9 +220,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
                 extension.equalsIgnoreCase("jpeg") ||
                 extension.equalsIgnoreCase("png") ||
                 extension.equalsIgnoreCase("gif") ||
-                extension.equalsIgnoreCase("mp4") ||
-                extension.equalsIgnoreCase("mov") ||
-                extension.equalsIgnoreCase("avi");
+                extension.equalsIgnoreCase("mp4");
     }
 
     public String getFileExtension(String fileName) {
@@ -257,7 +254,7 @@ public class Gui32CreateQuestionViewController implements Initializable {
             //Preview data
             // Kiểm tra định dạng của file dựa trên phần mở rộng (extension)
             String fileExtension = getFileExtension(selectedFile.getName());
-            if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("mov") || fileExtension.equalsIgnoreCase("avi")) {
+            if (fileExtension.equalsIgnoreCase("mp4")) {
                 // Xử lý nếu file là video
                 Media media = byteArrayToMedia(fileData, selectedFile.getName());
                 if (media != null) {
@@ -269,7 +266,13 @@ public class Gui32CreateQuestionViewController implements Initializable {
                     mediaPlayer.setMute(true);
                     showQuesImg.setVisible(false);
                 }
-            } else {
+            } else if (fileExtension.equalsIgnoreCase("gif")) {
+                Image gifImage = new Image(new ByteArrayInputStream(fileData));
+                showQuesImg.setImage(gifImage);
+                showQuesImg.setVisible(true);
+                showQuesVideo.setVisible(false);
+            }
+            else {
                 // Xử lý nếu file không phải là video
                 Image image = byteArrayToImage(fileData);
                 showQuesImg.setImage(image);
@@ -279,7 +282,9 @@ public class Gui32CreateQuestionViewController implements Initializable {
             questionStage.setMedia(fileData);
             questionStage.setMediaName(selectedFile.getName());
 
-        } else {
+            }
+
+         else {
             System.out.println("No file selected.");
         }
     }
@@ -764,11 +769,11 @@ public class Gui32CreateQuestionViewController implements Initializable {
             if (!Objects.equals(question.getMediaName(), "")) {
                 byte[] fileData = connector.getMediaData(question.getId());
                 questionStage.setMedia(fileData);
-                String mediaName = question.getName();
+                String mediaName = question.getMediaName();
                 fileMediaQues.setText(mediaName);
                 String fileExtension = getFileExtension(mediaName);
 
-                if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("mov") || fileExtension.equalsIgnoreCase("avi")) {
+                if (fileExtension.equalsIgnoreCase("mp4")) {
                     // Xử lý nếu file là video
                     Media media = byteArrayToMedia(fileData, mediaName);
                     if (media != null) {
@@ -780,6 +785,11 @@ public class Gui32CreateQuestionViewController implements Initializable {
                         mediaPlayer.setMute(true);
                         showQuesImg.setVisible(false);
                     }
+                } else if (fileExtension.equalsIgnoreCase("gif")) {
+                    Image gifImage = new Image(new ByteArrayInputStream(fileData));
+                    showQuesImg.setImage(gifImage);
+                    showQuesImg.setVisible(true);
+                    showQuesVideo.setVisible(false);
                 } else {
                     // Xử lý nếu file không phải là video
                     Image image = byteArrayToImage(fileData);
