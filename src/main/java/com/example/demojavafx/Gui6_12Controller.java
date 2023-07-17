@@ -406,6 +406,8 @@ public class Gui6_12Controller implements Initializable {
         DatabaseConnector connector = new DatabaseConnector();
         connector.connect();
 
+        connector.clearQuiz(quizId);
+
         for (int tmpId : finalQues){
             connector.addQuesToQuiz(tmpId, quizId);
             System.out.println("Successfully added question " + tmpId + " to quiz " + quizId);

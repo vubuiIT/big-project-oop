@@ -519,6 +519,20 @@ public class DatabaseConnector {
         return questions;
     }
 
+    public void clearQuiz(int quizId){
+        try {
+            String sql = "DELETE FROM QuizQues WHERE quiz_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, quizId);
+            statement.executeUpdate();
+            System.out.println("Question deleted successfully from quiz" + quizId);
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void disconnect() {
         try {
             if (connection != null && !connection.isClosed()) {
