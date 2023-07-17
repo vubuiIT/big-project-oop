@@ -16,7 +16,8 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.example.demojavafx.DatabaseConnector.*;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 public class CheckAikenFormat {
     public static boolean CheckChoicesTxt(String s) {
         if(s.length() >= 4) {
@@ -42,19 +43,6 @@ public class CheckAikenFormat {
     public static void CheckTxt(File f) {
         List<QuizAiken> quizList = new ArrayList<QuizAiken>(); // Create list for quizzes
 
-        int min = 1;        // Gia tri nho nhat cho idCategory
-        int max = 1000;     // Gia tri lon nhat cho idCategory
-        // Random(min..max) cho idCategory
-        int idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
-        DatabaseConnector connector = new DatabaseConnector();
-        connector.connect();
-
-        Category category = connector.getCategory(idCategory);
-        // Neu catrgory chua ton tai thi tao moi va add
-        if (category.getParentId() == -1 && category.getName().isEmpty() && category.getInfo().isEmpty())
-            connector.addNewCategoryWithId(idCategory, -1, "","");
-        connector.disconnect();
-
         try {
             Scanner fileScanner = new Scanner(f);
             int currentline = 0; // Used to know whick line is being read
@@ -71,22 +59,32 @@ public class CheckAikenFormat {
                     String s = fileScanner.nextLine();
                     // If the line is empty
                     if(s.isEmpty()) {
-                        JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
-                        fileScanner.close();
-                        errorFlag = true;
-                        fileOpenFlag = false;
-                        break;
+                        if(currentline==1) {
+                            JOptionPane.showMessageDialog(null, "Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        else continue;
                     }
                     else {
                         quiz.setQuestion(s);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
-                    fileScanner.close();
-                    errorFlag = true;
-                    fileOpenFlag = false;
-                    break;
+                    if(currentline==0) {
+                        JOptionPane.showMessageDialog(null, "Error found at line" + currentline);
+                        fileScanner.close();
+                        errorFlag = true;
+                        fileOpenFlag = false;
+                        break;
+                    }
+                    else {
+                        fileScanner.close();
+                        fileOpenFlag = false;
+                        break;
+                    }
                 }
 
                 // Read 2nd line (expecting choices)
@@ -182,12 +180,21 @@ public class CheckAikenFormat {
                             }
                         }
                         // Modify each choice in the choicesList: remove the header and set grade
+                        int correctChoice = 0; // Check if answer contain invalid characters (not exist in choice list)
                         for(ChoiceAiken ch:choicesList) {
                             if(ans.contains(ch.getChoiceText().charAt(0))) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
                                 quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),1));
+                                correctChoice++;
                             }
                             else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),0));
+                        }
+                        if(correctChoice != ans.size()) {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + currentline);
+                            fileScanner.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
                         }
                         // If next line is empty, continue the loop to check new quiz
                         // If there's still line to read
@@ -226,6 +233,25 @@ public class CheckAikenFormat {
             }
             if(errorFlag == false) {
                 /* Add quizList to database */
+                int min = 1;        // Gia tri nho nhat cho idCategory
+                int max = 1000;     // Gia tri lon nhat cho idCategory
+                // Lấy ngày tháng năm hiện tại
+                LocalDate currentDate = LocalDate.now();
+                // Định dạng ngày tháng năm thành "ddmmyy"
+                String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("ddMMyy"));
+                System.out.println(formattedDate);
+                DatabaseConnector connector = new DatabaseConnector();
+                connector.connect();
+                int idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
+                Category category = connector.getCategory(idCategory);
+                // Neu category chua ton tai thi tao moi va add
+                while (!(category.getParentId() == -1 && category.getName().isEmpty() && category.getInfo().isEmpty())) {
+                    idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
+                    category = connector.getCategory(idCategory);
+                }
+
+                connector.addNewCategoryWithId(idCategory, -1, "",formattedDate);
+                connector.disconnect();
                 for (QuizAiken quiz: quizList){
                     String qText = quiz.Question;                   // Text
 
@@ -291,19 +317,6 @@ public class CheckAikenFormat {
     public static void CheckDocx(File f) throws IOException {
         List<QuizAiken> quizList = new ArrayList<QuizAiken>(); // Create list for quizzes
 
-        int min = 1;        // Gia tri nho nhat cho idCategory
-        int max = 1000;     // Gia tri lon nhat cho idCategory
-        // Random(min..max) cho idCategory
-        int idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
-        DatabaseConnector connector = new DatabaseConnector();
-        connector.connect();
-
-        Category category = connector.getCategory(idCategory);
-        // Neu catrgory chua ton tai thi tao moi va add
-        if (category.getParentId() == -1 && category.getName().isEmpty() && category.getInfo().isEmpty())
-            connector.addNewCategoryWithId(idCategory, -1, "","");
-        connector.disconnect();
-
         try {
             XWPFDocument doc = new XWPFDocument(new FileInputStream(f));
             List<XWPFParagraph>paras = doc.getParagraphs();
@@ -321,11 +334,17 @@ public class CheckAikenFormat {
                     List<BufferedImage> imgs = getImagefromPara(paras.get(paraIterator));
                     // If the paragraph is empty -> error
                     if(s.isEmpty() && imgs.size() == 0) {
-                        JOptionPane.showMessageDialog(null, "Error found at line" + (paraIterator + 1));
-                        doc.close();
-                        errorFlag = true;
-                        fileOpenFlag = false;
-                        break;
+                        if(paraIterator==0) {
+                            JOptionPane.showMessageDialog(null, "Error found at line" + (paraIterator + 1));
+                            doc.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
+                        }
+                        else {
+                            paraIterator++;
+                            continue;
+                        }
                     }
                     else {
                         quiz.setQuestion(s);
@@ -334,11 +353,18 @@ public class CheckAikenFormat {
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
-                    doc.close();
-                    errorFlag = true;
-                    fileOpenFlag = false;
-                    break;
+                    if(paraIterator==0) {
+                        JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));
+                        doc.close();
+                        errorFlag = true;
+                        fileOpenFlag = false;
+                        break;
+                    }
+                    else {
+                        doc.close();
+                        fileOpenFlag = false;
+                        break;
+                    }
                 }
 
                 // Read 2nd para (expecting choices)
@@ -421,12 +447,21 @@ public class CheckAikenFormat {
                             }
                         }
                         // Modify each choice in the choicesList: remove the header and set grade
+                        int correctChoice = 0; // Check if answer contain invalid characters (not exist in choice list)
                         for(ChoiceAiken ch:choicesList) {
                             if(ans.contains(ch.getChoiceText().charAt(0))) {
                                 quiz.setAnswers(ch.getChoiceText().substring(3));
                                 quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),(float) 1.0 / ans.size()));
+                                correctChoice++;
                             }
                             else quiz.setChoices(new ChoiceAiken(ch.getChoiceText().substring(3),ch.getImage(),0));
+                        }
+                        if(correctChoice != ans.size()) {
+                            JOptionPane.showMessageDialog(null,"Error found at line" + (paraIterator+1));                              errorFlag = true;
+                            doc.close();
+                            errorFlag = true;
+                            fileOpenFlag = false;
+                            break;
                         }
                         paraIterator++;
                         // If next para is empty, continue the loop to check new quiz
@@ -434,7 +469,7 @@ public class CheckAikenFormat {
                         if(paraIterator < paras.size()) {
                             String s1 = paras.get(paraIterator).getText();
                             // If next para is empty
-                            if(s1.isEmpty()) {
+                            if(s1.isEmpty() && getImagefromPara(paras.get(paraIterator)).size()==0) {
                                 paraIterator++;
                                 break;
                             }
@@ -466,6 +501,27 @@ public class CheckAikenFormat {
             }
             if(errorFlag == false) {
                 /* Add quizList to database */
+                int min = 1;        // Gia tri nho nhat cho idCategory
+                int max = 1000;     // Gia tri lon nhat cho idCategory
+                // Random(min..max) cho idCategory
+                // Lấy ngày tháng năm hiện tại
+                LocalDate currentDate = LocalDate.now();
+                // Định dạng ngày tháng năm thành "ddmmyy"
+                String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("ddMMyy"));
+                System.out.println(formattedDate);
+                DatabaseConnector connector = new DatabaseConnector();
+                connector.connect();
+                int idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
+                Category category = connector.getCategory(idCategory);
+                // Neu category chua ton tai thi tao moi va add
+                while (!(category.getParentId() == -1 && category.getName().isEmpty() && category.getInfo().isEmpty())) {
+                    idCategory = ThreadLocalRandom.current().nextInt(min, max + 1);
+                    category = connector.getCategory(idCategory);
+                }
+
+                connector.addNewCategoryWithId(idCategory, -1, "",formattedDate);
+                connector.disconnect();
+
                 for (QuizAiken quiz: quizList){
                     String qText = quiz.Question;                   // Text
 
@@ -476,7 +532,7 @@ public class CheckAikenFormat {
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();
                         ImageIO.write(quesImages.get(0), "png", bos);
                         picData = bos.toByteArray();
-                        mediaName = "pic_question";
+                        mediaName = "pic_question.png";
                     }
                     else mediaName = "";
 
@@ -498,7 +554,7 @@ public class CheckAikenFormat {
                             ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
                             ImageIO.write(choiceImages.get(0), "png", bos1);
                             choicepicData = bos1.toByteArray();
-                            choicepicName = "pic_choice";
+                            choicepicName = "pic_choice.png";
                         }
                         else choicepicName = "";
                         connector.addChoice(idQuestion, cGrade, choicepicData, cText, choicepicName);
