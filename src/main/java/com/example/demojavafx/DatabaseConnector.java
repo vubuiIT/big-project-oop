@@ -219,6 +219,19 @@ public class DatabaseConnector {
         }
         return categories;
     }
+    public void clearQuiz(int quizId){
+        try {
+            String sql = "DELETE FROM QuizQues WHERE quiz_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, quizId);
+            statement.executeUpdate();
+            System.out.println("Question deleted successfully from quiz" + quizId);
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public int addQuestion(int categoryId, String questionText, String questionName, byte[] questionMedia, String mediaName, float questionMark) {
         int questionId = -1; // Giá trị mặc định nếu thất bại
 
@@ -413,8 +426,9 @@ public class DatabaseConnector {
                 int displayDescription = resultSet.getInt("display_description");
                 int enableTimeLimit = resultSet.getInt("enable_time_limit");
                 int timeLimit = resultSet.getInt("time_limit");
+                int shuffle = resultSet.getInt("shuffle");
 
-                Quiz quiz = new Quiz(id, name, description, displayDescription, enableTimeLimit, timeLimit);
+                Quiz quiz = new Quiz(id, name, description, displayDescription, enableTimeLimit, timeLimit, shuffle);
                 quizzes.add(quiz);
             }
 
@@ -426,11 +440,35 @@ public class DatabaseConnector {
 
         return quizzes;
     }
-    public void addQuiz(String name, String description, Integer displayDes, Integer enableTimeLimit, Integer timeLimit) {
+    public void changeShuffleValue(int quizId, int newShuffleValue) {
+        try {
+            // Tạo prepared statement với câu lệnh UPDATE
+            String sql = "UPDATE Quiz SET shuffle = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            // Thiết lập giá trị cho các tham số của prepared statement
+            statement.setInt(1, newShuffleValue);
+            statement.setInt(2, quizId);
+
+            // Thực thi câu lệnh UPDATE
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Shuffle value changed successfully for Quiz ID: " + quizId);
+            } else {
+                System.out.println("Quiz ID not found or shuffle value was already set to the new value.");
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            System.err.println("Failed to change shuffle value: " + e.getMessage());
+        }
+    }
+    public void addQuiz(String name, String description, Integer displayDes, Integer enableTimeLimit, Integer timeLimit, Integer shuffle) {
         try {
             // Tạo prepared statement với câu lệnh INSERT INTO
-            String sql = "INSERT INTO Quiz (name, description, display_description, enable_time_limit, time_limit) " +
-                    "VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Quiz (name, description, display_description, enable_time_limit, time_limit, shuffle) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             // Thiết lập giá trị cho các tham số của prepared statement
@@ -439,6 +477,7 @@ public class DatabaseConnector {
             statement.setInt(3, displayDes);
             statement.setInt(4, enableTimeLimit);
             statement.setInt(5, timeLimit);
+            statement.setInt(6, shuffle); // Thêm giá trị của cột "shuffle"
 
             // Thực thi câu lệnh INSERT INTO
             statement.executeUpdate();
@@ -450,7 +489,6 @@ public class DatabaseConnector {
             System.err.println("Failed to add quiz: " + e.getMessage());
         }
     }
-
     // Them cac question duoc chon vao trong quiz
     public void addQuesToQuiz(int quesId, int quizId){
         try {
@@ -461,7 +499,6 @@ public class DatabaseConnector {
             statement.executeUpdate();
             System.out.println("Question added successfully to Quiz");
         }
-
         catch (SQLException e) {
             e.printStackTrace();
         }

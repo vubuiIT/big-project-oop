@@ -99,6 +99,11 @@ public class GUI7Attempt implements Initializable{
                 });
                 flowPane.getChildren().add(vbox);
                 List<Choices> choices = connector.getChoicesFromQuestion(question.getId());
+                boolean selected;
+                selected = quiz.getShuffle() == 1;
+                if (selected) {
+                    Collections.shuffle(choices);
+                }
                 boolean check = false;
                 for (Choices choice : choices) {
                     if (choice.getGrade() != 0.00) {
@@ -362,7 +367,7 @@ public class GUI7Attempt implements Initializable{
             e.printStackTrace();
         }
         additionalLabel.setOnMouseClicked(even -> {
-            //if(!kt) {stage.close();return;}
+            if(!kt) {stage.close();return;}
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
             alert.setHeaderText("Are you sure you want to submit your attempt?");

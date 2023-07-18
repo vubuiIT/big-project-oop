@@ -40,6 +40,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Gui6_12Controller implements Initializable {
+    @FXML
+    private CheckBox shuffleChoice;
     Integer number=1;
     @FXML
     private Button multiDelete;
@@ -98,6 +100,9 @@ public class Gui6_12Controller implements Initializable {
     public void setVariable(Quiz quiz) {
         this.quiz = quiz; // Set the passed value to the variable
         quizId = this.quiz.getId();
+        boolean selected;
+        selected = quiz.getShuffle() == 1;
+        shuffleChoice.setSelected(selected);
         nameQuiz.setText(this.quiz.getName());
         nameQuiz2.setText(this.quiz.getName());
         nameQuizAbove.setText(this.quiz.getName());
@@ -211,6 +216,7 @@ public class Gui6_12Controller implements Initializable {
         close.setOnAction(event ->{
             attempt.setVisible(false);
         });
+
         start.setOnAction(event ->{
             Stage currentStage = (Stage) start.getScene().getWindow();
             currentStage.close();
@@ -406,6 +412,10 @@ public class Gui6_12Controller implements Initializable {
         DatabaseConnector connector = new DatabaseConnector();
         connector.connect();
 
+        connector.clearQuiz(quizId);
+
+        int shuffleChoiceInt = shuffleChoice.isSelected() ? 1 : 0;
+        //connector.changeShuffleValue(quizId,shuffleChoiceInt);
         for (int tmpId : finalQues){
             connector.addQuesToQuiz(tmpId, quizId);
             System.out.println("Successfully added question " + tmpId);

@@ -7,14 +7,16 @@ public class Quiz {
     private int displayDescription;
     private int enableTimeLimit;
     private int timeLimit;
+    private int shuffle;
 
-    public Quiz(int id, String name, String description, int displayDescription, int enableTimeLimit, int timeLimit) {
+    public Quiz(int id, String name, String description, int displayDescription, int enableTimeLimit, int timeLimit, int shuffle) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.displayDescription = displayDescription;
         this.enableTimeLimit = enableTimeLimit;
         this.timeLimit = timeLimit;
+        this.shuffle = shuffle;
     }
 
     public int getId() {
@@ -39,6 +41,9 @@ public class Quiz {
 
     public int getTimeLimit() {
         return timeLimit;
+    }
+    public int getShuffle() {
+        return shuffle;
     }
 }
 

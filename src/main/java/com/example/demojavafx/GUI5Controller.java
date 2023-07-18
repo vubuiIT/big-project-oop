@@ -185,7 +185,7 @@ public class GUI5Controller implements Initializable {
             }
             DatabaseConnector connector = new DatabaseConnector();
             connector.connect();
-            connector.addQuiz(name, desc, isShowDesc, isHasTimeLimit, numTimLimit);
+            connector.addQuiz(name, desc, isShowDesc, isHasTimeLimit, numTimLimit, 0);
             Stage stage = (Stage) cancel_btn.getScene().getWindow();
             stage.close();
             setIsClose(true);
@@ -193,7 +193,7 @@ public class GUI5Controller implements Initializable {
         else {
             DatabaseConnector connector = new DatabaseConnector();
             connector.connect();
-            connector.addQuiz(name, desc, isShowDesc, isHasTimeLimit, 0);
+            connector.addQuiz(name, desc, isShowDesc, isHasTimeLimit, 0, 0);
             Stage stage = (Stage) cancel_btn.getScene().getWindow();
             stage.close();
             setIsClose(true);
